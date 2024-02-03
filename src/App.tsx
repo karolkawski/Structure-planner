@@ -1,12 +1,17 @@
+// App.tsx
 import React from 'react';
-import HomePage from './components/Home/HomePage';
-// import './App.css'
+import { BrowserRouter as Router } from 'react-router-dom';
+import Navigation from './components/Navigation/Navigation';
+import Routing from './Routing/Routing';
 
-const App: React.FC = () => {
+const App = () => {
   return (
-    <div id="App">
-      <HomePage />
-    </div>
+    <Router>
+      <div id="App">
+        <Navigation />
+        <Routing />
+      </div>
+    </Router>
   );
 };
 
