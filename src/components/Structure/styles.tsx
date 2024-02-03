@@ -23,6 +23,6 @@ export const colorVariants: Record<Color, string> = {
 };
 
 export const isDoneVariations: Record<string, string> = {
-  true: 'h-10 overflow-hidden',
+  true: 'h-10',
   false: 'h-full',
 };

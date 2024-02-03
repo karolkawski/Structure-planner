@@ -29,8 +29,25 @@ function Task({ task, onChange }: TaskProps) {
     food: <FaAppleWhole />,
     rest: <FaCouch />,
   };
+
+  const heightVariations: Record<string, string> = {
+    true: 'h-15 p-2 opacity-75 ',
+    false: 'h-40 p-2 ',
+  };
   return (
-    <div className={`Task h-40 w-full flex m-1 ml-20 pl-10 `} key={task.id}>
+    <div
+      className={`Task ${heightVariations[task.isDone.toString()]} w-11/12 left-8 flex ml-20 cursor-pointer hover:bg-gray-50 absolute
+      `}
+      key={task.id}
+      onClick={() => handleCheckboxChange()}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          handleCheckboxChange();
+        }
+      }}
+      role="button"
+      tabIndex={0}
+    >
       <div
         className={`Task__Visualise w-20 rounded-2xl border-2 ${colorVariants[task.color]} flex justify-center items-center`}
       >
@@ -50,7 +67,7 @@ function Task({ task, onChange }: TaskProps) {
         )}
       </div>
       <div className="Task__Confirmation flex items-center">
-        <div className="me-4  ">
+        <div className="me-4">
           <input
             id={`${task.color}-checkbox`}
             type="checkbox"

@@ -6,6 +6,7 @@ import { formatDate, getDateComponentsFromEpoch } from '../../utils/Date';
 import { colorVariants, taskHoursVariations, isDoneVariations } from './styles';
 import { Color } from '../../types/Colors.d';
 import { Hours } from '../../types/Hours.d';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const generateAllHoursInDay = (from = 0, to = 24) => {
   const hours = [];
@@ -53,9 +54,7 @@ const Structure: FC = () => {
 
   return (
     <div className="text-center">
-      <h1 className="text-4xl font-bold my-2">
-        React Typescript Structure Daily Planner
-      </h1>
+      <h1 className="text-4xl font-bold my-2">Structure Daily</h1>
       <div className="container m-auto py-10">
         <div className="Calendar">
           {records.map((task, index) => {
@@ -77,31 +76,48 @@ const Structure: FC = () => {
             return (
               <div key={task.id} className="flex flex-col">
                 {hoursBefore.map((hour) => (
-                  <div className="w-40" key={hour}>
+                  <div className="w-40 opacity-50" key={hour}>
                     {hour}
                   </div>
                 ))}
-                <div
-                  className={`${!task.isDone ? taskHoursVariations[multiplerHeight as Hours] : ''}`}
-                >
-                  <div className="w-40 absolute">
-                    {formatDate(task.startTime)}
-                  </div>
-                  <div
-                    className={`relative flex ${isDoneVariations[task.isDone.toString()]} items-center`}
+
+                <AnimatePresence>
+                  <motion.div
+                    style={{}}
+                    initial={{ height: task.isDone ? 'auto' : 50 }}
+                    animate={{ height: task.isDone ? 50 : 'auto' }}
+                    transition={{ duration: 0.5 }}
+                    exit={{ height: task.isDone ? 50 : 'auto' }}
+                    key={'container'}
                   >
                     <div
-                      className={`left-40 w-1 h-full -z-50 absolute ${taskColorStyle}`}
-                    ></div>
-                    <Task
-                      key={task.id}
-                      task={task as TaskType}
-                      onChange={handleChangedDone}
-                    />
-                  </div>
-                </div>
+                      className={`${!task.isDone ? taskHoursVariations[multiplerHeight as Hours] : ''}`}
+                    >
+                      <div className="w-40 absolute">
+                        {formatDate(task.startTime)}
+                      </div>
+
+                      <div
+                        className={`relative flex ${isDoneVariations[task.isDone.toString()]} items-center`}
+                      >
+                        {!task.isDone ? (
+                          <div
+                            className={`left-40 w-1 h-full -z-50 absolute ${taskColorStyle}`}
+                          ></div>
+                        ) : (
+                          <></>
+                        )}
+                        <Task
+                          key={task.id}
+                          task={task as TaskType}
+                          onChange={handleChangedDone}
+                        />
+                      </div>
+                    </div>
+                  </motion.div>
+                </AnimatePresence>
                 {hoursAfter.map((hour) => (
-                  <div className="w-40" key={hour}>
+                  <div className="w-40 opacity-50" key={hour}>
                     {hour}
                   </div>
                 ))}
