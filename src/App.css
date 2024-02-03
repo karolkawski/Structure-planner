@@ -12,11 +12,3 @@ body {
 #App {
   flex: 1;
 }
-
-.line {
-  width: 3px;
-  position: absolute;
-  left: 200px;
-  height: 100%;
-  z-index: -1;
-}

@@ -13,5 +13,10 @@ export type TaskType = {
   icon: Icons;
   isDone: boolean;
   piority: string;
-  connectedWith: boolean;
+  connectedWith: boolean | number;
+};
+
+export type TaskProps = {
+  task: TaskType;
+  onChange: (updatedTask: TaskType) => void;
 };

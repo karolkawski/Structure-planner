@@ -1,12 +1,11 @@
 import React from 'react';
-import HomePage from './components/Home/HomePage';
-// import 'flowbite';
+import Structure from './components/Structure/Structure';
 import './App.css';
 
 const App: React.FC = () => {
   return (
     <div id="App">
-      <HomePage />
+      <Structure />
     </div>
   );
 };

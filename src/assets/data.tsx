@@ -1,4 +1,6 @@
-export const data = [
+import { TaskType } from '../components/Task/Task.d';
+
+export const data: TaskType[] = [
   {
     id: 1,
     name: 'Trening',
@@ -9,7 +11,7 @@ export const data = [
     tags: ['health'],
     color: 'blue',
     icon: 'gym',
-    isDone: true,
+    isDone: false,
     piority: 'high',
     connectedWith: false,
   },
@@ -51,7 +53,7 @@ export const data = [
     tags: ['work'],
     color: 'yellow',
     icon: 'email',
-    isDone: true,
+    isDone: false,
     piority: 'low',
     connectedWith: false,
   },
@@ -65,7 +67,7 @@ export const data = [
     tags: ['work'],
     color: 'gray',
     icon: 'work',
-    isDone: true,
+    isDone: false,
     piority: 'low',
     connectedWith: false,
   },
@@ -79,7 +81,7 @@ export const data = [
     tags: ['work'],
     color: 'orange',
     icon: 'food',
-    isDone: true,
+    isDone: false,
     piority: 'low',
     connectedWith: false,
   },
@@ -93,7 +95,7 @@ export const data = [
     tags: ['work'],
     color: 'gray',
     icon: 'work',
-    isDone: true,
+    isDone: false,
     piority: 'low',
     connectedWith: false,
   },
@@ -107,7 +109,7 @@ export const data = [
     tags: ['work'],
     color: 'purple',
     icon: 'rest',
-    isDone: true,
+    isDone: false,
     piority: 'low',
     connectedWith: false,
   },

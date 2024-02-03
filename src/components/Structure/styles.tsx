@@ -1,6 +1,7 @@
 import { Color } from '../../types/Colors.d';
 
 export const taskHoursVariations = {
+  0.5: 'h-5',
   1: 'h-[10rem]',
   2: 'h-[20rem]',
   3: 'h-[30rem]',
@@ -19,4 +20,9 @@ export const colorVariants: Record<Color, string> = {
   green: 'bg-green-600 hover:bg-green-500 border-green-600',
   gray: 'bg-gray-600 hover:bg-gray-500 border-gray-600',
   purple: 'bg-purple-600 hover:bg-purple-500 border-purple-600',
+};
+
+export const isDoneVariations: Record<string, string> = {
+  true: 'h-10 overflow-hidden',
+  false: 'h-full',
 };
