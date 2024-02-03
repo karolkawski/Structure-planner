@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { data } from '../../assets/data';
 import Task from '../Task/Task';
 import { TaskType } from '../Task/Task.d';
@@ -40,6 +40,7 @@ const getProcessedDates = (
 
 const Structure: FC = () => {
   const [records, setRecords] = useState<TaskType[]>(data);
+  const [progress, setProgress] = useState<string>('0%');
 
   const handleChangedDone = (task: TaskType) => {
     const updatedRecords = records.map((record) => {
@@ -48,15 +49,33 @@ const Structure: FC = () => {
       }
       return record;
     });
-    console.log(records, task);
+
     setRecords(updatedRecords);
   };
 
+  useEffect(() => {
+    const totalTasks = records.length;
+    const doneTasks = records.filter((task: TaskType) => task.isDone).length;
+    const percentageDone = (doneTasks / totalTasks) * 100 + '%';
+    setProgress(percentageDone);
+  }, [records]);
+
   return (
     <div className="text-center">
-      <h1 className="text-4xl font-bold my-2">Structure Daily</h1>
-      <div className="container m-auto py-10">
-        <div className="Calendar">
+      <header className="w-full">
+        <h1 className="text-4xl font-bold my-2">Structure Daily</h1>
+        <div className="m-auto w-96 bg-gray-200 rounded-full dark:bg-gray-700">
+          <div
+            className="bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full"
+            style={{ width: progress }}
+          >
+            {' '}
+            {progress}
+          </div>
+        </div>
+      </header>
+      <div className="container m-auto py-10 ">
+        <div className="Calendar mt-5">
           {records.map((task, index) => {
             const prevTask = records[index - 1] as TaskType | undefined;
             const nextTask = records[index + 1] as TaskType | undefined;
@@ -83,11 +102,11 @@ const Structure: FC = () => {
 
                 <AnimatePresence>
                   <motion.div
-                    style={{}}
-                    initial={{ height: task.isDone ? 'auto' : 50 }}
-                    animate={{ height: task.isDone ? 50 : 'auto' }}
+                    style={{ margin: '5px 0px' }}
+                    initial={{ height: task.isDone ? 'auto' : 'h-40' }}
+                    animate={{ height: task.isDone ? 'h-40' : 'auto' }}
                     transition={{ duration: 0.5 }}
-                    exit={{ height: task.isDone ? 50 : 'auto' }}
+                    exit={{ height: task.isDone ? 'h-40' : 'auto' }}
                     key={'container'}
                   >
                     <div
