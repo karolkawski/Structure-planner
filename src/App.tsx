@@ -1,14 +1,17 @@
-import { FC } from 'react';
-import Structure from './components/Structure/Structure';
-import './App.css';
+// App.tsx
+import React from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
 import Navigation from './components/Navigation/Navigation';
+import Routing from './Routing/Routing';
 
-const App: FC = () => {
+const App = () => {
   return (
-    <div id="App">
-      <Navigation />
-      <Structure />
-    </div>
+    <Router>
+      <div id="App">
+        <Navigation />
+        <Routing />
+      </div>
+    </Router>
   );
 };
 
