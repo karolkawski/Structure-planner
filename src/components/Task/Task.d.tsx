@@ -12,7 +12,7 @@ export type TaskType = {
   color: Color;
   icon: Icons;
   isDone: boolean;
-  piority: string;
+  piority: 'low' | 'medium' | 'high';
   connectedWith: boolean | number;
 };
 
