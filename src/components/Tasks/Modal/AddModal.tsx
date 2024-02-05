@@ -1,156 +1,254 @@
-import { Button, Modal } from 'flowbite-react';
+import {
+  Button,
+  Dropdown,
+  Label,
+  Modal,
+  TextInput,
+  Textarea,
+} from 'flowbite-react';
+import { useState } from 'react';
 
-const Add = ({ openModal, setOpenModal }) => {
+const AddModal = ({
+  openModal,
+  setOpenModal,
+  handleAddRecord,
+}: {
+  openModal: boolean;
+  setOpenModal: any;
+  handleAddRecord: () => unknown;
+}) => {
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedColor, setSelectedColor] = useState('');
+  const [selectedPriority, setSelectedPriority] = useState('');
+  const [selectedIcon, setSelectedIcon] = useState('');
+  const [selectedName, setSelectedName] = useState('');
+  const [selectedDescription, setSelectedDescription] = useState('');
+  const [selectedStartTime, setSelectedStartTime] = useState('');
+  const [selectedEndTime, setSelectedEndTime] = useState('');
+  const [selectedTag, setSelectedITag] = useState('');
+
+  const colors = ['blue', 'red', 'orange', 'yellow', 'green', 'gray', 'purple'];
+  const categories = ['selfcare', 'education', 'work'];
+  const icons = ['study', 'work', 'email', 'gym', 'food', 'rest'];
+  const piorities = ['low', 'medium', 'high'];
+  const tags = ['work', 'study', 'health'];
+
+  const handleInputChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    key: string
+  ) => {
+    const { value } = event.target;
+
+    switch (key) {
+      case 'name':
+        setSelectedName(value);
+        break;
+      case 'description':
+        setSelectedDescription(value);
+        break;
+      case 'startTime':
+        setSelectedStartTime(value);
+        break;
+      case 'endTime':
+        setSelectedEndTime(value);
+        break;
+      default:
+        break;
+    }
+  };
+
+  const handleDropdownChange = (value: string, key: string) => {
+    switch (key) {
+      case 'category':
+        setSelectedCategory(value);
+        break;
+      case 'color':
+        setSelectedColor(value);
+        break;
+      case 'priority':
+        setSelectedPriority(value);
+        break;
+      case 'icon':
+        setSelectedIcon(value);
+        break;
+      case 'tag':
+        setSelectedITag(value);
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
     <Modal dismissible show={openModal} onClose={() => setOpenModal(false)}>
-      <Modal.Header>Terms of Service</Modal.Header>
+      <Modal.Header>Add task</Modal.Header>
       <Modal.Body>
-        <div className="grid gap-4 mb-4 grid-cols-2">
+        <form id="taskForm" className="grid gap-4 mb-4 grid-cols-2">
           <div className="col-span-2">
-            <label
-              htmlFor="name"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
-              Name
-            </label>
-            <input
-              type="text"
-              name="name"
+            <div className="mb-2 block">
+              <Label htmlFor="name" value="Name" />
+            </div>
+            <TextInput
               id="name"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-              placeholder="Type task name"
-              required={true}
+              type="name"
+              placeholder="Name"
+              value={selectedName}
+              onChange={(e) => handleInputChange(e, 'name')}
+              required
             />
           </div>
           <div className="col-span-2">
-            <label
-              htmlFor="description"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
-              Task Description
-            </label>
-            <textarea
+            <div className="mb-2 block">
+              <Label htmlFor="description" value="Description" />
+            </div>
+            <Textarea
               id="description"
-              rows={4}
-              className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="Write task description here"
-            ></textarea>
+              placeholder=""
+              value={selectedDescription}
+              onChange={(e) => handleInputChange(e, 'description')}
+              required
+            />
           </div>
-          <div className="col-span-2 sm:col-span-1">
-            <label
-              htmlFor="startTime"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
-              Start time
-            </label>
-            <input
-              type="text"
-              name="stime"
-              id="startTimme"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+          <div className="col-2">
+            <div className="mb-2 block">
+              <Label htmlFor="stime" value="Start time" />
+            </div>
+            <TextInput
+              id="stime"
+              type="time"
               placeholder="8:00"
-              required={true}
+              value={selectedStartTime}
+              onChange={(e) => handleInputChange(e, 'startTime')}
+              required
             />
           </div>
-          <div className="col-span-2 sm:col-span-1 new">
-            <label
-              htmlFor="endTime"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
-              End time
-            </label>
-            <input
-              type="text"
-              name="etime"
-              id="endTime"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+          <div className="col-2">
+            <div className="mb-2 block">
+              <Label htmlFor="etime" value="End time" />
+            </div>
+            <TextInput
+              id="etime"
+              type="time"
               placeholder="10:00"
-              required={true}
+              value={selectedEndTime}
+              onChange={(e) => handleInputChange(e, 'endTime')}
+              required
             />
           </div>
-          <div className="col-span-2 sm:col-span-1">
-            <label
-              htmlFor="category"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
-              Category
-            </label>
-            <select
-              id="category"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-            >
-              <option selected={true}>Select category</option>
-              <option value="TV">TV/Monitors</option>
-              <option value="PC">PC</option>
-              <option value="GA">Gaming/Console</option>
-              <option value="PH">Phones</option>
-            </select>
+          <div className="col-2">
+            <div className="mb-2 block">
+              <Label htmlFor="category" value="Category" />
+            </div>
+            <Dropdown label={selectedCategory || '---select---'}>
+              {categories.map((category, index) => {
+                return (
+                  <Dropdown.Item
+                    key={index}
+                    value={category}
+                    onClick={() => handleDropdownChange(category, 'category')}
+                  >
+                    {category}
+                  </Dropdown.Item>
+                );
+              })}
+            </Dropdown>
           </div>
-          <div className="col-span-2 sm:col-span-1">
-            <label
-              htmlFor="piority"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
-              Piority
-            </label>
-            <select
-              id="piority"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-            >
-              <option selected={true}>Select piority</option>
-              <option value="low">Low</option>
-              <option value="medium">Medium</option>
-              <option value="high">Heigh</option>
-            </select>
+          <div className="col-2">
+            <div className="mb-2 block">
+              <Label htmlFor="color" value="Color" />
+            </div>
+            <Dropdown label={selectedColor || '---select---'}>
+              {colors.map((color, index) => {
+                return (
+                  <Dropdown.Item
+                    key={index}
+                    value={color}
+                    onClick={() => handleDropdownChange(color, 'color')}
+                  >
+                    {color}
+                  </Dropdown.Item>
+                );
+              })}
+            </Dropdown>
           </div>
-          <div className="col-span-2 sm:col-span-1">
-            <label
-              htmlFor="color"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
-              Color
-            </label>
-            <select
-              id="color"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-            >
-              <option selected={true}>Select color</option>
-              <option value="TV">TV/Monitors</option>
-              <option value="PC">PC</option>
-              <option value="GA">Gaming/Console</option>
-              <option value="PH">Phones</option>
-            </select>
+          <div className="col-2">
+            <div className="mb-2 block">
+              <Label htmlFor="piority" value="Piority" />
+            </div>
+            <Dropdown label={selectedPriority || '---select---'}>
+              {piorities.map((priority, index) => {
+                return (
+                  <Dropdown.Item
+                    key={index}
+                    value={priority}
+                    onClick={() => handleDropdownChange(priority, 'priority')}
+                  >
+                    {priority}
+                  </Dropdown.Item>
+                );
+              })}
+            </Dropdown>
           </div>
-          <div className="col-span-2 sm:col-span-1">
-            <label
-              htmlFor="icon"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
-              Icon
-            </label>
-            <select
-              id="icon"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-            >
-              <option selected={true}>Select icon</option>
-              <option value="TV">TV/Monitors</option>
-              <option value="PC">PC</option>
-              <option value="GA">Gaming/Console</option>
-              <option value="PH">Phones</option>
-            </select>
+          <div className="col-2">
+            <div className="mb-2 block">
+              <Label htmlFor="icon" value="Icon" />
+            </div>
+            <Dropdown label={selectedIcon || '---select---'}>
+              {icons.map((icon, index) => {
+                return (
+                  <Dropdown.Item
+                    key={index}
+                    value={icon}
+                    onClick={() => handleDropdownChange(icon, 'icon')}
+                  >
+                    {icon}
+                  </Dropdown.Item>
+                );
+              })}
+            </Dropdown>
           </div>
-          <div className="col-span-2 ">
-            <label
-              htmlFor="tags"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
-              Tags
-            </label>
+          <div className="col-span-2">
+            <div className="mb-2 block">
+              <Label htmlFor="tags" value="Tags" />
+            </div>
+            <div className="col-span-2">
+              {tags.length > 0 &&
+                tags.map((tag, index) => {
+                  return (
+                    <span
+                      key={`${tag}-${index}`}
+                      className="cursor-pointer bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300"
+                    >
+                      {tag}
+                    </span>
+                  );
+                })}
+            </div>
           </div>
-        </div>
+        </form>
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={() => setOpenModal(false)}>Add new task</Button>
+        {/* <Button onClick={() => handleAddRecord()}></Button> */}
+        <Button
+          onClick={() =>
+            handleAddRecord({
+              id: 0,
+              name: selectedName,
+              description: selectedDescription,
+              startTime: selectedStartTime,
+              endTime: selectedEndTime,
+              category: selectedCategory,
+              color: selectedColor,
+              priority: selectedPriority,
+              icon: selectedIcon,
+              tags: selectedTag,
+              connectedWith: undefined,
+            })
+          }
+        >
+          Add new task
+        </Button>
+
         <Button color="gray" onClick={() => setOpenModal(false)}>
           Decline
         </Button>
@@ -159,4 +257,4 @@ const Add = ({ openModal, setOpenModal }) => {
   );
 };
 
-export default Add;
+export default AddModal;

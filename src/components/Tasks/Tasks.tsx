@@ -9,14 +9,16 @@ import AddModal from './Modal/AddModal';
 import { colorVariants, piorityVariations } from './styles';
 
 function Tasks({}) {
-  const [records] = useState<TaskType[]>(data);
+  const [records, setRecords] = useState<TaskType[]>(data);
   const [openModal, setOpenModal] = useState(false);
 
-  // const [newTask, setNewTask] = useState<TaskType | undefined>(undefined);
+  const handleAddRecord = (task: TaskType) => {
+    console.log('🚀 ~ handleAddRecord ~ task:', task);
+    task.id = records.length;
 
-  // const handleNewTask = (task: TaskType) => {
-  //   setNewTask(task);
-  // };
+    setRecords([...records, task]);
+    setOpenModal(false);
+  };
 
   const TableRow = ({ task }: { task: TaskType }) => {
     const {
@@ -85,7 +87,11 @@ function Tasks({}) {
   };
   return (
     <div className="text-center">
-      <AddModal openModal={openModal} setOpenModal={setOpenModal} />
+      <AddModal
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        handleAddRecord={handleAddRecord}
+      />
       <header className="w-full">
         <h1>Tasks</h1>
       </header>
@@ -105,8 +111,6 @@ function Tasks({}) {
               <div className="my-5 flex justify-end">
                 <button
                   onClick={() => setOpenModal(true)}
-                  data-modal-target="large-modal"
-                  data-modal-toggle="large-modal"
                   type="button"
                   className="px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                 >
