@@ -12,8 +12,8 @@ function Tasks({}) {
   const [records, setRecords] = useState<TaskType[]>(data);
   const [openModal, setOpenModal] = useState(false);
 
-  const handleAddRecord = (task: TaskType) => {
-    console.log('🚀 ~ handleAddRecord ~ task:', task);
+  const handleAddTask = (task: TaskType) => {
+    console.log('🚀 ~ handleAddTask ~ task:', task);
     task.id = records.length;
 
     setRecords([...records, task]);
@@ -30,7 +30,7 @@ function Tasks({}) {
       tags,
       color,
       icon,
-      piority,
+      priority,
       connectedWith,
     } = task;
     return (
@@ -71,7 +71,7 @@ function Tasks({}) {
         </td>
         <td className="px-6 py-4">
           {' '}
-          <span className={`${piorityVariations[piority]}`}>{piority}</span>
+          <span className={`${piorityVariations[priority]}`}>{priority}</span>
         </td>
         <td className="px-6 py-4">{connectedWith}</td>
         <td className="px-6 py-4 text-right">
@@ -90,7 +90,7 @@ function Tasks({}) {
       <AddModal
         openModal={openModal}
         setOpenModal={setOpenModal}
-        handleAddRecord={handleAddRecord}
+        handleAddTask={handleAddTask}
       />
       <header className="w-full">
         <h1>Tasks</h1>

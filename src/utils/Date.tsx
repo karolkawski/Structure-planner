@@ -14,6 +14,19 @@ export const formatDate = (epoch: number) => {
   return `${hours}:${minutes}`;
 };
 
+export const convertStringToEpoch = (fixedDate: string, time: string) => {
+  const [day, month, year] = fixedDate.split('-');
+  const date = new Date(
+    Number.parseInt(year),
+    Number.parseInt(month),
+    Number.parseInt(day)
+  );
+  const [hour, minutes] = time.split(':');
+  date.setUTCHours(Number.parseInt(hour));
+  date.setUTCMinutes(Number.parseInt(minutes));
+  return date.getTime() / 1000;
+};
+
 export const getDateComponentsFromEpoch = (epoch: string | number | Date) => {
   const date = new Date(epoch);
   const year = date.getUTCFullYear();

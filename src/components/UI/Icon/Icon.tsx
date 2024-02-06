@@ -23,9 +23,19 @@ const collorVariations: Record<'white' | 'black', string> = {
   black: 'text-black',
 };
 
-const Icon = ({ icon, color }: { icon: Icons; color: 'white' | 'black' }) => {
+const Icon = ({
+  icon,
+  color,
+  className,
+}: {
+  icon: Icons;
+  color: 'white' | 'black';
+  className?: string;
+}) => {
   return (
-    <div className={`${collorVariations[color]}`}>{iconVariations[icon]}</div>
+    <div className={`${className} ${collorVariations[color]}`}>
+      {iconVariations[icon]}
+    </div>
   );
 };
 
