@@ -1,16 +1,8 @@
-import { ReactElement, useState } from 'react';
+import { useState } from 'react';
 import type { TaskProps } from './Task.d';
 import { formatDate } from '../../utils/Date';
-import {
-  FaBook,
-  FaComputerMouse,
-  FaPaperPlane,
-  FaDumbbell,
-  FaAppleWhole,
-  FaCouch,
-} from 'react-icons/fa6';
 import { checkBoxVariants, colorVariants } from './styles';
-import { Icons } from '../../types/Icons.d';
+import Icon from '../UI/Icon/Icon';
 import { motion, AnimatePresence } from 'framer-motion';
 
 function Task({ task, onChange }: TaskProps) {
@@ -20,15 +12,6 @@ function Task({ task, onChange }: TaskProps) {
     task.isDone = !isChecked;
     setChecked(!isChecked);
     onChange(task);
-  };
-
-  const iconVariations: Record<Icons, ReactElement> = {
-    study: <FaBook />,
-    work: <FaComputerMouse />,
-    email: <FaPaperPlane />,
-    gym: <FaDumbbell />,
-    food: <FaAppleWhole />,
-    rest: <FaCouch />,
   };
 
   return (
@@ -61,9 +44,7 @@ function Task({ task, onChange }: TaskProps) {
           <div
             className={`Task__Visualise w-20 rounded-2xl border-2 ${colorVariants[task.color]} flex justify-center items-center`}
           >
-            <div className="Task__Icon text-white ">
-              {iconVariations[task.icon]}
-            </div>
+            <Icon icon={task.icon} color={'white'} />
           </div>
           <div className="Task__Details flex flex-col justify-center items-start grow pl-2 leading-5">
             <div className="Task__Time text-slate-400	">
