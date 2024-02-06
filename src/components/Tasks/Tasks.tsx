@@ -1,5 +1,3 @@
-// eslint-disable-next-line eslint-comments/disable-enable-pair
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import { useState } from 'react';
 import { data } from '../../assets/data';
 import { TaskType } from '../Task/Task.d';
@@ -13,7 +11,6 @@ function Tasks({}) {
   const [openModal, setOpenModal] = useState(false);
 
   const handleAddTask = (task: TaskType) => {
-    console.log('🚀 ~ handleAddTask ~ task:', task);
     task.id = records.length;
 
     setRecords([...records, task]);
