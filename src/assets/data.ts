@@ -12,7 +12,7 @@ export const data: TaskType[] = [
     color: 'blue',
     icon: 'gym',
     isDone: false,
-    piority: 'high',
+    priority: 'high',
     connectedWith: false,
   },
   {
@@ -26,7 +26,7 @@ export const data: TaskType[] = [
     color: 'red',
     icon: 'study',
     isDone: false,
-    piority: 'low',
+    priority: 'low',
     connectedWith: 3,
   },
   {
@@ -40,7 +40,7 @@ export const data: TaskType[] = [
     color: 'green',
     icon: 'study',
     isDone: false,
-    piority: 'low',
+    priority: 'low',
     connectedWith: false,
   },
   {
@@ -54,7 +54,7 @@ export const data: TaskType[] = [
     color: 'yellow',
     icon: 'email',
     isDone: false,
-    piority: 'low',
+    priority: 'medium',
     connectedWith: false,
   },
   {
@@ -68,7 +68,7 @@ export const data: TaskType[] = [
     color: 'gray',
     icon: 'work',
     isDone: false,
-    piority: 'low',
+    priority: 'low',
     connectedWith: false,
   },
   {
@@ -82,7 +82,7 @@ export const data: TaskType[] = [
     color: 'orange',
     icon: 'food',
     isDone: false,
-    piority: 'low',
+    priority: 'low',
     connectedWith: false,
   },
   {
@@ -96,7 +96,7 @@ export const data: TaskType[] = [
     color: 'gray',
     icon: 'work',
     isDone: false,
-    piority: 'low',
+    priority: 'low',
     connectedWith: false,
   },
   {
@@ -110,7 +110,7 @@ export const data: TaskType[] = [
     color: 'purple',
     icon: 'rest',
     isDone: false,
-    piority: 'low',
+    priority: 'low',
     connectedWith: false,
   },
 ];
