@@ -3,7 +3,7 @@ import { data } from '../../assets/data';
 import Task from '../Task/Task';
 import { TaskType } from '../Task/Task.d';
 import { formatDate, getDateComponentsFromEpoch } from '../../utils/Date';
-import { colorVariants } from './styles';
+import { colorVariants } from './stylesVariations';
 import { Color } from '../../types/Colors.d';
 import { motion, AnimatePresence } from 'framer-motion';
 

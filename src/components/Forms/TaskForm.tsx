@@ -10,7 +10,7 @@ import {
   pioritiesDropdown,
   tagsSelect,
 } from '../Tasks/Modal/modalFormValues';
-import { colorVariants, piorityVariations } from '../Tasks/styles';
+import { colorVariants, piorityVariations } from '../Tasks/stylesVariations';
 import { tagVariations } from '../Tasks/Modal/styles';
 import { useState } from 'react';
 import { convertStringToEpoch } from '../../utils/Date';
