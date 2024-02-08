@@ -88,7 +88,7 @@ function Tasks({}) {
         <td className="p-3 flex justify-end px-5">
           <a
             href={`/task/:${task.id}`}
-            className="font-medium px-3 py-2 text-sm text-center sm:text-white sm:bg-blue-700 sm:rounded-lg sm:hover:bg-blue-800 sm:focus:ring-4 sm:focus:outline-none sm:focus:ring-blue-300 sm:dark:bg-blue-600 sm:dark:hover:bg-blue-700 sm:dark:focus:ring-blue-800"
+            className="font-medium px-3 py-2 text-sm text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
             Edit
           </a>
