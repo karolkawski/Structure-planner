@@ -1,11 +1,11 @@
 import { FC, useEffect, useState } from 'react';
-import { data } from '../../assets/data';
 import Task from '../Task/Task';
 import { TaskType } from '../Task/Task.d';
 import { formatDate, getDateComponentsFromEpoch } from '../../utils/Date';
 import { colorVariants } from './stylesVariations';
 import { Color } from '../../types/Colors.d';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useSelector } from 'react-redux';
 
 const generateAllHoursInDay = (from = 0, to = 24) => {
   const hours = [];
@@ -38,8 +38,29 @@ const getProcessedDates = (
 };
 
 const Structure: FC = () => {
+  const data = useSelector((state) => state.data.data);
+  const loading = useSelector((state) => state.data.loading);
   const [records, setRecords] = useState<TaskType[]>(data);
   const [progress, setProgress] = useState<string>('0%');
+
+  useEffect(() => {
+    const totalTasks = records.length;
+    const doneTasks = records.filter((task: TaskType) => task.isDone).length;
+    const percentageDone = (doneTasks / totalTasks) * 100 + '%';
+    setProgress(percentageDone);
+  }, [records]);
+
+  if (records && records.length === 0) {
+    return <></>;
+  }
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!records || records.length === 0) {
+    return <div>No records available.</div>;
+  }
 
   const handleChangedDone = (task: TaskType) => {
     const updatedRecords = records.map((record) => {
@@ -51,13 +72,6 @@ const Structure: FC = () => {
 
     setRecords(updatedRecords);
   };
-
-  useEffect(() => {
-    const totalTasks = records.length;
-    const doneTasks = records.filter((task: TaskType) => task.isDone).length;
-    const percentageDone = (doneTasks / totalTasks) * 100 + '%';
-    setProgress(percentageDone);
-  }, [records]);
 
   return (
     <div className="text-center">

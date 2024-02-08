@@ -1,20 +1,37 @@
-import { useState } from 'react';
-import { data } from '../../assets/data';
+import { useEffect, useState } from 'react';
 import { TaskType } from '../Task/Task.d';
 import { formatDate } from '../../utils/Date';
 import Icon from '../UI/Icon/Icon';
 import AddModal from './Modal/AddModal';
 import { colorVariants, piorityVariations } from './stylesVariations';
 import './styles.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { addData } from '../../store/actions/dataActions';
+import { State } from '../../store/reducers/dataReducer';
 
 function Tasks({}) {
-  const [records, setRecords] = useState<TaskType[]>(data);
+  const dispatch = useDispatch();
+  const reduxData = useSelector((state: { data: State }) => state.data.data);
+  const loading = useSelector((state: { data: State }) => state.data.loading);
+  const [records, setRecords] = useState<TaskType[]>(reduxData);
   const [openModal, setOpenModal] = useState(false);
 
-  const handleAddTask = (task: TaskType) => {
-    task.id = records.length;
+  useEffect(() => {
+    setRecords(reduxData);
+  }, [reduxData]);
 
-    setRecords([...records, task]);
+  useEffect(() => {
+    console.log('records updated:', records);
+  }, [records]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  const handleAddTask = (task: TaskType) => {
+    task.id = records[length].id + 1;
+    dispatch(addData(task));
+
     setOpenModal(false);
   };
 

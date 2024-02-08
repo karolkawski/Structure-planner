@@ -426,7 +426,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
                   },
                   selectedId as number
                 );
-                navigate('/');
+                navigate('/tasks');
               }}
             >
               Update task
@@ -441,7 +441,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
               color="failure"
               onClick={() => {
                 handleRemoveTask(selectedId as number);
-                navigate('/');
+                navigate('/tasks');
               }}
             >
               Remove task

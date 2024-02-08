@@ -1,35 +1,46 @@
 import { useParams } from 'react-router-dom';
 import TaskForm from '../Forms/TaskForm';
-import { useState } from 'react';
-import { data } from '../../assets/data';
+import { useEffect, useState } from 'react';
 import { TaskType } from './Task.d';
 import { formatDate } from '../../utils/Date';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateData, removeData } from '../../store/actions/dataActions';
 
 const EditTask = () => {
-  const [records, setRecords] = useState(data);
+  const dispatch = useDispatch();
+  const reduxData = useSelector((state) => state.data.data);
+  const loading = useSelector((state) => state.data.loading);
+  const [records, setRecords] = useState<TaskType[]>(reduxData);
   const { taskId } = useParams();
+
+  useEffect(() => {
+    setRecords(reduxData);
+  }, [reduxData]);
+
+  useEffect(() => {
+    console.log('records updated:', records);
+  }, [records]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!records || records.length === 0) {
+    return <div>No records available.</div>;
+  }
 
   const task = records.find((task) => {
     return task.id === Number.parseInt(taskId?.replace(':', '') ?? '');
   });
 
   const handleRemoveTask = (id: number) => {
-    const updaredRecords: TaskType[] = records.filter(
-      (record) => record.id !== id
-    );
-    setRecords(updaredRecords);
+    dispatch(removeData(id));
     console.log('remove task');
   };
 
   const handleUpdateTask = (task: TaskType, id: number) => {
     task.id = id;
-    const updaredRecords: TaskType[] = records.map((record) => {
-      if (record.id === id) {
-        record = task;
-      }
-      return record;
-    });
-    setRecords(updaredRecords);
+    dispatch(updateData(task));
     console.log('update task');
   };
 
