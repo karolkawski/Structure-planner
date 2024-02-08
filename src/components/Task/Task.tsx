@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { TaskProps } from './Task.d';
 import { formatDate } from '../../utils/Date';
-import { checkBoxVariants, colorVariants } from './styles';
+import { checkBoxVariants, colorVariants } from './stylesVariations';
 import Icon from '../UI/Icon/Icon';
 import { motion, AnimatePresence } from 'framer-motion';
 

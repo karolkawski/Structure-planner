@@ -1,0 +1,30 @@
+tbody {
+    display: flex
+}
+tbody tr {
+    display: flex;
+}
+tbody td {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 1fr;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+}
+  
+  
+@media (min-width: 1024px) { 
+    tbody {
+        display: table-header-group;
+    }
+    tbody tr {
+        display: table-row;
+    }
+
+    tbody td {
+        display: table-cell;
+        width: unset;
+    }
+    
+}

@@ -33,7 +33,9 @@ const Icon = ({
   className?: string;
 }) => {
   return (
-    <div className={`${className} ${collorVariations[color]}`}>
+    <div
+      className={`flex justify-center ${className} ${collorVariations[color]}`}
+    >
       {iconVariations[icon]}
     </div>
   );
