@@ -3,6 +3,7 @@ import KatzkyCode from '../../assets/images/katzkycode-logo.png';
 import GithubLogo from '../../assets/images/github-logo.png';
 import Me from '../../assets/images/me.png';
 import MotionWrapper from '../../Layout/MotionWrapper';
+import React from 'react';
 
 const About = ({}) => {
   return (
@@ -11,12 +12,14 @@ const About = ({}) => {
         <header className="w-full">
           <h1 className="text-4xl font-bold my-2">About</h1>
         </header>
-        <div className="container m-auto p-10 ">
-          <div className="flex flex-col md:flex-row justify-between">
-            <div className="flex-2 mr-10">
-              <h2 className="text-2xl font-bold my-2 text-left">Description</h2>
+        <div className="container p-10 ">
+          <div className="flex flex-col md:flex-row justify-between m-auto">
+            <div className="flex-2 md:mr-10">
+              <h2 className="text-2xl font-bold my-2 md:text-left">
+                Description
+              </h2>
               <div>
-                <p className="text-left">
+                <p className="md:text-left">
                   <b>EN</b> The application is a daily planner that allows users
                   to add tasks for the current day in a structured format. Users
                   can organize their daily activities efficiently by adding
@@ -30,7 +33,7 @@ const About = ({}) => {
                 </p>
               </div>
               <div className="mt-10">
-                <p className="text-left">
+                <p className="md:text-left">
                   <b>PL</b> Aplikacja to planer codzienny, który umożliwia
                   użytkownikom dodawanie zadań na aktualny dzień w formie
                   strukturalnej. Użytkownicy mogą efektywnie organizować swoje
@@ -46,7 +49,7 @@ const About = ({}) => {
                 </p>
               </div>
             </div>
-            <div className="border border-black-50 w-80 m-auto mt-10 rounded flex flex-col items-center justify-center p-10">
+            <div className="border border-black-50 sm:w-full md:w-80 m-auto mt-10 rounded flex flex-col items-center justify-center p-10">
               <h2 className="text-2xl font-bold my-2"> Credentials</h2>
               <div>
                 <img src={Me} width={80} className="mx-auto" alt="Just me" />
@@ -87,7 +90,7 @@ const About = ({}) => {
               </div>
             </div>
           </div>
-          <div className="mt-20 w-80 mx-auto">
+          <div className="mt-20 w-80 w-full">
             <div className="mt-10">
               <h3 className="text-xl my-2">Powered by</h3>
               <a

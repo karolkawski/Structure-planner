@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import type { TaskProps } from '../../types/Task.d';
 import { formatDate } from '../../utils/Date';
 import { checkBoxVariants, colorVariants } from './stylesVariations';
@@ -42,7 +42,7 @@ function Task({ task, onChange }: TaskProps) {
           tabIndex={0}
         >
           <div
-            className={`Task__Visualise w-20 rounded-2xl border-2 ${colorVariants[task.color]} flex justify-center items-center`}
+            className={`Task__Visualise min-w-20 w-20 rounded-2xl border-2 ${colorVariants[task.color]} flex justify-center items-center`}
           >
             <Icon icon={task.icon} color={'white'} />
           </div>
@@ -52,7 +52,9 @@ function Task({ task, onChange }: TaskProps) {
             </div>
             <div className="Task__Name font-bold">{task.name}</div>
             {!task.isDone ? (
-              <div className="Task__Description">{task.description}</div>
+              <div className="Task__Description text-left">
+                {task.description}
+              </div>
             ) : (
               <></>
             )}

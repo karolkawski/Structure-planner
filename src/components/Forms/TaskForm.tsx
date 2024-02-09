@@ -25,6 +25,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { taskSchema } from '../../Validations/TaskValidation';
 import { useSelector } from 'react-redux';
 import { State } from '../../store/State.d';
+import React from 'react';
 
 const fixedDate = '26-01-2024';
 
@@ -341,7 +342,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
             <div className="mb-2 block text-left">
               <Label
                 htmlFor="stime"
-                value={`Start time (current ${startTime && startTime})`}
+                value={`Start time ${startTime && '(' + startTime + ')'}`}
               />
             </div>
             <TextInput
@@ -358,7 +359,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
             <div className="mb-2 block text-left">
               <Label
                 htmlFor="etime"
-                value={`End time (current ${endTime && endTime})`}
+                value={`End time ${endTime && '(' + endTime + ')'}`}
               />
             </div>
             <TextInput
@@ -504,7 +505,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
                 }
               }}
             >
-              Update task
+              Update
             </Button>
           ) : (
             <></>
@@ -522,7 +523,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
                 navigate('/tasks');
               }}
             >
-              Remove task
+              Remove
             </Button>
           ) : (
             <></>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TaskType } from '../../types/Task.d';
 import AddModal from '../../components/Modal/AddModal';
 import './styles.css';
