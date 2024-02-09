@@ -9,23 +9,25 @@ import {
   iconsDropdown,
   pioritiesDropdown,
   tagsSelect,
-} from '../Tasks/Modal/modalFormValues';
-import { colorVariants, piorityVariations } from '../Tasks/stylesVariations';
-import { tagVariations } from '../Tasks/Modal/styles';
+} from '../Modal/modalFormValues';
+import { colorVariants, priorityVariations } from '../Table/stylesVariations';
 import { useState } from 'react';
 import { convertStringToEpoch } from '../../utils/Date';
-import { TaskType } from '../Task/Task.d';
+import { TaskType } from '../../types/Task.d';
 import { useNavigate } from 'react-router-dom';
 import {
   adFormOrderVariations,
   addFormVariations,
   dropdownOrderVariations,
-} from './tylesVariations';
+  tagVariations,
+} from './stylesVariations';
+import { v4 as uuidv4 } from 'uuid';
+import { taskSchema } from '../../Validations/TaskValidation';
 
 const fixedDate = '26-01-2024';
 
 type TaskFormProps = {
-  id: number;
+  id: string;
   name: string;
   description: string;
   startTime: string;
@@ -36,8 +38,8 @@ type TaskFormProps = {
   icon: string;
   tags: string[];
   handleAddTask?: (task: TaskType) => void;
-  handleUpdateTask?: (task: TaskType, selectedId: number) => void;
-  handleRemoveTask?: (selectedId: number) => void;
+  handleUpdateTask?: (task: TaskType) => void;
+  handleRemoveTask?: (selectedId: string) => void;
 };
 
 const TaskForm: React.FC<TaskFormProps> = ({
@@ -56,7 +58,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
   handleUpdateTask,
 }) => {
   const navigate = useNavigate();
-  const [selectedId] = useState<number | undefined>(id);
+  const [selectedId] = useState<string | undefined>(id);
   const [selectedCategory, setSelectedCategory] = useState<string>(category);
   const [selectedColor, setSelectedColor] = useState<string>(color);
   const [selectedPriority, setSelectedPriority] = useState<string>(priority);
@@ -69,8 +71,9 @@ const TaskForm: React.FC<TaskFormProps> = ({
   const [selectedTags, setSelectedITags] = useState<string[]>(tags);
   const isAddForm: boolean =
     (handleAddTask && typeof handleAddTask === 'function') || false;
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const handleInputChange = (
+  const handleInputChange = async (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     key: string
   ) => {
@@ -100,7 +103,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
     }
   };
 
-  const handleDropdownChange = (value: string, key: string) => {
+  const handleDropdownChange = async (value: string, key: string) => {
     switch (key) {
       case 'category':
         setSelectedCategory(value);
@@ -186,7 +189,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
           </div>
           <div className="col-2 w-1/2 pl-2">
             <div className="mb-2 block text-left">
-              <Label htmlFor="piority" value="Piority" />
+              <Label htmlFor="priority" value="Priority" />
             </div>
             <Dropdown
               label="---select---}"
@@ -195,7 +198,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
                   {selectedPriority ? (
                     <>
                       <span
-                        className={`w-2 h-4 ${piorityVariations[selectedPriority as Piorities]}`}
+                        className={`w-2 h-4 ${priorityVariations[selectedPriority as Piorities]}`}
                       ></span>
                       {selectedPriority}
                     </>
@@ -213,7 +216,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
                     onClick={() => handleDropdownChange(priority, 'priority')}
                   >
                     <span
-                      className={`w-2 h-4 ${piorityVariations[priority as Piorities]}`}
+                      className={`w-2 h-4 ${priorityVariations[priority as Piorities]}`}
                     ></span>
                     {priority}
                   </Dropdown.Item>
@@ -377,23 +380,47 @@ const TaskForm: React.FC<TaskFormProps> = ({
           </div>
         </div>
       </form>
+      <p className="text-red-600 h-5">
+        {errorMessage ? <>{errorMessage}</> : <></>}
+      </p>
       <div className="flex w-full justify-end pt-10">
         {handleAddTask ? (
           <Button
-            onClick={() => {
-              handleAddTask({
-                id: 0,
+            onClick={async () => {
+              const formData = {
+                id: selectedId,
                 name: selectedName,
                 description: selectedDescription,
-                startTime: convertStringToEpoch(fixedDate, selectedStartTime),
-                endTime: convertStringToEpoch(fixedDate, selectedEndTime),
+                startTime: selectedStartTime,
+                endTime: selectedEndTime,
                 category: selectedCategory,
-                color: selectedColor as Color,
-                priority: selectedPriority as Piorities,
-                icon: selectedIcon as Icons,
-                tags: selectedTags,
-                isDone: false,
-              });
+                color: selectedColor,
+                icon: selectedIcon,
+                priority: selectedPriority,
+              };
+
+              try {
+                setErrorMessage(null);
+
+                await taskSchema.validate(formData);
+
+                handleAddTask({
+                  id: uuidv4(),
+                  name: selectedName,
+                  description: selectedDescription,
+                  startTime: convertStringToEpoch(fixedDate, selectedStartTime),
+                  endTime: convertStringToEpoch(fixedDate, selectedEndTime),
+                  category: selectedCategory,
+                  color: selectedColor as Color,
+                  priority: selectedPriority as Piorities,
+                  icon: selectedIcon as Icons,
+                  tags: selectedTags,
+                  isDone: false,
+                });
+              } catch (error: { message: string }) {
+                setErrorMessage(error.message);
+                console.error('Validation error:', error.message);
+              }
             }}
           >
             Add task
@@ -406,10 +433,25 @@ const TaskForm: React.FC<TaskFormProps> = ({
           {handleUpdateTask ? (
             <Button
               className="mr-2"
-              onClick={() => {
-                handleUpdateTask(
-                  {
-                    id: 0,
+              onClick={async () => {
+                const formData = {
+                  id: selectedId,
+                  name: selectedName,
+                  description: selectedDescription,
+                  startTime: selectedStartTime,
+                  endTime: selectedEndTime,
+                  category: selectedCategory,
+                  color: selectedColor,
+                  icon: selectedIcon,
+                  priority: selectedPriority,
+                };
+                try {
+                  setErrorMessage(null);
+
+                  await taskSchema.validate(formData);
+
+                  handleUpdateTask({
+                    id: selectedId as string,
                     name: selectedName,
                     description: selectedDescription,
                     startTime: convertStringToEpoch(
@@ -423,10 +465,12 @@ const TaskForm: React.FC<TaskFormProps> = ({
                     icon: selectedIcon as Icons,
                     tags: selectedTags,
                     isDone: false,
-                  },
-                  selectedId as number
-                );
-                navigate('/');
+                  });
+                  navigate('/tasks');
+                } catch (error: { message: string }) {
+                  setErrorMessage(error.message);
+                  console.error('Validation error:', error.message);
+                }
               }}
             >
               Update task
@@ -440,8 +484,11 @@ const TaskForm: React.FC<TaskFormProps> = ({
               className="ml-2"
               color="failure"
               onClick={() => {
-                handleRemoveTask(selectedId as number);
-                navigate('/');
+                if (!selectedId) {
+                  return;
+                }
+                handleRemoveTask(selectedId);
+                navigate('/tasks');
               }}
             >
               Remove task

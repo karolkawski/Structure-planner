@@ -12,3 +12,8 @@ export const dropdownOrderVariations: Record<string, string> = {
   true: 'order-2',
   false: 'order-3',
 };
+
+export const tagVariations: Record<string, string> = {
+  true: 'bg-blue-800 text-blue-100',
+  false: 'bg-blue-100 text-blue-800',
+};

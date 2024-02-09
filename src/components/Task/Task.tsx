@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { TaskProps } from './Task.d';
+import type { TaskProps } from '../../types/Task.d';
 import { formatDate } from '../../utils/Date';
 import { checkBoxVariants, colorVariants } from './stylesVariations';
 import Icon from '../UI/Icon/Icon';
