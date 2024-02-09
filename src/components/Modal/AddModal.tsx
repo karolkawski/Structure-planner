@@ -1,7 +1,7 @@
 import { Modal } from 'flowbite-react';
 import React from 'react';
-import { TaskType } from '../../Task/Task.d';
-import TaskForm from '../../Forms/TaskForm';
+import { TaskType } from '../../types/Task.d';
+import TaskForm from '../Forms/TaskForm';
 
 type AddModalProps = {
   openModal: boolean;
@@ -19,7 +19,7 @@ const AddModal: React.FC<AddModalProps> = ({
       <Modal.Header>Add task</Modal.Header>
       <Modal.Body>
         <TaskForm
-          id={0}
+          id={'0'}
           name={''}
           description={''}
           startTime={''}

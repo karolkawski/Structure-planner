@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import Navigation from './components/Navigation/Navigation';
+import Navigation from './components/UI/Navigation/Navigation';
 import Routing from './Routing/Routing';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -14,13 +14,18 @@ import { State } from './store/reducers/dataReducer';
 const App = () => {
   const dispatch = useDispatch();
   const data = useSelector((state: { data: State }) => state.data.data);
+  const loading = useSelector((state: { data: State }) => state.data.loading);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         dispatch(fetchDataRequest());
         dispatch(fetchDataSuccess(assetsData));
-      } catch (error) {
+      } catch (error: { message: string }) {
         dispatch(fetchDataError(error.message));
       }
     };
@@ -28,8 +33,8 @@ const App = () => {
     fetchData();
   }, [dispatch]);
 
-  if (!data) {
-    return <></>;
+  if (!data || data.length === 0) {
+    return <>LODING</>;
   }
 
   return (

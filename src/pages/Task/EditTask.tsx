@@ -1,45 +1,36 @@
 import { useParams } from 'react-router-dom';
-import TaskForm from '../Forms/TaskForm';
-import { useEffect, useState } from 'react';
-import { TaskType } from './Task.d';
+import TaskForm from '../../components/Forms/TaskForm';
+import { TaskType } from '../../types/Task.d';
 import { formatDate } from '../../utils/Date';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateData, removeData } from '../../store/actions/dataActions';
+import { v4 as uuidv4 } from 'uuid';
+import { State } from '../../store/reducers/dataReducer';
 
 const EditTask = () => {
   const dispatch = useDispatch();
-  const reduxData = useSelector((state) => state.data.data);
-  const loading = useSelector((state) => state.data.loading);
-  const [records, setRecords] = useState<TaskType[]>(reduxData);
+  const reduxData = useSelector((state: { data: State }) => state.data.data);
+  const loading = useSelector((state: { data: State }) => state.data.loading);
   const { taskId } = useParams();
-
-  useEffect(() => {
-    setRecords(reduxData);
-  }, [reduxData]);
-
-  useEffect(() => {
-    console.log('records updated:', records);
-  }, [records]);
 
   if (loading) {
     return <div>Loading...</div>;
   }
 
-  if (!records || records.length === 0) {
+  if (!reduxData || reduxData.length === 0) {
     return <div>No records available.</div>;
   }
 
-  const task = records.find((task) => {
-    return task.id === Number.parseInt(taskId?.replace(':', '') ?? '');
+  const task = reduxData.find((task) => {
+    return task.id === taskId?.replace(':', '') ?? '';
   });
 
-  const handleRemoveTask = (id: number) => {
+  const handleRemoveTask = (id: string) => {
     dispatch(removeData(id));
     console.log('remove task');
   };
 
-  const handleUpdateTask = (task: TaskType, id: number) => {
-    task.id = id;
+  const handleUpdateTask = (task: TaskType) => {
     dispatch(updateData(task));
     console.log('update task');
   };
@@ -53,7 +44,7 @@ const EditTask = () => {
       </header>
       <div className="container m-auto py-10 ">
         <TaskForm
-          id={task ? task.id : 0}
+          id={task ? task.id : uuidv4()}
           name={task ? task.name : ''}
           description={task ? task.description : ''}
           startTime={task ? formatDate(task.startTime) : '00:00'}

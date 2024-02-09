@@ -1,8 +1,8 @@
-import { Color } from '../../types/Colors.d';
-import { Icons } from '../../types/Icons.d';
+import { Color } from './Colors.d';
+import { Icons } from './Icons.d';
 
 export type TaskType = {
-  id: number;
+  id: string;
   name: string;
   description: string;
   startTime: number;

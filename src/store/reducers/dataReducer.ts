@@ -1,4 +1,5 @@
-import { TaskType } from '../../components/Task/Task.d';
+import { TaskType } from '../../types/Task.d';
+import { formatDate } from '../../utils/Date';
 
 export type State = {
   data: TaskType[];
@@ -18,6 +19,21 @@ type Action = {
   payload: any;
 };
 
+const sortByHours = (collection: TaskType[]) => {
+  const sortedCollection = collection.sort((a: TaskType, b: TaskType) => {
+    return (
+      new Date(
+        `1970-01-01T${formatDate(a.startTime as number) as string}`
+      ).getTime() -
+      new Date(
+        `1970-01-01T${formatDate(b.startTime as number) as string}`
+      ).getTime()
+    );
+  });
+
+  return sortedCollection;
+};
+
 const dataReducer = (state = initialState, action: Action) => {
   console.log('🚀 ~ dataReducer ~ action:', action);
   console.log('🚀 ~ dataReducer ~ state:', state);
@@ -26,16 +42,27 @@ const dataReducer = (state = initialState, action: Action) => {
       return { ...state, loading: true, error: null };
 
     case 'FETCH_DATA_SUCCESS':
-      return { ...state, loading: false, data: action.payload, error: null };
+      if (state.data && !state.loading) {
+        return;
+      }
+      const newData = action.payload;
+      const mergedData = state.data
+        ? [...new Set<TaskType[]>([...state.data, ...newData])]
+        : newData;
+
+      return { ...state, loading: false, data: mergedData, error: null };
 
     case 'FETCH_DATA_ERROR':
       return { ...state, loading: false, error: action.payload };
 
     case 'ADD_DATA':
+      const newAddedData: TaskType[] = [...state.data, action.payload];
+
+      const sortedNewData = sortByHours(newAddedData);
       return {
         ...state,
         loading: false,
-        data: [...state.data, action.payload],
+        data: sortedNewData,
         error: null,
       };
     case 'UPDATE_DATA':
@@ -43,10 +70,12 @@ const dataReducer = (state = initialState, action: Action) => {
         item.id === action.payload.id ? action.payload : item
       );
 
+      const sortedUpdatedData = sortByHours(updatedData);
+
       return {
         ...state,
         loading: false,
-        data: updatedData,
+        data: sortedUpdatedData,
         error: null,
       };
     case 'REMOVE_DATA':

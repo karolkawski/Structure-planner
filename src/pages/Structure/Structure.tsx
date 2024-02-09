@@ -1,11 +1,13 @@
 import { FC, useEffect, useState } from 'react';
-import Task from '../Task/Task';
-import { TaskType } from '../Task/Task.d';
+import Task from '../../components/Task/Task';
+import { TaskType } from '../../types/Task.d';
 import { formatDate, getDateComponentsFromEpoch } from '../../utils/Date';
 import { colorVariants } from './stylesVariations';
 import { Color } from '../../types/Colors.d';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { updateData } from '../../store/actions/dataActions';
+import { State } from '../../store/reducers/dataReducer';
 
 const generateAllHoursInDay = (from = 0, to = 24) => {
   const hours = [];
@@ -38,39 +40,28 @@ const getProcessedDates = (
 };
 
 const Structure: FC = () => {
-  const data = useSelector((state) => state.data.data);
-  const loading = useSelector((state) => state.data.loading);
-  const [records, setRecords] = useState<TaskType[]>(data);
+  const dispatch = useDispatch();
+  const data = useSelector((state: { data: State }) => state.data.data);
+  const loading = useSelector((state: { data: State }) => state.data.loading);
   const [progress, setProgress] = useState<string>('0%');
 
   useEffect(() => {
-    const totalTasks = records.length;
-    const doneTasks = records.filter((task: TaskType) => task.isDone).length;
-    const percentageDone = (doneTasks / totalTasks) * 100 + '%';
+    const totalTasks = data.length;
+    const doneTasks = data.filter((task: TaskType) => task.isDone).length;
+    const percentageDone = ((doneTasks / totalTasks) * 100).toFixed(2) + '%';
     setProgress(percentageDone);
-  }, [records]);
-
-  if (records && records.length === 0) {
-    return <></>;
-  }
+  }, [data]);
 
   if (loading) {
     return <div>Loading...</div>;
   }
 
-  if (!records || records.length === 0) {
+  if (!data || data.length === 0) {
     return <div>No records available.</div>;
   }
 
   const handleChangedDone = (task: TaskType) => {
-    const updatedRecords = records.map((record) => {
-      if (record.id === task.id) {
-        record = task;
-      }
-      return record;
-    });
-
-    setRecords(updatedRecords);
+    dispatch(updateData(task));
   };
 
   return (
@@ -89,9 +80,9 @@ const Structure: FC = () => {
       </header>
       <div className="container m-auto py-10 ">
         <div className="Calendar mt-5">
-          {records.map((task, index) => {
-            const prevTask = records[index - 1] as TaskType | undefined;
-            const nextTask = records[index + 1] as TaskType | undefined;
+          {data.map((task: TaskType, index: number) => {
+            const prevTask = data[index - 1] as TaskType | undefined;
+            const nextTask = data[index + 1] as TaskType | undefined;
 
             const { hoursBefore, hoursAfter } = getProcessedDates(
               prevTask,

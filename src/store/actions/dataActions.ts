@@ -1,10 +1,10 @@
-import { TaskType } from '../../components/Task/Task.d';
+import { TaskType } from '../../types/Task.d';
 
 export const fetchDataRequest = () => ({
   type: 'FETCH_DATA_REQUEST',
 });
 
-export const fetchDataSuccess = (data: TaskType) => ({
+export const fetchDataSuccess = (data: TaskType[]) => ({
   type: 'FETCH_DATA_SUCCESS',
   payload: data,
 });
@@ -24,7 +24,7 @@ export const updateData = (data: TaskType) => ({
   payload: data,
 });
 
-export const removeData = (id: number) => ({
+export const removeData = (id: string) => ({
   type: 'REMOVE_DATA',
   payload: id,
 });
