@@ -1,8 +1,8 @@
-import { TaskType } from '../components/Task/Task.d';
+import { TaskType } from '../types/Task.d';
 
 export const data: TaskType[] = [
   {
-    id: 1,
+    id: '7b1b9db0-b360-4443-9b20-db47752e544d',
     name: 'Trening',
     description: 'Poranny godzinny trening cardio',
     startTime: 1706245200, //Friday, 26 January 2024 05:00:00
@@ -12,11 +12,10 @@ export const data: TaskType[] = [
     color: 'blue',
     icon: 'gym',
     isDone: false,
-    piority: 'high',
-    connectedWith: false,
+    priority: 'high',
   },
   {
-    id: 2,
+    id: '6e226a4e-29bd-44a7-b0e5-3231ed6fe85f',
     name: 'Dokumentacja',
     description: 'Czytanie dokumentacji',
     startTime: 1706248801, //Friday, 26 January 2024 06:00:01
@@ -26,11 +25,10 @@ export const data: TaskType[] = [
     color: 'red',
     icon: 'study',
     isDone: false,
-    piority: 'low',
-    connectedWith: 3,
+    priority: 'low',
   },
   {
-    id: 4,
+    id: '8b51a4de-d7fe-40d2-a196-4ed46f930a59',
     name: 'Kodowanie',
     description: 'Czas na własne projekty',
     startTime: 1706252401, //Friday, 26 January 2024 07:00:01
@@ -40,11 +38,10 @@ export const data: TaskType[] = [
     color: 'green',
     icon: 'study',
     isDone: false,
-    piority: 'low',
-    connectedWith: false,
+    priority: 'low',
   },
   {
-    id: 5,
+    id: '7f8b9ee7-c5ba-40bb-b391-2fe4006e4158',
     name: 'Emails',
     description: 'Sprawdzenie emaili',
     startTime: 1706259601, //Friday, 26 January 2024 09:00:01
@@ -54,11 +51,10 @@ export const data: TaskType[] = [
     color: 'yellow',
     icon: 'email',
     isDone: false,
-    piority: 'low',
-    connectedWith: false,
+    priority: 'medium',
   },
   {
-    id: 6,
+    id: 'c4bcd5b4-1f51-4a2a-ab51-1ce35b0a200f',
     name: 'Work',
     description: '',
     startTime: 1706261401, // Friday, 26 January 2024 09:30:01
@@ -68,11 +64,10 @@ export const data: TaskType[] = [
     color: 'gray',
     icon: 'work',
     isDone: false,
-    piority: 'low',
-    connectedWith: false,
+    priority: 'low',
   },
   {
-    id: 7,
+    id: 'a2cbbb30-6d4e-43cd-9ac1-0e91c62dd1d3',
     name: 'Lunch',
     description: '',
     startTime: 1706274001, // Friday, 26 January 2024 13:00:01
@@ -82,11 +77,10 @@ export const data: TaskType[] = [
     color: 'orange',
     icon: 'food',
     isDone: false,
-    piority: 'low',
-    connectedWith: false,
+    priority: 'low',
   },
   {
-    id: 8,
+    id: '72f9ea0f-1e8e-4860-a2f6-5f87cb32d9c3',
     name: 'Work',
     description: '',
     startTime: 1706275801, // Friday, 26 January 2024 13:30:01
@@ -96,11 +90,10 @@ export const data: TaskType[] = [
     color: 'gray',
     icon: 'work',
     isDone: false,
-    piority: 'low',
-    connectedWith: false,
+    priority: 'low',
   },
   {
-    id: 9,
+    id: '80e03d41-dd7b-411b-9112-219b2003b882',
     name: 'TV',
     description: '',
     startTime: 1706288401, // Friday, 26 January 2024 17:00:01
@@ -110,7 +103,6 @@ export const data: TaskType[] = [
     color: 'purple',
     icon: 'rest',
     isDone: false,
-    piority: 'low',
-    connectedWith: false,
+    priority: 'low',
   },
 ];

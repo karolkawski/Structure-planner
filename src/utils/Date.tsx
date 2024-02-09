@@ -10,9 +10,21 @@ export const formatDate = (epoch: number) => {
 
   const hours = date.getUTCHours().toString().padStart(2, '0');
   const minutes = date.getUTCMinutes().toString().padStart(2, '0');
-  //   const seconds = date.getUTCSeconds().toString().padStart(2, '0');
 
   return `${hours}:${minutes}`;
+};
+
+export const convertStringToEpoch = (fixedDate: string, time: string) => {
+  const [day, month, year] = fixedDate.split('-');
+  const date = new Date(
+    Number.parseInt(year),
+    Number.parseInt(month),
+    Number.parseInt(day)
+  );
+  const [hour, minutes] = time.split(':');
+  date.setUTCHours(Number.parseInt(hour));
+  date.setUTCMinutes(Number.parseInt(minutes));
+  return date.getTime() / 1000;
 };
 
 export const getDateComponentsFromEpoch = (epoch: string | number | Date) => {

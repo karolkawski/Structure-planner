@@ -1,8 +1,8 @@
-import { Color } from '../../types/Colors.d';
-import { Icons } from '../../types/Icons.d';
+import { Color } from './Colors.d';
+import { Icons } from './Icons.d';
 
 export type TaskType = {
-  id: number;
+  id: string;
   name: string;
   description: string;
   startTime: number;
@@ -12,8 +12,7 @@ export type TaskType = {
   color: Color;
   icon: Icons;
   isDone: boolean;
-  piority: string;
-  connectedWith: boolean | number;
+  priority: 'low' | 'medium' | 'high';
 };
 
 export type TaskProps = {
