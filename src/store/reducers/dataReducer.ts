@@ -1,11 +1,7 @@
 import { TaskType } from '../../types/Task.d';
-import { formatDate } from '../../utils/Date';
-
-export type State = {
-  data: TaskType[];
-  loading: boolean;
-  error: string | null;
-};
+import { sortByHours } from '../../utils/Sort';
+import { Action } from '../Action.d';
+import { State } from '../State.d';
 
 const initialState: State = {
   data: [],
@@ -13,30 +9,7 @@ const initialState: State = {
   error: null,
 };
 
-type Action = {
-  type: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  payload: any;
-};
-
-const sortByHours = (collection: TaskType[]) => {
-  const sortedCollection = collection.sort((a: TaskType, b: TaskType) => {
-    return (
-      new Date(
-        `1970-01-01T${formatDate(a.startTime as number) as string}`
-      ).getTime() -
-      new Date(
-        `1970-01-01T${formatDate(b.startTime as number) as string}`
-      ).getTime()
-    );
-  });
-
-  return sortedCollection;
-};
-
 const dataReducer = (state = initialState, action: Action) => {
-  console.log('🚀 ~ dataReducer ~ action:', action);
-  console.log('🚀 ~ dataReducer ~ state:', state);
   switch (action.type) {
     case 'FETCH_DATA_REQUEST':
       return { ...state, loading: true, error: null };
