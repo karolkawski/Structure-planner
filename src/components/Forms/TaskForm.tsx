@@ -447,7 +447,6 @@ const TaskForm: React.FC<TaskFormProps> = ({
                 };
                 try {
                   setErrorMessage(null);
-
                   await taskSchema.validate(formData);
 
                   handleUpdateTask({

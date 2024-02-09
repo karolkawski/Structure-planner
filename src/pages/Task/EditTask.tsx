@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateData, removeData } from '../../store/actions/dataActions';
 import { v4 as uuidv4 } from 'uuid';
 import { State } from '../../store/reducers/dataReducer';
+import MotionWrapper from '../../Layout/MotionWrapper';
 
 const EditTask = () => {
   const dispatch = useDispatch();
@@ -36,29 +37,31 @@ const EditTask = () => {
   };
 
   return (
-    <div className="text-center">
-      <header className="w-full">
-        <h1>
-          Task <b>{taskId}</b>
-        </h1>
-      </header>
-      <div className="container m-auto py-10 ">
-        <TaskForm
-          id={task ? task.id : uuidv4()}
-          name={task ? task.name : ''}
-          description={task ? task.description : ''}
-          startTime={task ? formatDate(task.startTime) : '00:00'}
-          endTime={task ? formatDate(task.endTime) : '00:00'}
-          category={task ? task.category : ''}
-          color={task ? task.color : ''}
-          priority={task ? task.priority : ''}
-          icon={task ? task.icon : ''}
-          tags={task ? task.tags : []}
-          handleRemoveTask={handleRemoveTask}
-          handleUpdateTask={handleUpdateTask}
-        />
+    <MotionWrapper>
+      <div className="text-center">
+        <header className="w-full">
+          <h1>
+            Task <b>{taskId}</b>
+          </h1>
+        </header>
+        <div className="container m-auto py-10 ">
+          <TaskForm
+            id={task ? task.id : uuidv4()}
+            name={task ? task.name : ''}
+            description={task ? task.description : ''}
+            startTime={task ? formatDate(task.startTime) : '00:00'}
+            endTime={task ? formatDate(task.endTime) : '00:00'}
+            category={task ? task.category : ''}
+            color={task ? task.color : ''}
+            priority={task ? task.priority : ''}
+            icon={task ? task.icon : ''}
+            tags={task ? task.tags : []}
+            handleRemoveTask={handleRemoveTask}
+            handleUpdateTask={handleUpdateTask}
+          />
+        </div>
       </div>
-    </div>
+    </MotionWrapper>
   );
 };
 
