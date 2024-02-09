@@ -1,42 +1,45 @@
 import { TaskType } from '../../types/Task.d';
 import { formatDate } from '../../utils/Date';
-
-export type State = {
-  data: TaskType[];
-  loading: boolean;
-  error: string | null;
-};
+import { sortByHours } from '../../utils/Sort';
+import { Action } from '../Action.d';
+import { State } from '../State.d';
 
 const initialState: State = {
   data: [],
+  blockedHours: [],
   loading: false,
   error: null,
 };
 
-type Action = {
-  type: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  payload: any;
-};
+const calculateBlockedHours = (sortedData: TaskType[]) => {
+  const mergedBlocks = [];
+  let currentBlock: null | string[] = null;
 
-const sortByHours = (collection: TaskType[]) => {
-  const sortedCollection = collection.sort((a: TaskType, b: TaskType) => {
-    return (
-      new Date(
-        `1970-01-01T${formatDate(a.startTime as number) as string}`
-      ).getTime() -
-      new Date(
-        `1970-01-01T${formatDate(b.startTime as number) as string}`
-      ).getTime()
-    );
+  sortedData.forEach((item, index) => {
+    const startTime = formatDate(item.startTime);
+    const endTime = formatDate(item.endTime);
+
+    if (index === 0) {
+      currentBlock = [startTime, endTime];
+    } else {
+      const prevEndTime = formatDate(sortedData[index - 1].endTime);
+
+      if (startTime === prevEndTime) {
+        currentBlock[1] = endTime;
+      } else {
+        mergedBlocks.push([...currentBlock]);
+        currentBlock = [startTime, endTime];
+      }
+    }
   });
 
-  return sortedCollection;
+  if (currentBlock) {
+    mergedBlocks.push([...currentBlock]);
+  }
+  return mergedBlocks;
 };
 
 const dataReducer = (state = initialState, action: Action) => {
-  console.log('🚀 ~ dataReducer ~ action:', action);
-  console.log('🚀 ~ dataReducer ~ state:', state);
   switch (action.type) {
     case 'FETCH_DATA_REQUEST':
       return { ...state, loading: true, error: null };
@@ -50,7 +53,16 @@ const dataReducer = (state = initialState, action: Action) => {
         ? [...new Set<TaskType[]>([...state.data, ...newData])]
         : newData;
 
-      return { ...state, loading: false, data: mergedData, error: null };
+      const sortedData = sortByHours(mergedData);
+      const mergedBlocks = calculateBlockedHours(sortedData);
+
+      return {
+        ...state,
+        loading: false,
+        data: sortedData,
+        error: null,
+        blockedHours: mergedBlocks,
+      };
 
     case 'FETCH_DATA_ERROR':
       return { ...state, loading: false, error: action.payload };
@@ -59,10 +71,13 @@ const dataReducer = (state = initialState, action: Action) => {
       const newAddedData: TaskType[] = [...state.data, action.payload];
 
       const sortedNewData = sortByHours(newAddedData);
+      const newMergedBlocks = calculateBlockedHours(sortedNewData);
+
       return {
         ...state,
         loading: false,
         data: sortedNewData,
+        blockedHours: newMergedBlocks,
         error: null,
       };
     case 'UPDATE_DATA':
@@ -71,11 +86,13 @@ const dataReducer = (state = initialState, action: Action) => {
       );
 
       const sortedUpdatedData = sortByHours(updatedData);
+      const removedMergedBlocks = calculateBlockedHours(sortedUpdatedData);
 
       return {
         ...state,
         loading: false,
         data: sortedUpdatedData,
+        blockedHours: removedMergedBlocks,
         error: null,
       };
     case 'REMOVE_DATA':

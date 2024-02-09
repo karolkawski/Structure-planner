@@ -1,18 +1,18 @@
 import { Button, Dropdown, Label, TextInput, Textarea } from 'flowbite-react';
 import { Color } from '../../types/Colors.d';
-import { Piorities } from '../../types/Piorities.d';
+import { Priorities } from '../../types/Priorities.d';
 import { Icons } from '../../types/Icons.d';
 import Icon from '../UI/Icon/Icon';
 import {
   categoriesDropdown,
   colorsDropdown,
   iconsDropdown,
-  pioritiesDropdown,
+  PrioritiesDropdown,
   tagsSelect,
 } from '../Modal/modalFormValues';
 import { colorVariants, priorityVariations } from '../Table/stylesVariations';
 import { useState } from 'react';
-import { convertStringToEpoch } from '../../utils/Date';
+import { convertStringToEpoch, isTimeInRange } from '../../utils/Date';
 import { TaskType } from '../../types/Task.d';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -23,6 +23,8 @@ import {
 } from './stylesVariations';
 import { v4 as uuidv4 } from 'uuid';
 import { taskSchema } from '../../Validations/TaskValidation';
+import { useSelector } from 'react-redux';
+import { State } from '../../store/State.d';
 
 const fixedDate = '26-01-2024';
 
@@ -30,8 +32,8 @@ type TaskFormProps = {
   id: string;
   name: string;
   description: string;
-  startTime: string;
-  endTime: string;
+  startTime?: string;
+  endTime?: string;
   category: string;
   color: string;
   priority: string;
@@ -58,6 +60,9 @@ const TaskForm: React.FC<TaskFormProps> = ({
   handleUpdateTask,
 }) => {
   const navigate = useNavigate();
+  const blockedHours = useSelector(
+    (state: { data: State }) => state.data.blockedHours
+  );
   const [selectedId] = useState<string | undefined>(id);
   const [selectedCategory, setSelectedCategory] = useState<string>(category);
   const [selectedColor, setSelectedColor] = useState<string>(color);
@@ -66,8 +71,8 @@ const TaskForm: React.FC<TaskFormProps> = ({
   const [selectedName, setSelectedName] = useState<string>(name);
   const [selectedDescription, setSelectedDescription] =
     useState<string>(description);
-  const [selectedStartTime, setSelectedStartTime] = useState<string>(startTime);
-  const [selectedEndTime, setSelectedEndTime] = useState<string>(endTime);
+  const [selectedStartTime, setSelectedStartTime] = useState<string>('');
+  const [selectedEndTime, setSelectedEndTime] = useState<string>('');
   const [selectedTags, setSelectedITags] = useState<string[]>(tags);
   const isAddForm: boolean =
     (handleAddTask && typeof handleAddTask === 'function') || false;
@@ -77,6 +82,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     key: string
   ) => {
+    setErrorMessage(null);
     const { value } = event.target;
 
     switch (key) {
@@ -90,10 +96,18 @@ const TaskForm: React.FC<TaskFormProps> = ({
         if (selectedEndTime && value > selectedEndTime) {
           return;
         }
+        if (blockedHours.some((range) => isTimeInRange(value, range))) {
+          setErrorMessage('That time is already in your schedule');
+          return;
+        }
         setSelectedStartTime(value);
         break;
       case 'endTime':
         if (selectedStartTime && value < selectedStartTime) {
+          return;
+        }
+        if (blockedHours.some((range) => isTimeInRange(value, range))) {
+          setErrorMessage('That time is already in your schedule');
           return;
         }
         setSelectedEndTime(value);
@@ -104,6 +118,8 @@ const TaskForm: React.FC<TaskFormProps> = ({
   };
 
   const handleDropdownChange = async (value: string, key: string) => {
+    setErrorMessage(null);
+
     switch (key) {
       case 'category':
         setSelectedCategory(value);
@@ -198,7 +214,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
                   {selectedPriority ? (
                     <>
                       <span
-                        className={`w-2 h-4 ${priorityVariations[selectedPriority as Piorities]}`}
+                        className={`w-2 h-4 ${priorityVariations[selectedPriority as Priorities]}`}
                       ></span>
                       {selectedPriority}
                     </>
@@ -208,7 +224,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
                 </Button>
               )}
             >
-              {pioritiesDropdown.map((priority, index) => {
+              {PrioritiesDropdown.map((priority, index) => {
                 return (
                   <Dropdown.Item
                     key={index}
@@ -216,7 +232,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
                     onClick={() => handleDropdownChange(priority, 'priority')}
                   >
                     <span
-                      className={`w-2 h-4 ${priorityVariations[priority as Piorities]}`}
+                      className={`w-2 h-4 ${priorityVariations[priority as Priorities]}`}
                     ></span>
                     {priority}
                   </Dropdown.Item>
@@ -323,7 +339,10 @@ const TaskForm: React.FC<TaskFormProps> = ({
         >
           <div className="col-2 w-1/2 pr-2">
             <div className="mb-2 block text-left">
-              <Label htmlFor="stime" value="Start time" />
+              <Label
+                htmlFor="stime"
+                value={`Start time (current ${startTime && startTime})`}
+              />
             </div>
             <TextInput
               id="stime"
@@ -337,7 +356,10 @@ const TaskForm: React.FC<TaskFormProps> = ({
           </div>
           <div className="col-2 w-1/2 pl-2">
             <div className="mb-2 block text-left">
-              <Label htmlFor="etime" value="End time" />
+              <Label
+                htmlFor="etime"
+                value={`End time (current ${endTime && endTime})`}
+              />
             </div>
             <TextInput
               id="etime"
@@ -412,7 +434,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
                   endTime: convertStringToEpoch(fixedDate, selectedEndTime),
                   category: selectedCategory,
                   color: selectedColor as Color,
-                  priority: selectedPriority as Piorities,
+                  priority: selectedPriority as Priorities,
                   icon: selectedIcon as Icons,
                   tags: selectedTags,
                   isDone: false,
@@ -430,6 +452,16 @@ const TaskForm: React.FC<TaskFormProps> = ({
         )}
 
         <div className="flex">
+          <Button
+            className="mr-2"
+            color="light"
+            onClick={() => {
+              navigate('/tasks');
+            }}
+          >
+            Cancel
+          </Button>
+
           {handleUpdateTask ? (
             <Button
               className="mr-2"
@@ -460,7 +492,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
                     endTime: convertStringToEpoch(fixedDate, selectedEndTime),
                     category: selectedCategory,
                     color: selectedColor as Color,
-                    priority: selectedPriority as Piorities,
+                    priority: selectedPriority as Priorities,
                     icon: selectedIcon as Icons,
                     tags: selectedTags,
                     isDone: false,

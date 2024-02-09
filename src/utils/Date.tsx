@@ -38,3 +38,8 @@ export const getDateComponentsFromEpoch = (epoch: string | number | Date) => {
 
   return { year, month, day, hour, minutes, seconds };
 };
+
+export const isTimeInRange = (time: string, range: string[]) => {
+  const [startTime, endTime] = range;
+  return time > startTime && time < endTime;
+};

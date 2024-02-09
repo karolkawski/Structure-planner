@@ -4,7 +4,7 @@ import AddModal from '../../components/Modal/AddModal';
 import './styles.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { addData } from '../../store/actions/dataActions';
-import { State } from '../../store/reducers/dataReducer';
+import { State } from '../../store/State.d';
 import Task from '../../components/Table/Task';
 import MotionWrapper from '../../Layout/MotionWrapper';
 
@@ -18,10 +18,6 @@ function Tasks({}) {
   useEffect(() => {
     setRecords(reduxData);
   }, [reduxData]);
-
-  useEffect(() => {
-    console.log('records updated:', records);
-  }, [records]);
 
   if (loading) {
     return <div>Loading...</div>;

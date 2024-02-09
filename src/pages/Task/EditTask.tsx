@@ -5,7 +5,7 @@ import { formatDate } from '../../utils/Date';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateData, removeData } from '../../store/actions/dataActions';
 import { v4 as uuidv4 } from 'uuid';
-import { State } from '../../store/reducers/dataReducer';
+import { State } from '../../store/State.d';
 import MotionWrapper from '../../Layout/MotionWrapper';
 
 const EditTask = () => {
@@ -28,12 +28,10 @@ const EditTask = () => {
 
   const handleRemoveTask = (id: string) => {
     dispatch(removeData(id));
-    console.log('remove task');
   };
 
   const handleUpdateTask = (task: TaskType) => {
     dispatch(updateData(task));
-    console.log('update task');
   };
 
   return (
