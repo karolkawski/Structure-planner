@@ -11,7 +11,7 @@ import {
   tagsSelect,
 } from '../Modal/modalFormValues';
 import { colorVariants, priorityVariations } from '../Table/stylesVariations';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { convertStringToEpoch, isTimeInRange } from '../../utils/Date';
 import { TaskType } from '../../types/Task.d';
 import { useNavigate } from 'react-router-dom';
@@ -25,7 +25,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { taskSchema } from '../../Validations/TaskValidation';
 import { useSelector } from 'react-redux';
 import { State } from '../../store/State.d';
-import React from 'react';
 
 const fixedDate = '26-01-2024';
 
@@ -407,6 +406,15 @@ const TaskForm: React.FC<TaskFormProps> = ({
         {errorMessage ? <>{errorMessage}</> : <></>}
       </p>
       <div className="flex w-full justify-end pt-10">
+        <Button
+          className="mr-2"
+          color=""
+          onClick={() => {
+            navigate('/tasks');
+          }}
+        >
+          Cancel
+        </Button>
         {handleAddTask ? (
           <Button
             onClick={async () => {
@@ -452,83 +460,68 @@ const TaskForm: React.FC<TaskFormProps> = ({
           <></>
         )}
 
-        <div className="flex">
+        {handleUpdateTask ? (
           <Button
             className="mr-2"
-            color="light"
+            onClick={async () => {
+              const formData = {
+                id: selectedId,
+                name: selectedName,
+                description: selectedDescription,
+                startTime: selectedStartTime,
+                endTime: selectedEndTime,
+                category: selectedCategory,
+                color: selectedColor,
+                icon: selectedIcon,
+                priority: selectedPriority,
+              };
+              try {
+                setErrorMessage(null);
+                await taskSchema.validate(formData);
+
+                handleUpdateTask({
+                  id: selectedId as string,
+                  name: selectedName,
+                  description: selectedDescription,
+                  startTime: convertStringToEpoch(fixedDate, selectedStartTime),
+                  endTime: convertStringToEpoch(fixedDate, selectedEndTime),
+                  category: selectedCategory,
+                  color: selectedColor as Color,
+                  priority: selectedPriority as Priorities,
+                  icon: selectedIcon as Icons,
+                  tags: selectedTags,
+                  isDone: false,
+                });
+                navigate('/tasks');
+              } catch (error: { message: string }) {
+                setErrorMessage(error.message);
+                console.error('Validation error:', error.message);
+              }
+            }}
+          >
+            Update
+          </Button>
+        ) : (
+          <></>
+        )}
+
+        {handleRemoveTask ? (
+          <Button
+            className="ml-2"
+            color="failure"
             onClick={() => {
+              if (!selectedId) {
+                return;
+              }
+              handleRemoveTask(selectedId);
               navigate('/tasks');
             }}
           >
-            Cancel
+            Remove
           </Button>
-
-          {handleUpdateTask ? (
-            <Button
-              className="mr-2"
-              onClick={async () => {
-                const formData = {
-                  id: selectedId,
-                  name: selectedName,
-                  description: selectedDescription,
-                  startTime: selectedStartTime,
-                  endTime: selectedEndTime,
-                  category: selectedCategory,
-                  color: selectedColor,
-                  icon: selectedIcon,
-                  priority: selectedPriority,
-                };
-                try {
-                  setErrorMessage(null);
-                  await taskSchema.validate(formData);
-
-                  handleUpdateTask({
-                    id: selectedId as string,
-                    name: selectedName,
-                    description: selectedDescription,
-                    startTime: convertStringToEpoch(
-                      fixedDate,
-                      selectedStartTime
-                    ),
-                    endTime: convertStringToEpoch(fixedDate, selectedEndTime),
-                    category: selectedCategory,
-                    color: selectedColor as Color,
-                    priority: selectedPriority as Priorities,
-                    icon: selectedIcon as Icons,
-                    tags: selectedTags,
-                    isDone: false,
-                  });
-                  navigate('/tasks');
-                } catch (error: { message: string }) {
-                  setErrorMessage(error.message);
-                  console.error('Validation error:', error.message);
-                }
-              }}
-            >
-              Update
-            </Button>
-          ) : (
-            <></>
-          )}
-
-          {handleRemoveTask ? (
-            <Button
-              className="ml-2"
-              color="failure"
-              onClick={() => {
-                if (!selectedId) {
-                  return;
-                }
-                handleRemoveTask(selectedId);
-                navigate('/tasks');
-              }}
-            >
-              Remove
-            </Button>
-          ) : (
-            <></>
-          )}
-        </div>
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );

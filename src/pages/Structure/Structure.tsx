@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import Task from '../../components/Task/Task';
 import { TaskType } from '../../types/Task.d';
 import { formatDate, getDateComponentsFromEpoch } from '../../utils/Date';
@@ -9,12 +9,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { updateData } from '../../store/actions/dataActions';
 import { State } from '../../store/reducers/dataReducer';
 import MotionWrapper from '../../Layout/MotionWrapper';
+import Progress from '../../components/UI/Progress/Progress';
 
 const generateAllHoursInDay = (from = 0, to = 24) => {
   const hours = [];
 
   for (let hour = from; hour < to; hour++) {
-    const formattedHour = hour.toString().padStart(2, '0');
+    const formattedHour: string = hour.toString().padStart(2, '0');
     hours.push(`${formattedHour}:00`);
   }
 
@@ -68,20 +69,12 @@ const Structure: FC = () => {
   return (
     <MotionWrapper>
       <div className="text-center">
-        <header className="w-full">
+        <header className="w-full px-10">
           <h1 className="text-4xl font-bold my-2">Structure Daily</h1>
-          <div className="m-auto w-96 bg-gray-200 rounded-full dark:bg-gray-700">
-            <div
-              className="bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full"
-              style={{ width: progress }}
-            >
-              {' '}
-              {progress}
-            </div>
-          </div>
+          <Progress progress={progress} />
         </header>
-        <div className="container m-auto py-10 ">
-          <div className="Calendar mt-5">
+        <div className="container m-auto py-1 ">
+          <div className="Calendar my-5">
             {data.map((task: TaskType, index: number) => {
               const prevTask = data[index - 1] as TaskType | undefined;
               const nextTask = data[index + 1] as TaskType | undefined;
@@ -101,7 +94,10 @@ const Structure: FC = () => {
               return (
                 <div key={task.id} className="flex flex-col">
                   {hoursBefore.map((hour) => (
-                    <div className="w-20 opacity-50" key={hour}>
+                    <div className="w-20 opacity-50 relative" key={hour}>
+                      <div
+                        className={`left-32 w-1  h-5 -z-50 absolute bg-gray-200`}
+                      ></div>
                       {hour}
                     </div>
                   ))}
@@ -142,7 +138,10 @@ const Structure: FC = () => {
                     </motion.div>
                   </AnimatePresence>
                   {hoursAfter.map((hour) => (
-                    <div className="w-20 opacity-50" key={hour}>
+                    <div className="w-20 opacity-50 relative" key={hour}>
+                      <div
+                        className={`left-32 w-1  h-5 -z-50 absolute bg-gray-200`}
+                      ></div>
                       {hour}
                     </div>
                   ))}

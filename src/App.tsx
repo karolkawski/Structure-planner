@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Navigation from './components/UI/Navigation/Navigation';
 import Routing from './Routing/Routing';
@@ -9,7 +9,7 @@ import {
   fetchDataError,
 } from './store/actions/dataActions';
 import { data as assetsData } from './assets/data';
-import { State } from './store/reducers/dataReducer';
+import { State } from './store/State.d';
 
 const App = () => {
   const dispatch = useDispatch();
