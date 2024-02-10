@@ -26,8 +26,6 @@ import { taskSchema } from '../../Validations/TaskValidation';
 import { useSelector } from 'react-redux';
 import { State } from '../../store/State.d';
 
-const fixedDate = '26-01-2024';
-
 type TaskFormProps = {
   id: string;
   name: string;
@@ -439,8 +437,8 @@ const TaskForm: React.FC<TaskFormProps> = ({
                   id: uuidv4(),
                   name: selectedName,
                   description: selectedDescription,
-                  startTime: convertStringToEpoch(fixedDate, selectedStartTime),
-                  endTime: convertStringToEpoch(fixedDate, selectedEndTime),
+                  startTime: convertStringToEpoch(selectedStartTime),
+                  endTime: convertStringToEpoch(selectedEndTime),
                   category: selectedCategory,
                   color: selectedColor as Color,
                   priority: selectedPriority as Priorities,
@@ -483,8 +481,8 @@ const TaskForm: React.FC<TaskFormProps> = ({
                   id: selectedId as string,
                   name: selectedName,
                   description: selectedDescription,
-                  startTime: convertStringToEpoch(fixedDate, selectedStartTime),
-                  endTime: convertStringToEpoch(fixedDate, selectedEndTime),
+                  startTime: convertStringToEpoch(selectedStartTime),
+                  endTime: convertStringToEpoch(selectedEndTime),
                   category: selectedCategory,
                   color: selectedColor as Color,
                   priority: selectedPriority as Priorities,
