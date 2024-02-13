@@ -67,7 +67,7 @@ function Task({ task, onChange }: TaskProps) {
                 checked={isChecked}
                 onChange={handleCheckboxChange}
                 value=""
-                className={`w-6 cursor-pointer h-6 ${checkBoxVariants[task.color]} roundeddark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600`}
+                className={`w-6 cursor-pointer h-6 ${checkBoxVariants[task.color]} rounded dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600`}
               />
             </div>
           </div>

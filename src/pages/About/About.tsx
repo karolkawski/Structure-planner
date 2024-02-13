@@ -51,7 +51,7 @@ const About = ({}) => {
             </div>
             <div className="border border-black-50 sm:w-full md:w-80 m-auto mt-10 rounded flex flex-col items-center justify-center p-10">
               <h2 className="text-2xl font-bold my-2"> Credentials</h2>
-              <div>
+              <div className="h-20">
                 <img src={Me} width={80} className="mx-auto" alt="Just me" />
               </div>
               <p className="mt-5">

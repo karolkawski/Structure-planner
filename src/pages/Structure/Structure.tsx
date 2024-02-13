@@ -137,17 +137,33 @@ const Structure: FC = () => {
           <Progress progress={progress} />
         </header>
         <div className="container m-auto py-1 ">
-          <div className="Calendar my-5 relative">
-            <div
-              className={`w-28 -left-10 absolute`}
-              style={{ top: timePosition }}
-              id="time"
+          <div className="Calendar my-5 relative mx-auto min-w-96 w-3/5">
+            <motion.div
+              style={{
+                width: '120px',
+                left: '-40px',
+                position: 'absolute',
+                opacity: 0,
+              }}
+              initial={{
+                top: 0,
+                opacity: 0,
+              }}
+              animate={{
+                top: timePosition,
+                opacity: 1,
+              }}
+              transition={{ duration: 0.1 }}
+              exit={{
+                top: timePosition,
+              }}
+              key={'line'}
             >
               <div className="bg-red-600 h-1"></div>
               <div className="text-left text-red-600 text-sm">
                 {actualHour ? actualHour.display : ''}
               </div>
-            </div>
+            </motion.div>
             {data.map((task: TaskType, index: number) => {
               const prevTask = data[index - 1] as TaskType | undefined;
               const nextTask = data[index + 1] as TaskType | undefined;
