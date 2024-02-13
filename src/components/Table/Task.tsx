@@ -3,6 +3,7 @@ import { TaskType } from '../../types/Task.d';
 import { formatDate } from '../../utils/Date';
 import { colorVariants, priorityVariations } from './stylesVariations';
 import Icon from '../UI/Icon/Icon';
+import React from 'react';
 
 const Task = ({ task }: { task: TaskType }) => {
   const {

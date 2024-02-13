@@ -1,3 +1,5 @@
+export const fixedDate = '26-01-2024';
+
 export const formatDate = (epoch: number) => {
   if (!epoch || isNaN(epoch)) {
     return 'Invalid Date';
@@ -14,13 +16,12 @@ export const formatDate = (epoch: number) => {
   return `${hours}:${minutes}`;
 };
 
-export const convertStringToEpoch = (fixedDate: string, time: string) => {
+export const convertStringToEpoch = (time: string) => {
   const [day, month, year] = fixedDate.split('-');
-  const date = new Date(
-    Number.parseInt(year),
-    Number.parseInt(month),
-    Number.parseInt(day)
-  );
+  const date = new Date();
+  date.setUTCFullYear(Number.parseInt(year));
+  date.setUTCMonth(Number.parseInt(month) - 1);
+  date.setUTCDate(Number.parseInt(day));
   const [hour, minutes] = time.split(':');
   date.setUTCHours(Number.parseInt(hour));
   date.setUTCMinutes(Number.parseInt(minutes));
@@ -42,4 +43,27 @@ export const getDateComponentsFromEpoch = (epoch: string | number | Date) => {
 export const isTimeInRange = (time: string, range: string[]) => {
   const [startTime, endTime] = range;
   return time > startTime && time < endTime;
+};
+
+export const getCurrentTime = () => {
+  const [day, month, year] = fixedDate.split('-');
+
+  const currentDate = new Date();
+  currentDate.setUTCFullYear(Number.parseInt(year));
+  currentDate.setUTCMonth(Number.parseInt(month) - 1);
+  currentDate.setUTCDate(Number.parseInt(day));
+
+  const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const options = { timeZone: userTimeZone };
+  const localDate = new Date(currentDate.toLocaleString('en-US', options));
+  const timezoneOffsetInSeconds = localDate.getTimezoneOffset() * 60;
+
+  const hours = localDate.getHours().toString().padStart(2, '0');
+  const minutes = localDate.getMinutes().toString().padStart(2, '0');
+  return {
+    display: `${hours}:${minutes}`,
+    epoch: Math.floor(
+      (localDate.getTime() - timezoneOffsetInSeconds * 1000) / 1000
+    ),
+  };
 };

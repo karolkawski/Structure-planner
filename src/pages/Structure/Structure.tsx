@@ -1,20 +1,26 @@
-import { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import Task from '../../components/Task/Task';
 import { TaskType } from '../../types/Task.d';
-import { formatDate, getDateComponentsFromEpoch } from '../../utils/Date';
+import {
+  convertStringToEpoch,
+  formatDate,
+  getCurrentTime,
+  getDateComponentsFromEpoch,
+} from '../../utils/Date';
 import { colorVariants } from './stylesVariations';
 import { Color } from '../../types/Colors.d';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateData } from '../../store/actions/dataActions';
 import { State } from '../../store/reducers/dataReducer';
 import MotionWrapper from '../../Layout/MotionWrapper';
+import Progress from '../../components/UI/Progress/Progress';
 
 const generateAllHoursInDay = (from = 0, to = 24) => {
   const hours = [];
 
   for (let hour = from; hour < to; hour++) {
-    const formattedHour = hour.toString().padStart(2, '0');
+    const formattedHour: string = hour.toString().padStart(2, '0');
     hours.push(`${formattedHour}:00`);
   }
 
@@ -44,7 +50,19 @@ const Structure: FC = () => {
   const dispatch = useDispatch();
   const data = useSelector((state: { data: State }) => state.data.data);
   const loading = useSelector((state: { data: State }) => state.data.loading);
+  const [actualHour, setActualHour] = useState<{
+    display: string;
+    epoch: number;
+  }>(getCurrentTime());
+  const [timePosition, setTimePosition] = useState<string>('0px');
   const [progress, setProgress] = useState<string>('0%');
+
+  setInterval(
+    () => {
+      setActualHour(getCurrentTime());
+    },
+    1000 * 60 * 20
+  );
 
   useEffect(() => {
     const totalTasks = data.length;
@@ -65,23 +83,87 @@ const Structure: FC = () => {
     dispatch(updateData(task));
   };
 
+  function calculateLineHeight(actual, elementEpoch, nextEpoch, height) {
+    if (actual >= elementEpoch && actual <= nextEpoch) {
+      const percentTimeElapsed =
+        (actual - elementEpoch) / (nextEpoch - elementEpoch);
+      const lineHeight = height * percentTimeElapsed;
+      return lineHeight;
+    } else {
+      return -1;
+    }
+  }
+
+  const calculatePosition = () => {
+    const { epoch } = actualHour;
+
+    const times = document.querySelectorAll('.time');
+
+    let closestElement = null;
+    let offsetTopOfClosest = 0;
+
+    for (let i = 0; i < times.length; i++) {
+      const elementEpoch = Number.parseInt(times[i].getAttribute('data-time'));
+      const nextElementEpoch =
+        i < times.length - 1
+          ? Number.parseInt(times[i + 1].getAttribute('data-time'))
+          : null;
+
+      if (elementEpoch < epoch) {
+        closestElement = times[i];
+        offsetTopOfClosest =
+          closestElement.offsetTop +
+          calculateLineHeight(
+            epoch,
+            elementEpoch,
+            nextElementEpoch,
+            closestElement.clientHeight
+          );
+      }
+    }
+    return offsetTopOfClosest;
+  };
+
+  const updateTimer = () => {
+    const topOffset = calculatePosition();
+    setTimePosition(`${topOffset}px`);
+  };
+
   return (
     <MotionWrapper>
       <div className="text-center">
-        <header className="w-full">
+        <header className="w-full px-10">
           <h1 className="text-4xl font-bold my-2">Structure Daily</h1>
-          <div className="m-auto w-96 bg-gray-200 rounded-full dark:bg-gray-700">
-            <div
-              className="bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full"
-              style={{ width: progress }}
-            >
-              {' '}
-              {progress}
-            </div>
-          </div>
+          <Progress progress={progress} />
         </header>
-        <div className="container m-auto py-10 ">
-          <div className="Calendar mt-5">
+        <div className="container m-auto py-1 ">
+          <div className="Calendar my-5 relative mx-auto min-w-96 w-3/5">
+            <motion.div
+              style={{
+                width: '120px',
+                left: '-40px',
+                position: 'absolute',
+                opacity: 0,
+              }}
+              initial={{
+                top: 0,
+                opacity: 0,
+              }}
+              animate={{
+                top: timePosition,
+                opacity: 1,
+              }}
+              transition={{ duration: 0.1 }}
+              exit={{
+                top: timePosition,
+              }}
+              key={'line'}
+            >
+              <div className="bg-red-600 h-1"></div>
+              <div className="text-left text-red-600 text-sm">
+                {actualHour ? actualHour.display : ''}
+              </div>
+            </motion.div>
             {data.map((task: TaskType, index: number) => {
               const prevTask = data[index - 1] as TaskType | undefined;
               const nextTask = data[index + 1] as TaskType | undefined;
@@ -101,12 +183,19 @@ const Structure: FC = () => {
               return (
                 <div key={task.id} className="flex flex-col">
                   {hoursBefore.map((hour) => (
-                    <div className="w-20 opacity-50" key={hour}>
+                    <div
+                      className="time w-20 opacity-50 relative"
+                      key={hour}
+                      data-time={convertStringToEpoch(hour)}
+                    >
+                      <div
+                        className={`left-32 w-1  h-5 -z-50 absolute bg-gray-200`}
+                      ></div>
                       {hour}
                     </div>
                   ))}
 
-                  <AnimatePresence>
+                  <div className="time" data-time={task.startTime}>
                     <motion.div
                       style={{
                         margin: '5px 0px',
@@ -124,6 +213,7 @@ const Structure: FC = () => {
                       exit={{
                         height: task.isDone ? 50 : 100 * multiplerHeight,
                       }}
+                      onAnimationComplete={updateTimer}
                       key={'container'}
                     >
                       <div className="w-20 absolute top-0">
@@ -140,9 +230,16 @@ const Structure: FC = () => {
                         onChange={handleChangedDone}
                       />
                     </motion.div>
-                  </AnimatePresence>
+                  </div>
                   {hoursAfter.map((hour) => (
-                    <div className="w-20 opacity-50" key={hour}>
+                    <div
+                      className="time w-20 opacity-50 relative"
+                      key={hour}
+                      data-time={convertStringToEpoch(hour)}
+                    >
+                      <div
+                        className={`left-32 w-1  h-5 -z-50 absolute bg-gray-200`}
+                      ></div>
                       {hour}
                     </div>
                   ))}
