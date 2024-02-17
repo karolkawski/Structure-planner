@@ -15,6 +15,8 @@ import { updateData } from '../../store/actions/dataActions';
 import { State } from '../../store/reducers/dataReducer';
 import MotionWrapper from '../../Layout/MotionWrapper';
 import Progress from '../../components/UI/Progress/Progress';
+import { Button } from 'flowbite-react/lib/esm/components/Button/Button';
+import { Link } from 'react-router-dom';
 
 const generateAllHoursInDay = (from = 0, to = 24) => {
   const hours = [];
@@ -60,24 +62,15 @@ const Structure: FC = () => {
   setInterval(
     () => {
       setActualHour(getCurrentTime());
+      updateTimer();
     },
-    1000 * 60 * 20
+    1000 * 60 * 1
   );
 
-  useEffect(() => {
-    const totalTasks = data.length;
-    const doneTasks = data.filter((task: TaskType) => task.isDone).length;
-    const percentageDone = ((doneTasks / totalTasks) * 100).toFixed(2) + '%';
-    setProgress(percentageDone);
-  }, [data]);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (!data || data.length === 0) {
-    return <div>No records available.</div>;
-  }
+  const updateTimer = () => {
+    const topOffset = calculatePosition();
+    setTimePosition(`${topOffset}px`);
+  };
 
   const handleChangedDone = (task: TaskType) => {
     dispatch(updateData(task));
@@ -124,10 +117,28 @@ const Structure: FC = () => {
     return offsetTopOfClosest;
   };
 
-  const updateTimer = () => {
-    const topOffset = calculatePosition();
-    setTimePosition(`${topOffset}px`);
-  };
+  useEffect(() => {
+    const totalTasks = data.length;
+    const doneTasks = data.filter((task: TaskType) => task.isDone).length;
+    const percentageDone = ((doneTasks / totalTasks) * 100).toFixed(2) + '%';
+    setProgress(percentageDone);
+  }, [data]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!data || data.length === 0) {
+    return (
+      <div className="w-full flex justify-center flex-col items-center h-40 ">
+        No tasks available.{' '}
+        <Button className="px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+          {' '}
+          <Link to="/tasks">Add tasks</Link>
+        </Button>
+      </div>
+    );
+  }
 
   return (
     <MotionWrapper>
@@ -140,7 +151,7 @@ const Structure: FC = () => {
           <div className="Calendar my-5 relative mx-auto min-w-96 w-3/5">
             <motion.div
               style={{
-                width: '120px',
+                width: '105px',
                 left: '-40px',
                 position: 'absolute',
                 opacity: 0,
@@ -160,7 +171,7 @@ const Structure: FC = () => {
               key={'line'}
             >
               <div className="bg-red-600 h-1"></div>
-              <div className="text-left text-red-600 text-sm">
+              <div className="md:text-left text-red-600 text-xs md:text-sm">
                 {actualHour ? actualHour.display : ''}
               </div>
             </motion.div>
@@ -222,6 +233,9 @@ const Structure: FC = () => {
                       <div className={`relative flex h-full items-center`}>
                         <div
                           className={`left-32 w-1 h-full -z-50 absolute ${taskColorStyle}`}
+                        ></div>
+                        <div
+                          className={`left-16 top-2 w-px h-full -z-50 absolute bg-gray-200 hover:bg-gray-200 border-gray-200`}
                         ></div>
                       </div>
                       <Task
