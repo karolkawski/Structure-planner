@@ -3,9 +3,11 @@ import { TaskType } from '../../types/Task.d';
 import { formatDate } from '../../utils/Date';
 import { colorVariants, priorityVariations } from './stylesVariations';
 import Icon from '../UI/Icon/Icon';
-import React from 'react';
+import React, { useState } from 'react';
+import { isMobile } from '../../utils/MobileDetect';
 
 const Task = ({ task }: { task: TaskType }) => {
+  const [MobileDevice] = useState(isMobile());
   const {
     name,
     description,
@@ -25,7 +27,9 @@ const Task = ({ task }: { task: TaskType }) => {
       </td>
       <td className="p-3 lg:hidden xl:table-cell">
         <div className="sm:block lg:hidden xl:hidden">Desctiption</div>
-        {description}
+        {description.length > (MobileDevice ? 20 : 300)
+          ? description.substring(0, 300 - 3) + '...'
+          : description}
       </td>
       <td className="p-3">
         <div className="sm:block lg:hidden xl:hidden">Start time</div>

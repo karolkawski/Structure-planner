@@ -29,12 +29,10 @@ const EditTask = () => {
 
   const handleRemoveTask = (id: string) => {
     dispatch(removeData(id));
-    console.log('remove task');
   };
 
   const handleUpdateTask = (task: TaskType) => {
     dispatch(updateData(task));
-    console.log('update task');
   };
 
   return (

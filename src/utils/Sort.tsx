@@ -2,6 +2,9 @@ import { TaskType } from '../types/Task.d';
 import { formatDate } from './/Date';
 
 export const sortByHours = (collection: TaskType[]) => {
+  if (collection.length === 1) {
+    return collection;
+  }
   const sortedCollection = collection.sort((a: TaskType, b: TaskType) => {
     return (
       new Date(

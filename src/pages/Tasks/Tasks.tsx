@@ -7,6 +7,7 @@ import { addData } from '../../store/actions/dataActions';
 import { State } from '../../store/State.d';
 import Task from '../../components/Table/Task';
 import MotionWrapper from '../../Layout/MotionWrapper';
+import { Button } from 'flowbite-react';
 
 function Tasks({}) {
   const dispatch = useDispatch();
@@ -24,7 +25,6 @@ function Tasks({}) {
   }
 
   const handleAddTask = (task: TaskType) => {
-    task.id = records[length].id + 1;
     dispatch(addData(task));
 
     setOpenModal(false);
@@ -55,13 +55,13 @@ function Tasks({}) {
                   daily planning.
                 </p>
                 <div className="my-5 flex justify-end">
-                  <button
+                  <Button
                     onClick={() => setOpenModal(true)}
                     type="button"
-                    className="px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    className="px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                   >
                     Add task
-                  </button>
+                  </Button>
                 </div>
               </caption>
               <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 hidden lg:table-header-group xl:table-header-group">

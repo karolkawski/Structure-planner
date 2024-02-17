@@ -1,5 +1,9 @@
 import { TaskType } from '../../types/Task.d';
 
+export const fetchStorageData = () => ({
+  type: 'FETCH_LOCALSTORAGE_DATA',
+});
+
 export const fetchDataRequest = () => ({
   type: 'FETCH_DATA_REQUEST',
 });
