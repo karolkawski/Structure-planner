@@ -21,7 +21,6 @@ import {
   dropdownOrderVariations,
   tagVariations,
 } from './stylesVariations';
-import { v4 as uuidv4 } from 'uuid';
 import { taskSchema } from '../../Validations/TaskValidation';
 import { useSelector } from 'react-redux';
 import { State } from '../../store/State.d';
@@ -61,7 +60,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
   const blockedHours = useSelector(
     (state: { data: State }) => state.data.blockedHours
   );
-  const [selectedId] = useState<string | undefined>(id);
+  const [selectedId] = useState<string>(id);
   const [selectedCategory, setSelectedCategory] = useState<string>(category);
   const [selectedColor, setSelectedColor] = useState<string>(color);
   const [selectedPriority, setSelectedPriority] = useState<string>(priority);
@@ -183,7 +182,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
             <Dropdown
               label="---select---}"
               renderTrigger={() => (
-                <Button className="w-full">
+                <Button className="w-full px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                   {selectedCategory || '---select---'}
                 </Button>
               )}
@@ -208,7 +207,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
             <Dropdown
               label="---select---}"
               renderTrigger={() => (
-                <Button className="w-full">
+                <Button className="w-full px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                   {selectedPriority ? (
                     <>
                       <span
@@ -263,7 +262,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
             <Dropdown
               label="---select---}"
               renderTrigger={() => (
-                <Button className="w-full">
+                <Button className="w-full px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                   {selectedColor ? (
                     <>
                       <span
@@ -301,7 +300,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
             <Dropdown
               label="---select---}"
               renderTrigger={() => (
-                <Button className="w-full">
+                <Button className="w-full px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                   {selectedIcon ? (
                     <>
                       <Icon icon={selectedIcon as Icons} color={'white'} />
@@ -415,6 +414,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
         </Button>
         {handleAddTask ? (
           <Button
+            className="px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             onClick={async () => {
               const formData = {
                 id: selectedId,
@@ -434,7 +434,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
                 await taskSchema.validate(formData);
 
                 handleAddTask({
-                  id: uuidv4(),
+                  id: selectedId,
                   name: selectedName,
                   description: selectedDescription,
                   startTime: convertStringToEpoch(selectedStartTime),
@@ -460,7 +460,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
 
         {handleUpdateTask ? (
           <Button
-            className="mr-2"
+            className="px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             onClick={async () => {
               const formData = {
                 id: selectedId,
@@ -505,7 +505,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
 
         {handleRemoveTask ? (
           <Button
-            className="ml-2"
+            className="ml-2 px-3 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             color="failure"
             onClick={() => {
               if (!selectedId) {
