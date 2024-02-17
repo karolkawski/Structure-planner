@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import type { TaskProps } from './Task.d';
+import React, { useState } from 'react';
+import type { TaskProps } from '../../types/Task.d';
 import { formatDate } from '../../utils/Date';
-import { checkBoxVariants, colorVariants } from './styles';
+import { checkBoxVariants, colorVariants } from './stylesVariations';
 import Icon from '../UI/Icon/Icon';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -42,7 +42,7 @@ function Task({ task, onChange }: TaskProps) {
           tabIndex={0}
         >
           <div
-            className={`Task__Visualise w-20 rounded-2xl border-2 ${colorVariants[task.color]} flex justify-center items-center`}
+            className={`Task__Visualise min-w-20 w-20 rounded-2xl border-2 ${colorVariants[task.color]} flex justify-center items-center`}
           >
             <Icon icon={task.icon} color={'white'} />
           </div>
@@ -52,7 +52,9 @@ function Task({ task, onChange }: TaskProps) {
             </div>
             <div className="Task__Name font-bold">{task.name}</div>
             {!task.isDone ? (
-              <div className="Task__Description">{task.description}</div>
+              <div className="Task__Description text-left">
+                {task.description}
+              </div>
             ) : (
               <></>
             )}
@@ -65,7 +67,7 @@ function Task({ task, onChange }: TaskProps) {
                 checked={isChecked}
                 onChange={handleCheckboxChange}
                 value=""
-                className={`w-6 cursor-pointer h-6 ${checkBoxVariants[task.color]} roundeddark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600`}
+                className={`w-6 cursor-pointer h-6 ${checkBoxVariants[task.color]} rounded dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600`}
               />
             </div>
           </div>

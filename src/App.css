@@ -6,9 +6,11 @@ html, body, #root {
 
 body {
   display: flex;
+  background-color: pink;
   flex-direction: column;
 }
 
 #App {
   flex: 1;
 }
+

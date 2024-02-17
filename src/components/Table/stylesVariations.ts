@@ -1,7 +1,7 @@
 import { Color } from '../../types/Colors.d';
-import { Piorities } from '../../types/Piorities.d';
+import { Priorities } from '../../types/Priorities.d';
 
-export const piorityVariations: Record<Piorities, string> = {
+export const priorityVariations: Record<Priorities, string> = {
   low: 'bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300',
   medium:
     'bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300',

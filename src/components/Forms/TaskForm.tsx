@@ -1,38 +1,44 @@
 import { Button, Dropdown, Label, TextInput, Textarea } from 'flowbite-react';
 import { Color } from '../../types/Colors.d';
-import { Piorities } from '../../types/Piorities.d';
+import { Priorities } from '../../types/Priorities.d';
 import { Icons } from '../../types/Icons.d';
 import Icon from '../UI/Icon/Icon';
 import {
   categoriesDropdown,
   colorsDropdown,
   iconsDropdown,
-  pioritiesDropdown,
+  PrioritiesDropdown,
   tagsSelect,
-} from '../Tasks/Modal/modalFormValues';
-import { colorVariants, piorityVariations } from '../Tasks/styles';
-import { tagVariations } from '../Tasks/Modal/styles';
-import { useState } from 'react';
-import { convertStringToEpoch } from '../../utils/Date';
-import { TaskType } from '../Task/Task.d';
+} from '../Modal/modalFormValues';
+import { colorVariants, priorityVariations } from '../Table/stylesVariations';
+import React, { useState } from 'react';
+import { convertStringToEpoch, isTimeInRange } from '../../utils/Date';
+import { TaskType } from '../../types/Task.d';
 import { useNavigate } from 'react-router-dom';
-
-const fixedDate = '26-01-2024';
+import {
+  adFormOrderVariations,
+  addFormVariations,
+  dropdownOrderVariations,
+  tagVariations,
+} from './stylesVariations';
+import { taskSchema } from '../../Validations/TaskValidation';
+import { useSelector } from 'react-redux';
+import { State } from '../../store/State.d';
 
 type TaskFormProps = {
-  id: number;
+  id: string;
   name: string;
   description: string;
-  startTime: string;
-  endTime: string;
+  startTime?: string;
+  endTime?: string;
   category: string;
   color: string;
   priority: string;
   icon: string;
   tags: string[];
   handleAddTask?: (task: TaskType) => void;
-  handleUpdateTask?: (task: TaskType, selectedId: number) => void;
-  handleRemoveTask?: (selectedId: number) => void;
+  handleUpdateTask?: (task: TaskType) => void;
+  handleRemoveTask?: (selectedId: string) => void;
 };
 
 const TaskForm: React.FC<TaskFormProps> = ({
@@ -51,7 +57,10 @@ const TaskForm: React.FC<TaskFormProps> = ({
   handleUpdateTask,
 }) => {
   const navigate = useNavigate();
-  const [selectedId] = useState<number | undefined>(id);
+  const blockedHours = useSelector(
+    (state: { data: State }) => state.data.blockedHours
+  );
+  const [selectedId] = useState<string>(id);
   const [selectedCategory, setSelectedCategory] = useState<string>(category);
   const [selectedColor, setSelectedColor] = useState<string>(color);
   const [selectedPriority, setSelectedPriority] = useState<string>(priority);
@@ -59,14 +68,18 @@ const TaskForm: React.FC<TaskFormProps> = ({
   const [selectedName, setSelectedName] = useState<string>(name);
   const [selectedDescription, setSelectedDescription] =
     useState<string>(description);
-  const [selectedStartTime, setSelectedStartTime] = useState<string>(startTime);
-  const [selectedEndTime, setSelectedEndTime] = useState<string>(endTime);
+  const [selectedStartTime, setSelectedStartTime] = useState<string>('');
+  const [selectedEndTime, setSelectedEndTime] = useState<string>('');
   const [selectedTags, setSelectedITags] = useState<string[]>(tags);
+  const isAddForm: boolean =
+    (handleAddTask && typeof handleAddTask === 'function') || false;
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const handleInputChange = (
+  const handleInputChange = async (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     key: string
   ) => {
+    setErrorMessage(null);
     const { value } = event.target;
 
     switch (key) {
@@ -80,10 +93,18 @@ const TaskForm: React.FC<TaskFormProps> = ({
         if (selectedEndTime && value > selectedEndTime) {
           return;
         }
+        if (blockedHours.some((range) => isTimeInRange(value, range))) {
+          setErrorMessage('That time is already in your schedule');
+          return;
+        }
         setSelectedStartTime(value);
         break;
       case 'endTime':
         if (selectedStartTime && value < selectedStartTime) {
+          return;
+        }
+        if (blockedHours.some((range) => isTimeInRange(value, range))) {
+          setErrorMessage('That time is already in your schedule');
           return;
         }
         setSelectedEndTime(value);
@@ -93,7 +114,9 @@ const TaskForm: React.FC<TaskFormProps> = ({
     }
   };
 
-  const handleDropdownChange = (value: string, key: string) => {
+  const handleDropdownChange = async (value: string, key: string) => {
+    setErrorMessage(null);
+
     switch (key) {
       case 'category':
         setSelectedCategory(value);
@@ -131,10 +154,13 @@ const TaskForm: React.FC<TaskFormProps> = ({
   };
 
   return (
-    <>
-      <form id="taskForm" className="grid gap-4 mb-4 grid-cols-2">
-        <div className="col-span-2">
-          <div className="mb-2 block">
+    <div className="mx-5">
+      <form
+        id="taskForm"
+        className={`grid gap-2 mb-4 grid-cols-1 md:grid-cols-2 md:gap-4`}
+      >
+        <div className={`${addFormVariations[isAddForm.toString()]} order-1`}>
+          <div className="mb-2 block text-left">
             <Label htmlFor="name" value="Name" />
           </div>
           <TextInput
@@ -146,8 +172,76 @@ const TaskForm: React.FC<TaskFormProps> = ({
             required
           />
         </div>
-        <div className="col-span-2">
-          <div className="mb-2 block">
+        <div
+          className={`${addFormVariations[isAddForm.toString()]} flex ${isAddForm ? dropdownOrderVariations[(!isAddForm).toString()] : adFormOrderVariations[isAddForm.toString()]}`}
+        >
+          <div className="col-2 w-1/2 pr-2">
+            <div className="mb-2 block text-left">
+              <Label htmlFor="category" value="Category" />
+            </div>
+            <Dropdown
+              label="---select---}"
+              renderTrigger={() => (
+                <Button className="w-full px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                  {selectedCategory || '---select---'}
+                </Button>
+              )}
+            >
+              {categoriesDropdown.map((category, index) => {
+                return (
+                  <Dropdown.Item
+                    key={index}
+                    value={category}
+                    onClick={() => handleDropdownChange(category, 'category')}
+                  >
+                    {category}
+                  </Dropdown.Item>
+                );
+              })}
+            </Dropdown>
+          </div>
+          <div className="col-2 w-1/2 pl-2">
+            <div className="mb-2 block text-left">
+              <Label htmlFor="priority" value="Priority" />
+            </div>
+            <Dropdown
+              label="---select---}"
+              renderTrigger={() => (
+                <Button className="w-full px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                  {selectedPriority ? (
+                    <>
+                      <span
+                        className={`w-2 h-4 ${priorityVariations[selectedPriority as Priorities]}`}
+                      ></span>
+                      {selectedPriority}
+                    </>
+                  ) : (
+                    '---select---'
+                  )}
+                </Button>
+              )}
+            >
+              {PrioritiesDropdown.map((priority, index) => {
+                return (
+                  <Dropdown.Item
+                    key={index}
+                    value={priority}
+                    onClick={() => handleDropdownChange(priority, 'priority')}
+                  >
+                    <span
+                      className={`w-2 h-4 ${priorityVariations[priority as Priorities]}`}
+                    ></span>
+                    {priority}
+                  </Dropdown.Item>
+                );
+              })}
+            </Dropdown>
+          </div>
+        </div>
+        <div
+          className={`${addFormVariations[isAddForm.toString()]} ${dropdownOrderVariations[isAddForm.toString()]}`}
+        >
+          <div className="mb-2 block text-left">
             <Label htmlFor="description" value="Description" />
           </div>
           <Textarea
@@ -158,176 +252,130 @@ const TaskForm: React.FC<TaskFormProps> = ({
             required
           />
         </div>
-        <div className="col-2">
-          <div className="mb-2 block">
-            <Label htmlFor="stime" value="Start time" />
-          </div>
-          <TextInput
-            id="stime"
-            type="time"
-            placeholder="8:00"
-            min={selectedEndTime}
-            value={selectedStartTime}
-            onChange={(e) => handleInputChange(e, 'startTime')}
-            required
-          />
-        </div>
-        <div className="col-2">
-          <div className="mb-2 block">
-            <Label htmlFor="etime" value="End time" />
-          </div>
-          <TextInput
-            id="etime"
-            type="time"
-            placeholder="10:00"
-            max={selectedStartTime}
-            value={selectedEndTime}
-            onChange={(e) => handleInputChange(e, 'endTime')}
-            required
-          />
-        </div>
-        <div className="col-2">
-          <div className="mb-2 block">
-            <Label htmlFor="category" value="Category" />
-          </div>
-          <Dropdown
-            label="---select---}"
-            renderTrigger={() => (
-              <Button className="w-full">
-                {selectedCategory || '---select---'}
-              </Button>
-            )}
-          >
-            {categoriesDropdown.map((category, index) => {
-              return (
-                <Dropdown.Item
-                  key={index}
-                  value={category}
-                  onClick={() => handleDropdownChange(category, 'category')}
-                >
-                  {category}
-                </Dropdown.Item>
-              );
-            })}
-          </Dropdown>
-        </div>
-        <div className="col-2">
-          <div className="mb-2 block">
-            <Label htmlFor="color" value="Color" />
-          </div>
-          <Dropdown
-            label="---select---}"
-            renderTrigger={() => (
-              <Button className="w-full">
-                {selectedColor ? (
-                  <>
+        <div
+          className={`${addFormVariations[isAddForm.toString()]} flex ${adFormOrderVariations[(!isAddForm).toString()]}`}
+        >
+          <div className="w-1/2 pr-2">
+            <div className="mb-2 block text-left">
+              <Label htmlFor="color" value="Color" />
+            </div>
+            <Dropdown
+              label="---select---}"
+              renderTrigger={() => (
+                <Button className="w-full px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                  {selectedColor ? (
+                    <>
+                      <span
+                        className={`w-2 h-4 ${colorVariants[selectedColor as Color]}`}
+                      ></span>
+                      {selectedColor}
+                    </>
+                  ) : (
+                    '---select---'
+                  )}
+                </Button>
+              )}
+            >
+              {colorsDropdown.map((color, index) => {
+                return (
+                  <Dropdown.Item
+                    key={index}
+                    value={color}
+                    onClick={() => handleDropdownChange(color, 'color')}
+                  >
                     <span
-                      className={`w-2 h-4 ${colorVariants[selectedColor as Color]}`}
+                      className={`w-2 h-4 ${colorVariants[color as Color]}`}
                     ></span>
-                    {selectedColor}
-                  </>
-                ) : (
-                  '---select---'
-                )}
-              </Button>
-            )}
-          >
-            {colorsDropdown.map((color, index) => {
-              return (
-                <Dropdown.Item
-                  key={index}
-                  value={color}
-                  onClick={() => handleDropdownChange(color, 'color')}
-                >
-                  <span
-                    className={`w-2 h-4 ${colorVariants[color as Color]}`}
-                  ></span>
 
-                  {color}
-                </Dropdown.Item>
-              );
-            })}
-          </Dropdown>
-        </div>
-        <div className="col-2">
-          <div className="mb-2 block">
-            <Label htmlFor="piority" value="Piority" />
+                    {color}
+                  </Dropdown.Item>
+                );
+              })}
+            </Dropdown>
           </div>
-          <Dropdown
-            label="---select---}"
-            renderTrigger={() => (
-              <Button className="w-full">
-                {selectedPriority ? (
-                  <>
-                    <span
-                      className={`w-2 h-4 ${piorityVariations[selectedPriority as Piorities]}`}
-                    ></span>
-                    {selectedPriority}
-                  </>
-                ) : (
-                  '---select---'
-                )}
-              </Button>
-            )}
-          >
-            {pioritiesDropdown.map((priority, index) => {
-              return (
-                <Dropdown.Item
-                  key={index}
-                  value={priority}
-                  onClick={() => handleDropdownChange(priority, 'priority')}
-                >
-                  <span
-                    className={`w-2 h-4 ${piorityVariations[priority as Piorities]}`}
-                  ></span>
-                  {priority}
-                </Dropdown.Item>
-              );
-            })}
-          </Dropdown>
-        </div>
-        <div className="col-2">
-          <div className="mb-2 block">
-            <Label htmlFor="icon" value="Icon" />
+          <div className="w-1/2 pl-2">
+            <div className="mb-2 block text-left">
+              <Label htmlFor="icon" value="Icon" />
+            </div>
+            <Dropdown
+              label="---select---}"
+              renderTrigger={() => (
+                <Button className="w-full px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                  {selectedIcon ? (
+                    <>
+                      <Icon icon={selectedIcon as Icons} color={'white'} />
+                      {selectedIcon}
+                    </>
+                  ) : (
+                    '---select---'
+                  )}
+                </Button>
+              )}
+            >
+              {iconsDropdown.map((icon, index) => {
+                return (
+                  <Dropdown.Item
+                    key={index}
+                    value={icon}
+                    onClick={() => handleDropdownChange(icon, 'icon')}
+                  >
+                    <Icon
+                      icon={icon as Icons}
+                      color={'black'}
+                      className={'pr-2'}
+                    />
+                    {icon}
+                  </Dropdown.Item>
+                );
+              })}
+            </Dropdown>
           </div>
-          <Dropdown
-            label="---select---}"
-            renderTrigger={() => (
-              <Button className="w-full">
-                {selectedIcon ? (
-                  <>
-                    <Icon icon={selectedIcon as Icons} color={'white'} />
-                    {selectedIcon}
-                  </>
-                ) : (
-                  '---select---'
-                )}
-              </Button>
-            )}
-          >
-            {iconsDropdown.map((icon, index) => {
-              return (
-                <Dropdown.Item
-                  key={index}
-                  value={icon}
-                  onClick={() => handleDropdownChange(icon, 'icon')}
-                >
-                  <Icon
-                    icon={icon as Icons}
-                    color={'black'}
-                    className={'pr-2'}
-                  />
-                  {icon}
-                </Dropdown.Item>
-              );
-            })}
-          </Dropdown>
         </div>
-        <div className="col-span-2">
-          <div className="mb-2 block">
+        <div
+          className={`${addFormVariations[isAddForm.toString()]} flex order-5`}
+        >
+          <div className="col-2 w-1/2 pr-2">
+            <div className="mb-2 block text-left">
+              <Label
+                htmlFor="stime"
+                value={`Start time ${startTime && '(' + startTime + ')'}`}
+              />
+            </div>
+            <TextInput
+              id="stime"
+              type="time"
+              placeholder="8:00"
+              min={selectedEndTime}
+              value={selectedStartTime}
+              onChange={(e) => handleInputChange(e, 'startTime')}
+              required
+            />
+          </div>
+          <div className="col-2 w-1/2 pl-2">
+            <div className="mb-2 block text-left">
+              <Label
+                htmlFor="etime"
+                value={`End time ${endTime && '(' + endTime + ')'}`}
+              />
+            </div>
+            <TextInput
+              id="etime"
+              type="time"
+              placeholder="10:00"
+              max={selectedStartTime}
+              value={selectedEndTime}
+              onChange={(e) => handleInputChange(e, 'endTime')}
+              required
+            />
+          </div>
+        </div>
+        <div className={`${addFormVariations[isAddForm.toString()]} order-6`}>
+          <div className="mb-2 block text-left">
             <Label htmlFor="tags" value="Tags" />
           </div>
-          <div className="col-span-2">
+          <div
+            className={`${addFormVariations[isAddForm.toString()]} text-left`}
+          >
             {tagsSelect.length > 0 &&
               tagsSelect.map((tag, index) => {
                 return (
@@ -351,24 +399,57 @@ const TaskForm: React.FC<TaskFormProps> = ({
           </div>
         </div>
       </form>
-      <div className="flex w-full justify-center pt-10">
+      <p className="text-red-600 h-5">
+        {errorMessage ? <>{errorMessage}</> : <></>}
+      </p>
+      <div className="flex w-full justify-end pt-10">
+        <Button
+          className="mr-2"
+          color=""
+          onClick={() => {
+            navigate('/tasks');
+          }}
+        >
+          Cancel
+        </Button>
         {handleAddTask ? (
           <Button
-            onClick={() => {
-              handleAddTask({
-                id: 0,
+            className="px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            onClick={async () => {
+              const formData = {
+                id: selectedId,
                 name: selectedName,
                 description: selectedDescription,
-                startTime: convertStringToEpoch(fixedDate, selectedStartTime),
-                endTime: convertStringToEpoch(fixedDate, selectedEndTime),
+                startTime: selectedStartTime,
+                endTime: selectedEndTime,
                 category: selectedCategory,
-                color: selectedColor as Color,
-                priority: selectedPriority as Piorities,
-                icon: selectedIcon as Icons,
-                tags: selectedTags,
-                connectedWith: false,
-                isDone: false,
-              });
+                color: selectedColor,
+                icon: selectedIcon,
+                priority: selectedPriority,
+              };
+
+              try {
+                setErrorMessage(null);
+
+                await taskSchema.validate(formData);
+
+                handleAddTask({
+                  id: selectedId,
+                  name: selectedName,
+                  description: selectedDescription,
+                  startTime: convertStringToEpoch(selectedStartTime),
+                  endTime: convertStringToEpoch(selectedEndTime),
+                  category: selectedCategory,
+                  color: selectedColor as Color,
+                  priority: selectedPriority as Priorities,
+                  icon: selectedIcon as Icons,
+                  tags: selectedTags,
+                  isDone: false,
+                });
+              } catch (error: { message: string }) {
+                setErrorMessage(error.message);
+                console.error('Validation error:', error.message);
+              }
             }}
           >
             Add task
@@ -379,28 +460,44 @@ const TaskForm: React.FC<TaskFormProps> = ({
 
         {handleUpdateTask ? (
           <Button
-            onClick={() => {
-              handleUpdateTask(
-                {
-                  id: 0,
+            className="px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            onClick={async () => {
+              const formData = {
+                id: selectedId,
+                name: selectedName,
+                description: selectedDescription,
+                startTime: selectedStartTime,
+                endTime: selectedEndTime,
+                category: selectedCategory,
+                color: selectedColor,
+                icon: selectedIcon,
+                priority: selectedPriority,
+              };
+              try {
+                setErrorMessage(null);
+                await taskSchema.validate(formData);
+
+                handleUpdateTask({
+                  id: selectedId as string,
                   name: selectedName,
                   description: selectedDescription,
-                  startTime: convertStringToEpoch(fixedDate, selectedStartTime),
-                  endTime: convertStringToEpoch(fixedDate, selectedEndTime),
+                  startTime: convertStringToEpoch(selectedStartTime),
+                  endTime: convertStringToEpoch(selectedEndTime),
                   category: selectedCategory,
                   color: selectedColor as Color,
-                  priority: selectedPriority as Piorities,
+                  priority: selectedPriority as Priorities,
                   icon: selectedIcon as Icons,
                   tags: selectedTags,
-                  connectedWith: false,
                   isDone: false,
-                },
-                selectedId as number
-              );
-              navigate('/');
+                });
+                navigate('/tasks');
+              } catch (error: { message: string }) {
+                setErrorMessage(error.message);
+                console.error('Validation error:', error.message);
+              }
             }}
           >
-            Update task
+            Update
           </Button>
         ) : (
           <></>
@@ -408,19 +505,23 @@ const TaskForm: React.FC<TaskFormProps> = ({
 
         {handleRemoveTask ? (
           <Button
+            className="ml-2 px-3 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             color="failure"
             onClick={() => {
-              handleRemoveTask(selectedId as number);
-              navigate('/');
+              if (!selectedId) {
+                return;
+              }
+              handleRemoveTask(selectedId);
+              navigate('/tasks');
             }}
           >
-            Remove task
+            Remove
           </Button>
         ) : (
           <></>
         )}
       </div>
-    </>
+    </div>
   );
 };
 
