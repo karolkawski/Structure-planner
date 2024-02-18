@@ -14,7 +14,7 @@ const Navigation: FC = () => {
     MobileDevice && collapse?.classList.add('hidden');
   };
   return (
-    <Navbar fluid rounded>
+    <Navbar rounded className="mx-auto">
       <Navbar.Brand as={Link} href="https://katzkycode.com">
         <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white pl-2">
           Daily Planner
