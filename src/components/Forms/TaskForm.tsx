@@ -81,6 +81,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
   ) => {
     setErrorMessage(null);
     const { value } = event.target;
+    // set;
 
     switch (key) {
       case 'name':
@@ -90,23 +91,9 @@ const TaskForm: React.FC<TaskFormProps> = ({
         setSelectedDescription(value);
         break;
       case 'startTime':
-        if (selectedEndTime && value > selectedEndTime) {
-          return;
-        }
-        if (blockedHours.some((range) => isTimeInRange(value, range))) {
-          setErrorMessage('That time is already in your schedule');
-          return;
-        }
         setSelectedStartTime(value);
         break;
       case 'endTime':
-        if (selectedStartTime && value < selectedStartTime) {
-          return;
-        }
-        if (blockedHours.some((range) => isTimeInRange(value, range))) {
-          setErrorMessage('That time is already in your schedule');
-          return;
-        }
         setSelectedEndTime(value);
         break;
       default:
@@ -180,10 +167,10 @@ const TaskForm: React.FC<TaskFormProps> = ({
               <Label htmlFor="category" value="Category" />
             </div>
             <Dropdown
-              label="---select---}"
+              label="Select category"
               renderTrigger={() => (
-                <Button className="w-full px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                  {selectedCategory || '---select---'}
+                <Button className="text-nowrap w-full px-3 text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                  {selectedCategory || 'Select category'}
                 </Button>
               )}
             >
@@ -205,9 +192,9 @@ const TaskForm: React.FC<TaskFormProps> = ({
               <Label htmlFor="priority" value="Priority" />
             </div>
             <Dropdown
-              label="---select---}"
+              label="Select priority"
               renderTrigger={() => (
-                <Button className="w-full px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                <Button className="text-nowrap	w-full px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                   {selectedPriority ? (
                     <>
                       <span
@@ -216,7 +203,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
                       {selectedPriority}
                     </>
                   ) : (
-                    '---select---'
+                    'Select priority'
                   )}
                 </Button>
               )}
@@ -260,9 +247,9 @@ const TaskForm: React.FC<TaskFormProps> = ({
               <Label htmlFor="color" value="Color" />
             </div>
             <Dropdown
-              label="---select---}"
+              label="Select color"
               renderTrigger={() => (
-                <Button className="w-full px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                <Button className="text-nowrap	w-full px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                   {selectedColor ? (
                     <>
                       <span
@@ -271,7 +258,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
                       {selectedColor}
                     </>
                   ) : (
-                    '---select---'
+                    'Select color'
                   )}
                 </Button>
               )}
@@ -298,16 +285,16 @@ const TaskForm: React.FC<TaskFormProps> = ({
               <Label htmlFor="icon" value="Icon" />
             </div>
             <Dropdown
-              label="---select---}"
+              label="Select icon"
               renderTrigger={() => (
-                <Button className="w-full px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                <Button className="text-nowrap	w-full px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                   {selectedIcon ? (
                     <>
                       <Icon icon={selectedIcon as Icons} color={'white'} />
                       {selectedIcon}
                     </>
                   ) : (
-                    '---select---'
+                    'Select icon'
                   )}
                 </Button>
               )}
@@ -426,6 +413,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
                 color: selectedColor,
                 icon: selectedIcon,
                 priority: selectedPriority,
+                blockedHours,
               };
 
               try {
@@ -445,6 +433,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
                   icon: selectedIcon as Icons,
                   tags: selectedTags,
                   isDone: false,
+                  blockedHours,
                 });
               } catch (error: { message: string }) {
                 setErrorMessage(error.message);
@@ -472,6 +461,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
                 color: selectedColor,
                 icon: selectedIcon,
                 priority: selectedPriority,
+                blockedHours,
               };
               try {
                 setErrorMessage(null);
@@ -489,6 +479,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
                   icon: selectedIcon as Icons,
                   tags: selectedTags,
                   isDone: false,
+                  blockedHours,
                 });
                 navigate('/tasks');
               } catch (error: { message: string }) {

@@ -144,7 +144,7 @@ const dataReducer = (state = initialState, action: Action) => {
         data: removeData,
         error: null,
       };
-      !isDemo && saveStateToLocalStorage('plannerState', newUpdatedObject);
+      !isDemo && saveStateToLocalStorage('plannerState', removedNewObject);
 
       return removedNewObject;
     default:

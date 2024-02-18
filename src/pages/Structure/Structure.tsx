@@ -12,7 +12,7 @@ import { Color } from '../../types/Colors.d';
 import { motion } from 'framer-motion';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateData } from '../../store/actions/dataActions';
-import { State } from '../../store/reducers/dataReducer';
+import { State } from '../../store/State.d';
 import MotionWrapper from '../../Layout/MotionWrapper';
 import Progress from '../../components/UI/Progress/Progress';
 import { Button } from 'flowbite-react/lib/esm/components/Button/Button';
@@ -36,15 +36,21 @@ const getProcessedDates = (
 ) => {
   const pEnd = prevTask
     ? getDateComponentsFromEpoch(prevTask.endTime * 1000)
-    : { hour: 0 };
+    : { hour: 0, minutes: 0 };
 
   const start = getDateComponentsFromEpoch(task.startTime * 1000);
   const nStart = nextTask
     ? getDateComponentsFromEpoch(nextTask.startTime * 1000)
-    : { hour: 24 };
+    : { hour: 24, minutes: 0 };
   const end = getDateComponentsFromEpoch(task.endTime * 1000);
-  const hoursBefore = generateAllHoursInDay(pEnd.hour, start.hour);
-  const hoursAfter = generateAllHoursInDay(end.hour, nStart.hour);
+  const hoursBefore = generateAllHoursInDay(
+    pEnd.minutes === 0 ? pEnd.hour : pEnd.hour + 1,
+    start.hour
+  );
+  const hoursAfter = generateAllHoursInDay(
+    end.minutes === 0 ? end.hour : end.hour + 1,
+    nStart.hour
+  );
   return { hoursBefore, hoursAfter };
 };
 
@@ -147,12 +153,12 @@ const Structure: FC = () => {
           <h1 className="text-4xl font-bold my-2">Structure Daily</h1>
           <Progress progress={progress} />
         </header>
-        <div className="container m-auto py-1 ">
+        <div className="container m-auto p-2 ">
           <div className="Calendar my-5 relative mx-auto min-w-96 w-3/5">
             <motion.div
               style={{
-                width: '105px',
-                left: '-40px',
+                width: '73px',
+                left: '-8px',
                 position: 'absolute',
                 opacity: 0,
               }}
@@ -171,7 +177,7 @@ const Structure: FC = () => {
               key={'line'}
             >
               <div className="bg-red-600 h-1"></div>
-              <div className="md:text-left text-red-600 text-xs md:text-sm">
+              <div className="text-left text-red-600 text-xs">
                 {actualHour ? actualHour.display : ''}
               </div>
             </motion.div>
@@ -195,12 +201,15 @@ const Structure: FC = () => {
                 <div key={task.id} className="flex flex-col">
                   {hoursBefore.map((hour) => (
                     <div
-                      className="time w-20 opacity-50 relative"
+                      className="time w-20 opacity-50 relative text-sm"
                       key={hour}
                       data-time={convertStringToEpoch(hour)}
                     >
                       <div
-                        className={`left-32 w-1  h-5 -z-50 absolute bg-gray-200`}
+                        className={`left-28 md:left-32 w-1 h-5 -z-50 absolute bg-gray-200`}
+                      ></div>
+                      <div
+                        className={`left-16 top-2 w-px h-full -z-50 absolute bg-gray-200 hover:bg-gray-200 border-gray-200`}
                       ></div>
                       {hour}
                     </div>
@@ -227,12 +236,12 @@ const Structure: FC = () => {
                       onAnimationComplete={updateTimer}
                       key={'container'}
                     >
-                      <div className="w-20 absolute top-0">
+                      <div className="w-20 absolute top-0 text-sm">
                         {formatDate(task.startTime)}
                       </div>
                       <div className={`relative flex h-full items-center`}>
                         <div
-                          className={`left-32 w-1 h-full -z-50 absolute ${taskColorStyle}`}
+                          className={`left-28 md:left-32 w-1 h-full -z-50 absolute ${taskColorStyle}`}
                         ></div>
                         <div
                           className={`left-16 top-2 w-px h-full -z-50 absolute bg-gray-200 hover:bg-gray-200 border-gray-200`}
@@ -247,12 +256,15 @@ const Structure: FC = () => {
                   </div>
                   {hoursAfter.map((hour) => (
                     <div
-                      className="time w-20 opacity-50 relative"
+                      className="time w-20 opacity-50 relative text-sm"
                       key={hour}
                       data-time={convertStringToEpoch(hour)}
                     >
                       <div
-                        className={`left-32 w-1  h-5 -z-50 absolute bg-gray-200`}
+                        className={`left-28 md:left-32  w-1  h-5 -z-50 absolute bg-gray-200`}
+                      ></div>
+                      <div
+                        className={`left-16 top-2 w-px h-full -z-50 absolute bg-gray-200 hover:bg-gray-200 border-gray-200`}
                       ></div>
                       {hour}
                     </div>
