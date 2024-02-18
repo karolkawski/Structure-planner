@@ -12,7 +12,7 @@ import {
 } from '../Modal/modalFormValues';
 import { colorVariants, priorityVariations } from '../Table/stylesVariations';
 import React, { useState } from 'react';
-import { convertStringToEpoch, isTimeInRange } from '../../utils/Date';
+import { convertStringToEpoch } from '../../utils/Date';
 import { TaskType } from '../../types/Task.d';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -29,8 +29,8 @@ type TaskFormProps = {
   id: string;
   name: string;
   description: string;
-  startTime?: string;
-  endTime?: string;
+  startTime: string;
+  endTime: string;
   category: string;
   color: string;
   priority: string;
@@ -68,8 +68,8 @@ const TaskForm: React.FC<TaskFormProps> = ({
   const [selectedName, setSelectedName] = useState<string>(name);
   const [selectedDescription, setSelectedDescription] =
     useState<string>(description);
-  const [selectedStartTime, setSelectedStartTime] = useState<string>('');
-  const [selectedEndTime, setSelectedEndTime] = useState<string>('');
+  const [selectedStartTime, setSelectedStartTime] = useState<string>(startTime);
+  const [selectedEndTime, setSelectedEndTime] = useState<string>(endTime);
   const [selectedTags, setSelectedITags] = useState<string[]>(tags);
   const isAddForm: boolean =
     (handleAddTask && typeof handleAddTask === 'function') || false;
@@ -290,7 +290,11 @@ const TaskForm: React.FC<TaskFormProps> = ({
                 <Button className="text-nowrap	w-full px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                   {selectedIcon ? (
                     <>
-                      <Icon icon={selectedIcon as Icons} color={'white'} />
+                      <Icon
+                        icon={selectedIcon as Icons}
+                        color={'white'}
+                        className="pr-2"
+                      />
                       {selectedIcon}
                     </>
                   ) : (
@@ -323,10 +327,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
         >
           <div className="col-2 w-1/2 pr-2">
             <div className="mb-2 block text-left">
-              <Label
-                htmlFor="stime"
-                value={`Start time ${startTime && '(' + startTime + ')'}`}
-              />
+              <Label htmlFor="stime" value={`Start time`} />
             </div>
             <TextInput
               id="stime"
@@ -340,10 +341,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
           </div>
           <div className="col-2 w-1/2 pl-2">
             <div className="mb-2 block text-left">
-              <Label
-                htmlFor="etime"
-                value={`End time ${endTime && '(' + endTime + ')'}`}
-              />
+              <Label htmlFor="etime" value={`End time`} />
             </div>
             <TextInput
               id="etime"
@@ -433,7 +431,6 @@ const TaskForm: React.FC<TaskFormProps> = ({
                   icon: selectedIcon as Icons,
                   tags: selectedTags,
                   isDone: false,
-                  blockedHours,
                 });
               } catch (error: { message: string }) {
                 setErrorMessage(error.message);
@@ -479,7 +476,6 @@ const TaskForm: React.FC<TaskFormProps> = ({
                   icon: selectedIcon as Icons,
                   tags: selectedTags,
                   isDone: false,
-                  blockedHours,
                 });
                 navigate('/tasks');
               } catch (error: { message: string }) {
