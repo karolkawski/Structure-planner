@@ -29,8 +29,8 @@ type TaskFormProps = {
   id: string;
   name: string;
   description: string;
-  startTime?: string;
-  endTime?: string;
+  startTime: string;
+  endTime: string;
   category: string;
   color: string;
   priority: string;
@@ -68,8 +68,8 @@ const TaskForm: React.FC<TaskFormProps> = ({
   const [selectedName, setSelectedName] = useState<string>(name);
   const [selectedDescription, setSelectedDescription] =
     useState<string>(description);
-  const [selectedStartTime, setSelectedStartTime] = useState<string>('');
-  const [selectedEndTime, setSelectedEndTime] = useState<string>('');
+  const [selectedStartTime, setSelectedStartTime] = useState<string>(startTime);
+  const [selectedEndTime, setSelectedEndTime] = useState<string>(endTime);
   const [selectedTags, setSelectedITags] = useState<string[]>(tags);
   const isAddForm: boolean =
     (handleAddTask && typeof handleAddTask === 'function') || false;
@@ -327,10 +327,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
         >
           <div className="col-2 w-1/2 pr-2">
             <div className="mb-2 block text-left">
-              <Label
-                htmlFor="stime"
-                value={`Start time ${startTime && '(' + startTime + ')'}`}
-              />
+              <Label htmlFor="stime" value={`Start time`} />
             </div>
             <TextInput
               id="stime"
@@ -344,10 +341,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
           </div>
           <div className="col-2 w-1/2 pl-2">
             <div className="mb-2 block text-left">
-              <Label
-                htmlFor="etime"
-                value={`End time ${endTime && '(' + endTime + ')'}`}
-              />
+              <Label htmlFor="etime" value={`End time`} />
             </div>
             <TextInput
               id="etime"
