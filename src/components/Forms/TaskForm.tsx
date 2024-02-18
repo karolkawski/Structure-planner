@@ -12,7 +12,7 @@ import {
 } from '../Modal/modalFormValues';
 import { colorVariants, priorityVariations } from '../Table/stylesVariations';
 import React, { useState } from 'react';
-import { convertStringToEpoch, isTimeInRange } from '../../utils/Date';
+import { convertStringToEpoch } from '../../utils/Date';
 import { TaskType } from '../../types/Task.d';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -433,7 +433,6 @@ const TaskForm: React.FC<TaskFormProps> = ({
                   icon: selectedIcon as Icons,
                   tags: selectedTags,
                   isDone: false,
-                  blockedHours,
                 });
               } catch (error: { message: string }) {
                 setErrorMessage(error.message);
@@ -479,7 +478,6 @@ const TaskForm: React.FC<TaskFormProps> = ({
                   icon: selectedIcon as Icons,
                   tags: selectedTags,
                   isDone: false,
-                  blockedHours,
                 });
                 navigate('/tasks');
               } catch (error: { message: string }) {
