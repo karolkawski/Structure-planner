@@ -6,14 +6,22 @@ export const AutoFalseIsDoneFlags = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    const lastRun = localStorage.getItem('lastRun');
     const now = new Date();
-    const midnight = now.setHours(24, 0, 0, 0);
-    const timeToMidnight = midnight - now;
 
-    setTimeout(() => {
-      dispatch(setAllUndone());
-    }, timeToMidnight);
+    if (!lastRun || new Date(lastRun).getDate() !== now.getDate()) {
+      const midnight = new Date(now);
+      midnight.setHours(24, 0, 0, 0);
+      const timeToMidnight = midnight - now;
 
-    return () => clearTimeout();
-  }, []);
+      const timeoutId = setTimeout(() => {
+        dispatch(setAllUndone());
+        localStorage.setItem('lastRun', now.toISOString());
+      }, timeToMidnight);
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, [dispatch]);
+
+  return null;
 };
