@@ -12,7 +12,7 @@ const testState: State = {
   loading: false,
   error: null,
 };
-describe('localstorage test', () => {
+describe('localstorage Functions Unit Tests', () => {
   test('Should getStateFromLocalStorage return undefined before being set', () => {
     expect(getStateFromLocalStorage(storageKey)).toBe(undefined);
   });

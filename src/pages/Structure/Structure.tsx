@@ -1,4 +1,4 @@
-import React, { DOMElement, FC, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import Task from '../../components/Task/Task';
 import { TaskType } from '../../types/Task.d';
 import {
@@ -21,42 +21,10 @@ import Header from '../../components/UI/Header/Header';
 import TimeWrapper from '../../Animate/TimeWrapper';
 import HourLine from '../../components/UI/HourLine/HourLine';
 import HourLineWrapper from '../../Animate/HourLineWrapper';
-
-const generateAllHoursInDay = (from = 0, to = 24) => {
-  const hours = [];
-
-  for (let hour = from; hour < to; hour++) {
-    const formattedHour: string = hour.toString().padStart(2, '0');
-    hours.push(`${formattedHour}:00`);
-  }
-
-  return hours;
-};
-
-const getProcessedDates = (
-  prevTask: TaskType | undefined,
-  task: TaskType,
-  nextTask: TaskType | undefined
-) => {
-  const pEnd = prevTask
-    ? getDateComponentsFromEpoch(prevTask.endTime * 1000)
-    : { hour: 0, minutes: 0 };
-
-  const start = getDateComponentsFromEpoch(task.startTime * 1000);
-  const nStart = nextTask
-    ? getDateComponentsFromEpoch(nextTask.startTime * 1000)
-    : { hour: 24, minutes: 0 };
-  const end = getDateComponentsFromEpoch(task.endTime * 1000);
-  const hoursBefore = generateAllHoursInDay(
-    pEnd.minutes === 0 ? pEnd.hour : pEnd.hour + 1,
-    start.hour
-  );
-  const hoursAfter = generateAllHoursInDay(
-    end.minutes === 0 ? end.hour : end.hour + 1,
-    nStart.hour
-  );
-  return { hoursBefore, hoursAfter };
-};
+import {
+  calculateLineHeight,
+  getProcessedDates,
+} from '../../utils/StructureUtils';
 
 const Structure: FC = () => {
   const dispatch = useDispatch();
@@ -86,21 +54,6 @@ const Structure: FC = () => {
     dispatch(updateData(task));
   };
 
-  function calculateLineHeight(
-    actual: number,
-    elementEpoch: number,
-    nextEpoch: number | null,
-    height: number
-  ) {
-    if (actual >= elementEpoch && actual <= nextEpoch) {
-      const percentTimeElapsed =
-        (actual - elementEpoch) / (nextEpoch - elementEpoch);
-      const lineHeight = height * percentTimeElapsed;
-      return lineHeight;
-    } else {
-      return -1;
-    }
-  }
   const Hour = ({ hour }: { hour: string }) => {
     return (
       <div
@@ -124,7 +77,6 @@ const Structure: FC = () => {
 
     const times = document.querySelectorAll('.time');
 
-    // let closestElement = null;
     let offsetTopOfClosest = 0;
 
     for (let i = 0; i < times.length; i++) {
@@ -137,7 +89,7 @@ const Structure: FC = () => {
           : null;
 
       if (elementEpoch < epoch) {
-        const closestElement: DOMElement = times[i];
+        const closestElement = times[i] as HTMLElement;
         offsetTopOfClosest =
           closestElement.offsetTop +
           calculateLineHeight(
