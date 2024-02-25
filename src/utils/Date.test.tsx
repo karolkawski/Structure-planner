@@ -13,7 +13,7 @@ declare let global: {
 
 global.originalDate = global.Date;
 
-describe('formatDate test', () => {
+describe('formatDate Function Unit Tests', () => {
   beforeAll(() => {
     global.Date = global.originalDate;
   });
@@ -32,7 +32,7 @@ describe('formatDate test', () => {
   });
 });
 
-describe('convertStringToEpoch test', () => {
+describe('convertStringToEpoch Function Unit Tests', () => {
   beforeAll(() => {
     global.Date = jest.fn(() => mockedDate);
   });
@@ -58,7 +58,7 @@ describe('convertStringToEpoch test', () => {
   });
 });
 
-describe('getDateComponentsFromEpoch test', () => {
+describe('getDateComponentsFromEpoch Function Unit Tests', () => {
   beforeAll(() => {
     global.Date = global.originalDate;
   });
@@ -114,7 +114,7 @@ describe('getDateComponentsFromEpoch test', () => {
   });
 });
 
-describe('isTimeInRange test', () => {
+describe('isTimeInRange Function Unit Tests', () => {
   beforeAll(() => {
     global.Date = global.originalDate;
   });
@@ -137,7 +137,7 @@ describe('isTimeInRange test', () => {
   });
 });
 
-describe('getCurrentTime test', () => {
+describe('getCurrentTime Function Unit Tests', () => {
   beforeAll(() => {
     global.Date = jest.fn(() => mockedDate);
   });

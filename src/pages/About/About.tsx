@@ -14,7 +14,7 @@ const About = ({}) => {
         <Header title="About" />
         <div className="container m-auto py-10">
           <div className="flex flex-col md:flex-row justify-between m-auto">
-            <div className="flex-2 text-lg font-semibold text-left rtl:text-right text-gray-900 bg-white dark:text-white dark:bg-gray-800 md:pr-10">
+            <div className="flex-2 text-lg font-semibold text-left rtl:text-right text-gray-900 bg-white dark:text-white dark:bg-gray-800 md:pr-10 mb-10">
               <h2 className="text-lg font-semibold text-left rtl:text-right text-gray-900 bg-white dark:text-white dark:bg-gray-800">
                 Description
               </h2>
@@ -49,10 +49,16 @@ const About = ({}) => {
                 </p>
               </div>
             </div>
-            <div className="border border-black-50 sm:w-full md:w-80 m-auto mt-10 rounded flex flex-col items-center justify-center p-10">
+            <div className="border border-black-50 sm:w-full md:w-80 m-auto  rounded flex flex-col items-center justify-center p-10">
               <h2 className="text-2xl font-bold my-2"> Credentials</h2>
               <div className="h-20">
-                <img src={Me} width={80} className="mx-auto" alt="Just me" />
+                <img
+                  src={Me}
+                  width={80}
+                  className="mx-auto"
+                  alt="Just me"
+                  loading="lazy"
+                />
               </div>
               <p className="mt-5">
                 <b>Contact</b> karol.kawski@protonmail.com
@@ -66,6 +72,7 @@ const About = ({}) => {
                 >
                   <img
                     src={LinkedinLogo}
+                    loading="lazy"
                     width={20}
                     className="mr-auto"
                     alt="Linkedin logo"
@@ -81,6 +88,7 @@ const About = ({}) => {
                 >
                   <img
                     src={GithubLogo}
+                    loading="lazy"
                     width={20}
                     className="mr-auto"
                     alt="Github logo"
@@ -99,6 +107,7 @@ const About = ({}) => {
                 rel="noreferrer"
               >
                 <img
+                  loading="lazy"
                   src={KatzkyCode}
                   width={250}
                   className="mx-auto"
