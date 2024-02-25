@@ -98,6 +98,18 @@ const dataReducer = (state = initialState, action: Action) => {
     case 'FETCH_DATA_ERROR':
       return { ...state, loading: false, error: action.payload };
 
+    case 'SET_ALL_UNDONE':
+      const newUndoneTasks = state.data.map((item: TaskType) => {
+        item.isDone = false;
+        return item;
+      });
+      const newState = {
+        ...state,
+        data: newUndoneTasks,
+      };
+      !isDemo && saveStateToLocalStorage('plannerState', newState);
+
+      return newState;
     case 'ADD_DATA':
       const newAddedData: TaskType[] = [...state.data, action.payload];
 

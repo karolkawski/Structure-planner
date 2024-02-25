@@ -1,9 +1,6 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
-
-type MotionWrapperProps = {
-  children: ReactNode;
-};
+import { MotionWrapperProps } from '../types/Animation.d';
 
 const MotionWrapper: React.FC<MotionWrapperProps> = ({ children }) => {
   return (

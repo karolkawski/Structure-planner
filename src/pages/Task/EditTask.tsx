@@ -6,8 +6,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateData, removeData } from '../../store/actions/dataActions';
 import { v4 as uuidv4 } from 'uuid';
 import { State } from '../../store/State.d';
-import MotionWrapper from '../../Layout/MotionWrapper';
+import MotionWrapper from '../../Animate/MotionWrapper';
 import React from 'react';
+import LayoutWrapper from '../../Layout/LayoutWrapper';
+import Header from '../../components/UI/Header/Header';
 
 const EditTask = () => {
   const dispatch = useDispatch();
@@ -16,11 +18,21 @@ const EditTask = () => {
   const { taskId } = useParams();
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <LayoutWrapper>
+        <Header title={`Task ${taskId}`} />
+        <div className="container m-auto py-10 ">Loading...</div>
+      </LayoutWrapper>
+    );
   }
 
   if (!reduxData || reduxData.length === 0) {
-    return <div>No records available.</div>;
+    return (
+      <LayoutWrapper>
+        <Header title={`Task ${taskId}`} />
+        <div className="container m-auto py-10 ">No records available.</div>
+      </LayoutWrapper>
+    );
   }
 
   const task = reduxData.find((task) => {
@@ -37,12 +49,8 @@ const EditTask = () => {
 
   return (
     <MotionWrapper>
-      <div className="text-center">
-        <header className="w-full">
-          <h1>
-            Task <b>{taskId}</b>
-          </h1>
-        </header>
+      <LayoutWrapper>
+        <Header title={`Task ${taskId}`} />
         <div className="container m-auto py-10 ">
           <TaskForm
             id={task ? task.id : uuidv4()}
@@ -59,7 +67,7 @@ const EditTask = () => {
             handleUpdateTask={handleUpdateTask}
           />
         </div>
-      </div>
+      </LayoutWrapper>
     </MotionWrapper>
   );
 };

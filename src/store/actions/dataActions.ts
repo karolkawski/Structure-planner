@@ -27,6 +27,9 @@ export const updateData = (data: TaskType) => ({
   type: 'UPDATE_DATA',
   payload: data,
 });
+export const setAllUndone = () => ({
+  type: 'SET_ALL_UNDONE',
+});
 
 export const removeData = (id: string) => ({
   type: 'REMOVE_DATA',

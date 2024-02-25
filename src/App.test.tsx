@@ -1,7 +1,13 @@
-/** @jest-environment jsdom */
+import React from 'react';
 import { render } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import store from './store/store';
 import App from './App';
 
 test('Should render root app in document', () => {
-  render(<App />);
+  render(
+    <Provider store={store}>
+      <App />
+    </Provider>
+  );
 });

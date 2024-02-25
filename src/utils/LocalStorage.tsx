@@ -13,7 +13,7 @@ export const getStateFromLocalStorage = (key: string) => {
   try {
     const serializedState = localStorage.getItem(key);
     if (serializedState === null) {
-      return undefined; // Return undefined if the key is not found
+      return undefined;
     }
     return JSON.parse(serializedState);
   } catch (error) {
