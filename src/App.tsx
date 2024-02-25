@@ -11,12 +11,14 @@ import {
 } from './store/actions/dataActions';
 import { data as assetsData } from './assets/data';
 import { State } from './store/State.d';
+import { AutoFalseIsDoneFlags } from './Automation/AutoFalseIsDoneFlags';
 
 const App = () => {
   const dispatch = useDispatch();
   const data = useSelector((state: { data: State }) => state.data.data);
   const isDemo = useSelector((state: { data: State }) => state.data.isDemo);
   const loading = useSelector((state: { data: State }) => state.data.loading);
+  AutoFalseIsDoneFlags();
 
   if (loading) {
     return <div>Loading...</div>;
