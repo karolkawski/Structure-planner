@@ -22,31 +22,43 @@ const Task = ({ task }: { task: TaskType }) => {
   return (
     <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 flex-col items-start border">
       <td className="p-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-        <div className="sm:block lg:hidden xl:hidden">Name</div>
+        <div className="sm:block lg:hidden xl:hidden font-bold text-black">
+          Name
+        </div>
         {name}
       </td>
       <td className="p-3 lg:hidden xl:table-cell">
-        <div className="sm:block lg:hidden xl:hidden">Desctiption</div>
+        <div className="sm:block lg:hidden xl:hidden font-bold text-black">
+          Desctiption
+        </div>
         {description.length > (MobileDevice ? 20 : 300)
           ? description.substring(0, 300 - 3) + '...'
           : description}
       </td>
       <td className="p-3">
-        <div className="sm:block lg:hidden xl:hidden">Start time</div>
+        <div className="sm:block lg:hidden xl:hidden font-bold text-black">
+          Start time
+        </div>
         {formatDate(startTime)}
       </td>
       <td className="p-3">
-        <div className="sm:block lg:hidden xl:hidden">End time</div>
+        <div className="sm:block lg:hidden xl:hidden font-bold text-black">
+          End time
+        </div>
         {formatDate(endTime)}
       </td>
       <td className="p-3">
-        <div className="sm:block lg:hidden xl:hidden">Category</div>
+        <div className="sm:block lg:hidden xl:hidden font-bold text-black">
+          Category
+        </div>
         <span className="bg-blue-100 text-blue-800 text-center text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
           {category}
         </span>
       </td>
       <td className="p-3 lg:hidden xl:table-cell">
-        <div className="sm:block lg:hidden xl:hidden">Tag</div>
+        <div className="sm:block lg:hidden xl:hidden font-bold text-black">
+          Tag
+        </div>
         <div>
           {tags.length > 0 &&
             tags.map((tag, index) => {
@@ -62,16 +74,22 @@ const Task = ({ task }: { task: TaskType }) => {
         </div>
       </td>
       <td className="p-3">
-        <div className="sm:block lg:hidden xl:hidden">Color</div>
+        <div className="sm:block lg:hidden xl:hidden font-bold text-black">
+          Color
+        </div>
         <span className={`text-center ${colorVariants[color]}`}>{color}</span>
       </td>
       <td className="p-3">
-        <div className="sm:block lg:hidden xl:hidden">Icon</div>
+        <div className="sm:block lg:hidden xl:hidden font-bold text-black">
+          Icon
+        </div>
         <Icon icon={icon} color={'black'} />
       </td>
       <td className="p-3">
         {' '}
-        <div className="sm:block lg:hidden xl:hidden">Piriority</div>
+        <div className="sm:block lg:hidden xl:hidden font-bold text-black">
+          Piriority
+        </div>
         <span className={`text-center ${priorityVariations[priority]}`}>
           {priority}
         </span>

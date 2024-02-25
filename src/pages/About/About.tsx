@@ -2,24 +2,24 @@ import LinkedinLogo from '../../assets/images/linkedin-logo.png';
 import KatzkyCode from '../../assets/images/katzkycode-logo.png';
 import GithubLogo from '../../assets/images/github-logo.png';
 import Me from '../../assets/images/me.png';
-import MotionWrapper from '../../Layout/MotionWrapper';
+import MotionWrapper from '../../Animate/MotionWrapper';
 import React from 'react';
+import LayoutWrapper from '../../Layout/LayoutWrapper';
+import Header from '../../components/UI/Header/Header';
 
 const About = ({}) => {
   return (
     <MotionWrapper>
-      <div className="text-center">
-        <header className="w-full">
-          <h1 className="text-4xl font-bold my-2">About</h1>
-        </header>
-        <div className="container mx-auto">
+      <LayoutWrapper>
+        <Header title="About" />
+        <div className="container m-auto py-10">
           <div className="flex flex-col md:flex-row justify-between m-auto">
-            <div className="flex-2 md:mr-10">
-              <h2 className="text-2xl font-bold my-2 md:text-left">
+            <div className="flex-2 text-lg font-semibold text-left rtl:text-right text-gray-900 bg-white dark:text-white dark:bg-gray-800 md:pr-10">
+              <h2 className="text-lg font-semibold text-left rtl:text-right text-gray-900 bg-white dark:text-white dark:bg-gray-800">
                 Description
               </h2>
               <div>
-                <p className="md:text-left">
+                <p className="text-left mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">
                   <b>EN</b> The application is a daily planner that allows users
                   to add tasks for the current day in a structured format. Users
                   can organize their daily activities efficiently by adding
@@ -33,7 +33,7 @@ const About = ({}) => {
                 </p>
               </div>
               <div className="mt-10">
-                <p className="md:text-left">
+                <p className="text-left mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">
                   <b>PL</b> Aplikacja to planer codzienny, który umożliwia
                   użytkownikom dodawanie zadań na aktualny dzień w formie
                   strukturalnej. Użytkownicy mogą efektywnie organizować swoje
@@ -90,7 +90,7 @@ const About = ({}) => {
               </div>
             </div>
           </div>
-          <div className="mt-20 w-80 w-full">
+          <div className="mt-20 w-full">
             <div className="mt-10">
               <h3 className="text-xl my-2">Powered by</h3>
               <a
@@ -108,7 +108,7 @@ const About = ({}) => {
             </div>
           </div>
         </div>
-      </div>
+      </LayoutWrapper>
     </MotionWrapper>
   );
 };

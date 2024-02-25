@@ -2,6 +2,7 @@ import { Navbar } from 'flowbite-react';
 import { FC, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { isMobile } from '../../../utils/MobileDetect';
+import { NavbarTheme } from '../../../Themes/NavbarTheme';
 
 const Navigation: FC = () => {
   const [MobileDevice] = useState(isMobile());
@@ -14,11 +15,9 @@ const Navigation: FC = () => {
     MobileDevice && collapse?.classList.add('hidden');
   };
   return (
-    <Navbar rounded className="mx-auto">
+    <Navbar rounded className="mx-auto px-5" theme={NavbarTheme}>
       <Navbar.Brand as={Link} href="https://katzkycode.com">
-        <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white pl-2">
-          Daily Planner
-        </span>
+        <h1 className="text-2xl font-bold my-2">Daily Planner</h1>
       </Navbar.Brand>
       <Navbar.Toggle />
       <Navbar.Collapse>
