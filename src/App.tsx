@@ -18,8 +18,7 @@ const App = () => {
   const data = useSelector((state: { data: State }) => state.data.data);
   const isDemo = useSelector((state: { data: State }) => state.data.isDemo);
   const loading = useSelector((state: { data: State }) => state.data.loading);
-  AutoFalseIsDoneFlags();
-
+  const dailyWatcher = AutoFalseIsDoneFlags();
   if (loading) {
     return <div>Loading...</div>;
   }
