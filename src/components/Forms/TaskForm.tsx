@@ -81,7 +81,6 @@ const TaskForm: React.FC<TaskFormProps> = ({
   ) => {
     setErrorMessage(null);
     const { value } = event.target;
-    // set;
 
     switch (key) {
       case 'name':
@@ -141,7 +140,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
   };
 
   return (
-    <div className="mx-5">
+    <div className="">
       <form
         id="taskForm"
         className={`grid gap-2 mb-4 grid-cols-1 md:grid-cols-2 md:gap-4`}
@@ -432,9 +431,11 @@ const TaskForm: React.FC<TaskFormProps> = ({
                   tags: selectedTags,
                   isDone: false,
                 });
-              } catch (error: { message: string }) {
-                setErrorMessage(error.message);
-                console.error('Validation error:', error.message);
+              } catch (error: unknown) {
+                if (error instanceof Error && 'message' in error) {
+                  setErrorMessage(error.message);
+                  console.error('Validation error:', error.message);
+                }
               }
             }}
           >
@@ -459,6 +460,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
                 icon: selectedIcon,
                 priority: selectedPriority,
                 blockedHours,
+                currentHours: [startTime, endTime],
               };
               try {
                 setErrorMessage(null);
@@ -478,9 +480,11 @@ const TaskForm: React.FC<TaskFormProps> = ({
                   isDone: false,
                 });
                 navigate('/tasks');
-              } catch (error: { message: string }) {
-                setErrorMessage(error.message);
-                console.error('Validation error:', error.message);
+              } catch (error: unknown) {
+                if (error instanceof Error && 'message' in error) {
+                  setErrorMessage(error.message);
+                  console.error('Validation error:', error.message);
+                }
               }
             }}
           >

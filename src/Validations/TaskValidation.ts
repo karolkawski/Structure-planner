@@ -12,6 +12,10 @@ export const taskSchema = yup.object().shape({
     .required('End time is required')
     .test('end-time', 'End time cannot be before start time', function (value) {
       const startTime = this.parent.startTime;
+      const currentHours = this.parent.currentHours;
+      if (currentHours && currentHours[1] === value) {
+        return true;
+      }
       return !startTime || value > startTime;
     })
     .test(
@@ -19,8 +23,12 @@ export const taskSchema = yup.object().shape({
       'End time is in the blocked range',
       function (value) {
         const blockedHours = this.parent.blockedHours;
+        const currentHours = this.parent.currentHours;
+        if (currentHours && currentHours[1] === value) {
+          return true;
+        }
         return blockedHours.length > 0
-          ? !blockedHours.some((range) => isTimeInRange(value, range))
+          ? !blockedHours.some((range: string[]) => isTimeInRange(value, range))
           : true;
       }
     ),
@@ -29,6 +37,10 @@ export const taskSchema = yup.object().shape({
     .required('Start time is required')
     .test('start-time', 'End time must be after start time', function (value) {
       const endTime = this.parent.endTime;
+      const currentHours = this.parent.currentHours;
+      if (currentHours && currentHours[0] === value) {
+        return true;
+      }
       return !endTime || value < endTime;
     })
     .test(
@@ -36,8 +48,12 @@ export const taskSchema = yup.object().shape({
       'Start time is in the blocked range',
       function (value) {
         const blockedHours = this.parent.blockedHours;
+        const currentHours = this.parent.currentHours;
+        if (currentHours && currentHours[0] === value) {
+          return true;
+        }
         return blockedHours.length > 0
-          ? !blockedHours.some((range) => isTimeInRange(value, range))
+          ? !blockedHours.some((range: string[]) => isTimeInRange(value, range))
           : true;
       }
     ),
