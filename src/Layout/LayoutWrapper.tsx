@@ -1,9 +1,6 @@
 import { AnimatePresence } from 'framer-motion';
-import React, { ReactNode } from 'react';
-
-type LayoutWrapperProps = {
-  children: ReactNode;
-};
+import React from 'react';
+import { LayoutWrapperProps } from '../types/Layout.d';
 
 const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children }) => {
   return (

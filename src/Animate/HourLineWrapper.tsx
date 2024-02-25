@@ -1,10 +1,6 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
-
-type HourLineWrapperProps = {
-  children: ReactNode;
-  timePosition: string;
-};
+import { HourLineWrapperProps } from '../types/Animation.d';
 
 const HourLineWrapper: React.FC<HourLineWrapperProps> = ({
   children,

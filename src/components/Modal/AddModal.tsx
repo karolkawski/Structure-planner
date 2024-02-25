@@ -1,14 +1,8 @@
 import { Modal } from 'flowbite-react';
 import React from 'react';
-import { TaskType } from '../../types/Task.d';
 import TaskForm from '../Forms/TaskForm';
 import { v4 as uuidv4 } from 'uuid';
-
-type AddModalProps = {
-  openModal: boolean;
-  setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
-  handleAddTask: (task: TaskType) => void;
-};
+import { AddModalProps } from '../../types/Modal.d';
 
 const AddModal: React.FC<AddModalProps> = ({
   openModal,

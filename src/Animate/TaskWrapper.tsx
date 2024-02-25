@@ -1,10 +1,6 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
-
-type TaskWrapperProps = {
-  children: ReactNode;
-  isDone: boolean;
-};
+import { TaskWrapperProps } from '../types/Animation.d';
 
 const TaskWrapper: React.FC<TaskWrapperProps> = ({ children, isDone }) => {
   return (

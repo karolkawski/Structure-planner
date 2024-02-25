@@ -1,13 +1,6 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
-import { TaskType } from '../types/Task.d';
-
-type TimeWrapperProps = {
-  children: ReactNode;
-  task: TaskType;
-  multiplerHeight: number;
-  updateTimer: () => void;
-};
+import { TimeWrapperProps } from '../types/Animation.d';
 
 const TimeWrapper: React.FC<TimeWrapperProps> = ({
   children,

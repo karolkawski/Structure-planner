@@ -13,7 +13,6 @@ import {
 import { colorVariants, priorityVariations } from '../Table/stylesVariations';
 import React, { useState } from 'react';
 import { convertStringToEpoch } from '../../utils/Date';
-import { TaskType } from '../../types/Task.d';
 import { useNavigate } from 'react-router-dom';
 import {
   adFormOrderVariations,
@@ -24,22 +23,7 @@ import {
 import { taskSchema } from '../../Validations/TaskValidation';
 import { useSelector } from 'react-redux';
 import { State } from '../../store/State.d';
-
-type TaskFormProps = {
-  id: string;
-  name: string;
-  description: string;
-  startTime: string;
-  endTime: string;
-  category: string;
-  color: string;
-  priority: string;
-  icon: string;
-  tags: string[];
-  handleAddTask?: (task: TaskType) => void;
-  handleUpdateTask?: (task: TaskType) => void;
-  handleRemoveTask?: (selectedId: string) => void;
-};
+import { TaskFormProps } from '../../types/Form.d';
 
 const TaskForm: React.FC<TaskFormProps> = ({
   id,
