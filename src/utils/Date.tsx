@@ -7,7 +7,7 @@ export const formatDate = (epoch: number) => {
 
   const date = new Date(epoch * 1000);
   if (isNaN(date.getTime())) {
-    return 'Invalid Date';
+    throw new Error('Invalid Date');
   }
 
   const hours = date.getUTCHours().toString().padStart(2, '0');
