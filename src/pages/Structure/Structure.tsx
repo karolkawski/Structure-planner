@@ -14,7 +14,7 @@ import { updateData } from '../../store/actions/dataActions';
 import { State } from '../../store/State.d';
 import MotionWrapper from '../../Animate/MotionWrapper';
 import Progress from '../../components/UI/Progress/Progress';
-import { Button } from 'flowbite-react/lib/esm/components/Button/Button';
+import { Button } from 'flowbite-react';
 import { Link } from 'react-router-dom';
 import LayoutWrapper from '../../Layout/LayoutWrapper';
 import Header from '../../components/UI/Header/Header';
