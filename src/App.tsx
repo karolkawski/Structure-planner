@@ -12,7 +12,8 @@ import {
 import { data as assetsData } from './assets/data';
 import { State } from './store/State.d';
 import { AutoFalseIsDoneFlags } from './Automation/AutoFalseIsDoneFlags';
-
+import './App.css';
+//
 const App = () => {
   const dispatch = useDispatch();
   const data = useSelector((state: { data: State }) => state.data.data);

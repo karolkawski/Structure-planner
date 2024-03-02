@@ -1,8 +1,9 @@
-import { Modal } from 'flowbite-react';
+import { Button, Modal } from 'flowbite-react';
 import React from 'react';
 import TaskForm from '../Forms/TaskForm';
 import { v4 as uuidv4 } from 'uuid';
 import { AddModalProps } from '../../types/Modal.d';
+import { ButtonTheme } from '../../Themes/ButtonTheme';
 
 const AddModal: React.FC<AddModalProps> = ({
   openModal,
@@ -27,7 +28,18 @@ const AddModal: React.FC<AddModalProps> = ({
           handleAddTask={handleAddTask}
         />
       </Modal.Body>
-      <Modal.Footer></Modal.Footer>
+      <Modal.Footer>
+        <Button
+          className="mr-2"
+          theme={ButtonTheme}
+          color=""
+          onClick={() => {
+            setOpenModal(false);
+          }}
+        >
+          Cancel
+        </Button>
+      </Modal.Footer>
     </Modal>
   );
 };
