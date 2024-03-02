@@ -14,6 +14,11 @@ export const dropdownOrderVariations: Record<string, string> = {
 };
 
 export const tagVariations: Record<string, string> = {
-  true: 'bg-blue-800 text-blue-100',
-  false: 'bg-blue-100 text-blue-800',
+  true: 'bg-primary text-white',
+  false: 'bg-secondary text-white',
+};
+
+export const labelColor: Record<string, string> = {
+  true: 'text-black',
+  false: 'text-white',
 };

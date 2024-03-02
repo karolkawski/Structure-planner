@@ -18,12 +18,15 @@ import {
   adFormOrderVariations,
   addFormVariations,
   dropdownOrderVariations,
+  labelColor,
   tagVariations,
 } from './stylesVariations';
 import { taskSchema } from '../../Validations/TaskValidation';
 import { useSelector } from 'react-redux';
 import { State } from '../../store/State.d';
 import { TaskFormProps } from '../../types/Form.d';
+import { ButtonTheme } from '../../Themes/ButtonTheme';
+import { LabelTheme } from '../../Themes/LabelTheme';
 
 const TaskForm: React.FC<TaskFormProps> = ({
   id,
@@ -130,8 +133,15 @@ const TaskForm: React.FC<TaskFormProps> = ({
         className={`grid gap-2 mb-4 grid-cols-1 md:grid-cols-2 md:gap-4`}
       >
         <div className={`${addFormVariations[isAddForm.toString()]} order-1`}>
-          <div className="mb-2 block text-left">
-            <Label htmlFor="name" value="Name" />
+          <div
+            className={`mb-2 block text-left ${labelColor[isAddForm.toString()]}`}
+          >
+            <Label
+              theme={LabelTheme}
+              color={labelColor[isAddForm.toString()]}
+              htmlFor="name"
+              value="Name"
+            />
           </div>
           <TextInput
             id="name"
@@ -146,13 +156,24 @@ const TaskForm: React.FC<TaskFormProps> = ({
           className={`${addFormVariations[isAddForm.toString()]} flex ${isAddForm ? dropdownOrderVariations[(!isAddForm).toString()] : adFormOrderVariations[isAddForm.toString()]}`}
         >
           <div className="col-2 w-1/2 pr-2">
-            <div className="mb-2 block text-left">
-              <Label htmlFor="category" value="Category" />
+            <div
+              className={`mb-2 block text-left ${labelColor[isAddForm.toString()]}`}
+            >
+              <Label
+                theme={LabelTheme}
+                color={labelColor[isAddForm.toString()]}
+                htmlFor="category"
+                value="Category"
+              />
             </div>
             <Dropdown
               label="Select category"
               renderTrigger={() => (
-                <Button className="text-nowrap w-full px-3 text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                <Button
+                  theme={ButtonTheme}
+                  color="secondary"
+                  className="text-nowrap w-full px-3"
+                >
                   {selectedCategory || 'Select category'}
                 </Button>
               )}
@@ -171,13 +192,24 @@ const TaskForm: React.FC<TaskFormProps> = ({
             </Dropdown>
           </div>
           <div className="col-2 w-1/2 pl-2">
-            <div className="mb-2 block text-left">
-              <Label htmlFor="priority" value="Priority" />
+            <div
+              className={`mb-2 block text-left ${labelColor[isAddForm.toString()]}`}
+            >
+              <Label
+                theme={LabelTheme}
+                color={labelColor[isAddForm.toString()]}
+                htmlFor="priority"
+                value="Priority"
+              />
             </div>
             <Dropdown
               label="Select priority"
               renderTrigger={() => (
-                <Button className="text-nowrap	w-full px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                <Button
+                  theme={ButtonTheme}
+                  color="secondary"
+                  className="text-nowrap w-full px-3"
+                >
                   {selectedPriority ? (
                     <>
                       <span
@@ -211,8 +243,15 @@ const TaskForm: React.FC<TaskFormProps> = ({
         <div
           className={`${addFormVariations[isAddForm.toString()]} ${dropdownOrderVariations[isAddForm.toString()]}`}
         >
-          <div className="mb-2 block text-left">
-            <Label htmlFor="description" value="Description" />
+          <div
+            className={`mb-2 block text-left ${labelColor[isAddForm.toString()]}`}
+          >
+            <Label
+              theme={LabelTheme}
+              color={labelColor[isAddForm.toString()]}
+              htmlFor="description"
+              value="Description"
+            />
           </div>
           <Textarea
             id="description"
@@ -226,13 +265,24 @@ const TaskForm: React.FC<TaskFormProps> = ({
           className={`${addFormVariations[isAddForm.toString()]} flex ${adFormOrderVariations[(!isAddForm).toString()]}`}
         >
           <div className="w-1/2 pr-2">
-            <div className="mb-2 block text-left">
-              <Label htmlFor="color" value="Color" />
+            <div
+              className={`mb-2 block text-left ${labelColor[isAddForm.toString()]}`}
+            >
+              <Label
+                theme={LabelTheme}
+                color={labelColor[isAddForm.toString()]}
+                htmlFor="color"
+                value="Color"
+              />
             </div>
             <Dropdown
               label="Select color"
               renderTrigger={() => (
-                <Button className="text-nowrap	w-full px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                <Button
+                  theme={ButtonTheme}
+                  color="secondary"
+                  className="text-nowrap w-full px-3"
+                >
                   {selectedColor ? (
                     <>
                       <span
@@ -264,13 +314,24 @@ const TaskForm: React.FC<TaskFormProps> = ({
             </Dropdown>
           </div>
           <div className="w-1/2 pl-2">
-            <div className="mb-2 block text-left">
-              <Label htmlFor="icon" value="Icon" />
+            <div
+              className={`mb-2 block text-left ${labelColor[isAddForm.toString()]}`}
+            >
+              <Label
+                theme={LabelTheme}
+                color={labelColor[isAddForm.toString()]}
+                htmlFor="icon"
+                value="Icon"
+              />
             </div>
             <Dropdown
               label="Select icon"
               renderTrigger={() => (
-                <Button className="text-nowrap	w-full px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                <Button
+                  theme={ButtonTheme}
+                  color="secondary"
+                  className="text-nowrap w-full px-3"
+                >
                   {selectedIcon ? (
                     <>
                       <Icon
@@ -309,8 +370,15 @@ const TaskForm: React.FC<TaskFormProps> = ({
           className={`${addFormVariations[isAddForm.toString()]} flex order-5`}
         >
           <div className="col-2 w-1/2 pr-2">
-            <div className="mb-2 block text-left">
-              <Label htmlFor="stime" value={`Start time`} />
+            <div
+              className={`mb-2 block text-left ${labelColor[isAddForm.toString()]}`}
+            >
+              <Label
+                theme={LabelTheme}
+                color={labelColor[isAddForm.toString()]}
+                htmlFor="stime"
+                value={`Start time`}
+              />
             </div>
             <TextInput
               id="stime"
@@ -323,8 +391,15 @@ const TaskForm: React.FC<TaskFormProps> = ({
             />
           </div>
           <div className="col-2 w-1/2 pl-2">
-            <div className="mb-2 block text-left">
-              <Label htmlFor="etime" value={`End time`} />
+            <div
+              className={`mb-2 block text-left ${labelColor[isAddForm.toString()]}`}
+            >
+              <Label
+                theme={LabelTheme}
+                color={labelColor[isAddForm.toString()]}
+                htmlFor="etime"
+                value={`End time`}
+              />
             </div>
             <TextInput
               id="etime"
@@ -338,8 +413,15 @@ const TaskForm: React.FC<TaskFormProps> = ({
           </div>
         </div>
         <div className={`${addFormVariations[isAddForm.toString()]} order-6`}>
-          <div className="mb-2 block text-left">
-            <Label htmlFor="tags" value="Tags" />
+          <div
+            className={`mb-2 block text-left ${labelColor[isAddForm.toString()]}`}
+          >
+            <Label
+              theme={LabelTheme}
+              color={labelColor[isAddForm.toString()]}
+              htmlFor="tags"
+              value="Tags"
+            />
           </div>
           <div
             className={`${addFormVariations[isAddForm.toString()]} text-left`}
@@ -358,7 +440,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
                         handleTagSelect(tag);
                       }
                     }}
-                    className={`cursor-pointer text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300 ${tagVariations[selectedTags.includes(tag) ? 'true' : 'false']}`}
+                    className={`cursor-pointer text-xs font-medium me-2 px-2.5 py-0.5 rounded ${tagVariations[selectedTags.includes(tag) ? 'true' : 'false']}`}
                   >
                     {tag}
                   </button>
@@ -371,18 +453,11 @@ const TaskForm: React.FC<TaskFormProps> = ({
         {errorMessage ? <>{errorMessage}</> : <></>}
       </p>
       <div className="flex w-full justify-end pt-10">
-        <Button
-          className="mr-2"
-          color=""
-          onClick={() => {
-            navigate('/tasks');
-          }}
-        >
-          Cancel
-        </Button>
         {handleAddTask ? (
           <Button
-            className="px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            theme={ButtonTheme}
+            color="secondary"
+            className="px-3"
             onClick={async () => {
               const formData = {
                 id: selectedId,
@@ -430,58 +505,73 @@ const TaskForm: React.FC<TaskFormProps> = ({
         )}
 
         {handleUpdateTask ? (
-          <Button
-            className="px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-            onClick={async () => {
-              const formData = {
-                id: selectedId,
-                name: selectedName,
-                description: selectedDescription,
-                startTime: selectedStartTime,
-                endTime: selectedEndTime,
-                category: selectedCategory,
-                color: selectedColor,
-                icon: selectedIcon,
-                priority: selectedPriority,
-                blockedHours,
-                currentHours: [startTime, endTime],
-              };
-              try {
-                setErrorMessage(null);
-                await taskSchema.validate(formData);
-
-                handleUpdateTask({
-                  id: selectedId as string,
+          <>
+            <Button
+              className="mr-2 text-white"
+              theme={ButtonTheme}
+              color=""
+              onClick={() => {
+                navigate('/tasks');
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              theme={ButtonTheme}
+              color="alternativeSecondary"
+              className="px-3"
+              onClick={async () => {
+                const formData = {
+                  id: selectedId,
                   name: selectedName,
                   description: selectedDescription,
-                  startTime: convertStringToEpoch(selectedStartTime),
-                  endTime: convertStringToEpoch(selectedEndTime),
+                  startTime: selectedStartTime,
+                  endTime: selectedEndTime,
                   category: selectedCategory,
-                  color: selectedColor as Color,
-                  priority: selectedPriority as Priorities,
-                  icon: selectedIcon as Icons,
-                  tags: selectedTags,
-                  isDone: false,
-                });
-                navigate('/tasks');
-              } catch (error: unknown) {
-                if (error instanceof Error && 'message' in error) {
-                  setErrorMessage(error.message);
-                  console.error('Validation error:', error.message);
+                  color: selectedColor,
+                  icon: selectedIcon,
+                  priority: selectedPriority,
+                  blockedHours,
+                  currentHours: [startTime, endTime],
+                };
+                try {
+                  setErrorMessage(null);
+                  await taskSchema.validate(formData);
+
+                  handleUpdateTask({
+                    id: selectedId as string,
+                    name: selectedName,
+                    description: selectedDescription,
+                    startTime: convertStringToEpoch(selectedStartTime),
+                    endTime: convertStringToEpoch(selectedEndTime),
+                    category: selectedCategory,
+                    color: selectedColor as Color,
+                    priority: selectedPriority as Priorities,
+                    icon: selectedIcon as Icons,
+                    tags: selectedTags,
+                    isDone: false,
+                  });
+                  navigate('/tasks');
+                } catch (error: unknown) {
+                  if (error instanceof Error && 'message' in error) {
+                    setErrorMessage(error.message);
+                    console.error('Validation error:', error.message);
+                  }
                 }
-              }
-            }}
-          >
-            Update
-          </Button>
+              }}
+            >
+              Update
+            </Button>
+          </>
         ) : (
           <></>
         )}
 
         {handleRemoveTask ? (
           <Button
-            className="ml-2 px-3 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-            color="failure"
+            className="ml-2 px-3"
+            theme={ButtonTheme}
+            color="danger"
             onClick={() => {
               if (!selectedId) {
                 return;

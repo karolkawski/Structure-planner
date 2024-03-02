@@ -15,14 +15,20 @@ const Navigation: FC = () => {
     MobileDevice && collapse?.classList.add('hidden');
   };
   return (
-    <Navbar rounded className="mx-auto px-5" theme={NavbarTheme}>
+    <Navbar rounded className="mx-auto px-5 border-b" theme={NavbarTheme}>
       <Navbar.Brand as={Link} href="https://katzkycode.com">
-        <h1 className="text-2xl font-bold my-2">Daily Planner</h1>
+        <h1 className="text-2xl font-bold my-2 text-black">Daily Planner</h1>
       </Navbar.Brand>
       <Navbar.Toggle />
       <Navbar.Collapse>
         <Navbar.Link as={'div'} active={pathname === '/' ? true : false}>
           <Link to="/" onClick={handleLinkClick}>
+            Intro
+          </Link>
+        </Navbar.Link>
+
+        <Navbar.Link as={'div'} active={pathname === '/daily' ? true : false}>
+          <Link to="/daily" onClick={handleLinkClick}>
             Structure Daily
           </Link>
         </Navbar.Link>
@@ -33,7 +39,7 @@ const Navigation: FC = () => {
         </Navbar.Link>
         <Navbar.Link as={'div'} active={pathname === '/about' ? true : false}>
           <Link to="/about" onClick={handleLinkClick}>
-            About
+            Credentials
           </Link>
         </Navbar.Link>
       </Navbar.Collapse>

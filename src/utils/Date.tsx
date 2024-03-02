@@ -42,7 +42,7 @@ export const getDateComponentsFromEpoch = (epoch: string | number | Date) => {
 
 export const isTimeInRange = (time: string, range: string[]) => {
   const [startTime, endTime] = range;
-  return time > startTime && time < endTime;
+  return time >= startTime && time <= endTime;
 };
 
 export const getCurrentTime = () => {
