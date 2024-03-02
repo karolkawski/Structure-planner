@@ -13,4 +13,6 @@ body {
   padding: 0;
   overflow: hidden;
   overflow-y: auto;
+  background-color: #19364C;
+  color: #fff;
 }

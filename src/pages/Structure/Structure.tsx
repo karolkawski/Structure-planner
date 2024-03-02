@@ -129,7 +129,7 @@ const Structure: FC = () => {
             No tasks available.{' '}
             <Button
               theme={ButtonTheme}
-              color="secondary"
+              color="alternativeSecondary"
               className="px-3 text-sm font-medium text-center"
             >
               {' '}
@@ -142,7 +142,7 @@ const Structure: FC = () => {
   }
 
   return (
-    <MotionWrapper primary={false}>
+    <MotionWrapper>
       <LayoutWrapper paddingTop={true}>
         <Header title="Structure Daily">
           <Progress progress={progress} />

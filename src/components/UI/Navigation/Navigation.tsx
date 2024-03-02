@@ -17,7 +17,7 @@ const Navigation: FC = () => {
   return (
     <Navbar rounded className="mx-auto px-5 border-b" theme={NavbarTheme}>
       <Navbar.Brand as={Link} href="https://katzkycode.com">
-        <h1 className="text-2xl font-bold my-2">Daily Planner</h1>
+        <h1 className="text-2xl font-bold my-2 text-black">Daily Planner</h1>
       </Navbar.Brand>
       <Navbar.Toggle />
       <Navbar.Collapse>

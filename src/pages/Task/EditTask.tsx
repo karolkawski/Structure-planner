@@ -48,7 +48,7 @@ const EditTask = () => {
   };
 
   return (
-    <MotionWrapper primary={false}>
+    <MotionWrapper>
       <LayoutWrapper paddingTop={true}>
         <Header title={`Task ${taskId}`} />
         <div className="container m-auto py-5 ">

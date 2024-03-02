@@ -8,7 +8,7 @@ type HeaderProps = {
 const Header: React.FC<HeaderProps> = ({ title, children }) => {
   return (
     <header className={`w-full`}>
-      <h1 className="text-lg font-bold my-2">{title}</h1>
+      <h1 className="text-lg font-bold my-5">{title}</h1>
       {children ? children : ''}
     </header>
   );

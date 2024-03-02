@@ -78,7 +78,7 @@ const Tasks = ({}) => {
   };
 
   return (
-    <MotionWrapper primary={false}>
+    <MotionWrapper>
       <LayoutWrapper paddingTop={true}>
         <AddModal
           openModal={openModal}
@@ -88,10 +88,10 @@ const Tasks = ({}) => {
         <Header title="Tasks" />
         <div className="container m-auto py-5">
           <div className="relative overflow-x-auto">
-            <table className="w-full table-auto text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 overflow-x-scroll">
-              <caption className="text-xl font-semibold text-left rtl:text-right text-gray-900 bg-white dark:text-white dark:bg-gray-800">
+            <table className="w-full table-auto text-sm text-left rtl:text-right text-gray-50 overflow-x-scroll">
+              <caption className="text-xl font-semibold text-left rtl:text-right text-gray-50">
                 Description
-                <p className="mt-1 text-base font-normal text-gray-500 dark:text-gray-400">
+                <p className="mt-1 text-base font-normal text-gray-50 ">
                   The Daily Planner table allows users to manage their daily
                   activities. Entries include key details such as task name,
                   description, start and end times, and priority. Users can add,
@@ -104,7 +104,7 @@ const Tasks = ({}) => {
                     onClick={() => setOpenModal(true)}
                     type="button"
                     theme={ButtonTheme}
-                    color="secondary"
+                    color="alternativeSecondary"
                     className="px-3"
                   >
                     Add task
@@ -121,7 +121,7 @@ const Tasks = ({}) => {
                   <tr>
                     <td
                       colSpan={10}
-                      className="text-center bg-gray-50 h-20 hidden lg:table-cell"
+                      className="text-center bg-gray-50 text-black h-20 hidden lg:table-cell"
                     >
                       no data
                     </td>

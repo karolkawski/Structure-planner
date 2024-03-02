@@ -30,7 +30,7 @@ const AddModal: React.FC<AddModalProps> = ({
       </Modal.Body>
       <Modal.Footer>
         <Button
-          className="mr-2"
+          className="mr-2 text-black"
           theme={ButtonTheme}
           color=""
           onClick={() => {

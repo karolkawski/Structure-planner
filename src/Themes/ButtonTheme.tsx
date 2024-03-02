@@ -6,6 +6,8 @@ export const ButtonTheme = {
       'bg-primary hover:bg-secondary text-sm font-medium text-center text-white',
     secondary:
       'bg-secondary hover:bg-primary text-sm font-medium text-center text-white',
+    alternativeSecondary:
+      'bg-secondary hover:bg-gray-50 hover:text-black text-sm font-medium text-center text-white',
     danger:
       'bg-danger hover:bg-danger  text-sm font-medium text-center text-white',
     dark: 'text-white bg-gray-800 border border-transparent enabled:hover:bg-gray-900 focus:ring-4 focus:ring-gray-300 dark:bg-gray-800 dark:enabled:hover:bg-gray-700 dark:focus:ring-gray-800 dark:border-gray-700',

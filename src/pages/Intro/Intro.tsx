@@ -4,9 +4,9 @@ import background from '../../assets/images/phone.png';
 import { FaListCheck, FaClock, FaClockRotateLeft } from 'react-icons/fa6';
 const Intro = ({}) => {
   return (
-    <MotionWrapper primary={true}>
+    <MotionWrapper>
       <LayoutWrapper paddingTop={false}>
-        <div className="container m-auto text-white md:grid grid-cols-2 h-screen pt-5 max-h-[900px] border-b pb-10">
+        <div className="container m-auto text-white lg:grid grid-cols-2 h-screen pt-5 max-h-[900px] lg:border-b pb-10">
           <div className="flex justify-center flex-col">
             <h2 className="text-left font-bold text-2xl my-10">
               Structure Planner - Boost Your Productivity with Ease
@@ -41,7 +41,7 @@ const Intro = ({}) => {
               </div>
             </div>
           </div>
-          <div className="flex justify-end items-end pt-10 md:pt-0">
+          <div className="flex justify-end items-end pt-10 lg:pt-0">
             <img
               src={background}
               alt="App visualisation"

@@ -20,15 +20,15 @@ const Task = ({ task }: { task: TaskType }) => {
     priority,
   } = task;
   return (
-    <tr className="bg-white border-b flex-col items-start border">
-      <td className="p-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-        <div className="sm:block lg:hidden xl:hidden font-bold text-black">
+    <tr className="border-b flex-col items-start border">
+      <td className="p-3 font-medium text-gray-50 whitespace-nowrap ">
+        <div className="sm:block lg:hidden xl:hidden font-bold text-white">
           Name
         </div>
         {name}
       </td>
       <td className="p-3 lg:hidden xl:table-cell">
-        <div className="sm:block lg:hidden xl:hidden font-bold text-black">
+        <div className="sm:block lg:hidden xl:hidden font-bold text-white">
           Desctiption
         </div>
         {description.length > (MobileDevice ? 20 : 300)
@@ -36,19 +36,19 @@ const Task = ({ task }: { task: TaskType }) => {
           : description}
       </td>
       <td className="p-3">
-        <div className="sm:block lg:hidden xl:hidden font-bold text-black">
+        <div className="sm:block lg:hidden xl:hidden font-bold text-white">
           Start time
         </div>
         {formatDate(startTime)}
       </td>
       <td className="p-3">
-        <div className="sm:block lg:hidden xl:hidden font-bold text-black">
+        <div className="sm:block lg:hidden xl:hidden font-bold text-white">
           End time
         </div>
         {formatDate(endTime)}
       </td>
       <td className="p-3">
-        <div className="sm:block lg:hidden xl:hidden font-bold text-black">
+        <div className="sm:block lg:hidden xl:hidden font-bold text-white">
           Category
         </div>
         <span className="bg-secondary text-white text-center text-xs font-medium me-2 px-2.5 py-0.5 rounded">
@@ -56,7 +56,7 @@ const Task = ({ task }: { task: TaskType }) => {
         </span>
       </td>
       <td className="p-3 lg:hidden xl:table-cell">
-        <div className="sm:block lg:hidden xl:hidden font-bold text-black">
+        <div className="sm:block lg:hidden xl:hidden font-bold text-white">
           Tag
         </div>
         <div>
@@ -74,20 +74,20 @@ const Task = ({ task }: { task: TaskType }) => {
         </div>
       </td>
       <td className="p-3">
-        <div className="sm:block lg:hidden xl:hidden font-bold text-black">
+        <div className="sm:block lg:hidden xl:hidden font-bold text-white">
           Color
         </div>
         <span className={`text-center ${colorVariants[color]}`}>{color}</span>
       </td>
       <td className="p-3">
-        <div className="sm:block lg:hidden xl:hidden font-bold text-black">
+        <div className="sm:block lg:hidden xl:hidden font-bold text-white">
           Icon
         </div>
-        <Icon icon={icon} color={'black'} />
+        <Icon icon={icon} color={'white'} />
       </td>
       <td className="p-3">
         {' '}
-        <div className="sm:block lg:hidden xl:hidden font-bold text-black">
+        <div className="sm:block lg:hidden xl:hidden font-bold text-white">
           Piriority
         </div>
         <span className={`text-center ${priorityVariations[priority]}`}>
@@ -97,7 +97,7 @@ const Task = ({ task }: { task: TaskType }) => {
       <td className="p-3 flex justify-end px-5">
         <Link
           to={`/task/:${task.id}`}
-          className="font-medium px-3 py-2 text-sm text-center text-white bg-secondary rounded-lg hover:bg-primary"
+          className="font-medium px-3 py-2 text-sm text-center text-white bg-secondary rounded-lg hover:bg-white hover:text-black"
         >
           Edit
         </Link>

@@ -17,3 +17,8 @@ export const tagVariations: Record<string, string> = {
   true: 'bg-primary text-white',
   false: 'bg-secondary text-white',
 };
+
+export const labelColor: Record<string, string> = {
+  true: 'text-black',
+  false: 'text-white',
+};

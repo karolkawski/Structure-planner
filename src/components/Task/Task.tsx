@@ -21,7 +21,7 @@ const Task = ({ task, onChange }: TaskProps) => {
   return (
     <TaskWrapper isDone={isDone}>
       <div
-        className={`Task h-15 p-2 w-11/12 left-8 flex ml-20 cursor-pointer hover:bg-gray-50
+        className={`Task h-15 p-2 w-11/12 left-8 flex ml-20 cursor-pointer hover:brightness-125
       `}
         key={id}
         onClick={() => handleCheckboxChange()}

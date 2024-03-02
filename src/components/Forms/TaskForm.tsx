@@ -18,6 +18,7 @@ import {
   adFormOrderVariations,
   addFormVariations,
   dropdownOrderVariations,
+  labelColor,
   tagVariations,
 } from './stylesVariations';
 import { taskSchema } from '../../Validations/TaskValidation';
@@ -25,6 +26,7 @@ import { useSelector } from 'react-redux';
 import { State } from '../../store/State.d';
 import { TaskFormProps } from '../../types/Form.d';
 import { ButtonTheme } from '../../Themes/ButtonTheme';
+import { LabelTheme } from '../../Themes/LabelTheme';
 
 const TaskForm: React.FC<TaskFormProps> = ({
   id,
@@ -131,8 +133,15 @@ const TaskForm: React.FC<TaskFormProps> = ({
         className={`grid gap-2 mb-4 grid-cols-1 md:grid-cols-2 md:gap-4`}
       >
         <div className={`${addFormVariations[isAddForm.toString()]} order-1`}>
-          <div className="mb-2 block text-left">
-            <Label htmlFor="name" value="Name" />
+          <div
+            className={`mb-2 block text-left ${labelColor[isAddForm.toString()]}`}
+          >
+            <Label
+              theme={LabelTheme}
+              color={labelColor[isAddForm.toString()]}
+              htmlFor="name"
+              value="Name"
+            />
           </div>
           <TextInput
             id="name"
@@ -147,8 +156,15 @@ const TaskForm: React.FC<TaskFormProps> = ({
           className={`${addFormVariations[isAddForm.toString()]} flex ${isAddForm ? dropdownOrderVariations[(!isAddForm).toString()] : adFormOrderVariations[isAddForm.toString()]}`}
         >
           <div className="col-2 w-1/2 pr-2">
-            <div className="mb-2 block text-left">
-              <Label htmlFor="category" value="Category" />
+            <div
+              className={`mb-2 block text-left ${labelColor[isAddForm.toString()]}`}
+            >
+              <Label
+                theme={LabelTheme}
+                color={labelColor[isAddForm.toString()]}
+                htmlFor="category"
+                value="Category"
+              />
             </div>
             <Dropdown
               label="Select category"
@@ -176,8 +192,15 @@ const TaskForm: React.FC<TaskFormProps> = ({
             </Dropdown>
           </div>
           <div className="col-2 w-1/2 pl-2">
-            <div className="mb-2 block text-left">
-              <Label htmlFor="priority" value="Priority" />
+            <div
+              className={`mb-2 block text-left ${labelColor[isAddForm.toString()]}`}
+            >
+              <Label
+                theme={LabelTheme}
+                color={labelColor[isAddForm.toString()]}
+                htmlFor="priority"
+                value="Priority"
+              />
             </div>
             <Dropdown
               label="Select priority"
@@ -220,8 +243,15 @@ const TaskForm: React.FC<TaskFormProps> = ({
         <div
           className={`${addFormVariations[isAddForm.toString()]} ${dropdownOrderVariations[isAddForm.toString()]}`}
         >
-          <div className="mb-2 block text-left">
-            <Label htmlFor="description" value="Description" />
+          <div
+            className={`mb-2 block text-left ${labelColor[isAddForm.toString()]}`}
+          >
+            <Label
+              theme={LabelTheme}
+              color={labelColor[isAddForm.toString()]}
+              htmlFor="description"
+              value="Description"
+            />
           </div>
           <Textarea
             id="description"
@@ -235,8 +265,15 @@ const TaskForm: React.FC<TaskFormProps> = ({
           className={`${addFormVariations[isAddForm.toString()]} flex ${adFormOrderVariations[(!isAddForm).toString()]}`}
         >
           <div className="w-1/2 pr-2">
-            <div className="mb-2 block text-left">
-              <Label htmlFor="color" value="Color" />
+            <div
+              className={`mb-2 block text-left ${labelColor[isAddForm.toString()]}`}
+            >
+              <Label
+                theme={LabelTheme}
+                color={labelColor[isAddForm.toString()]}
+                htmlFor="color"
+                value="Color"
+              />
             </div>
             <Dropdown
               label="Select color"
@@ -277,8 +314,15 @@ const TaskForm: React.FC<TaskFormProps> = ({
             </Dropdown>
           </div>
           <div className="w-1/2 pl-2">
-            <div className="mb-2 block text-left">
-              <Label htmlFor="icon" value="Icon" />
+            <div
+              className={`mb-2 block text-left ${labelColor[isAddForm.toString()]}`}
+            >
+              <Label
+                theme={LabelTheme}
+                color={labelColor[isAddForm.toString()]}
+                htmlFor="icon"
+                value="Icon"
+              />
             </div>
             <Dropdown
               label="Select icon"
@@ -326,8 +370,15 @@ const TaskForm: React.FC<TaskFormProps> = ({
           className={`${addFormVariations[isAddForm.toString()]} flex order-5`}
         >
           <div className="col-2 w-1/2 pr-2">
-            <div className="mb-2 block text-left">
-              <Label htmlFor="stime" value={`Start time`} />
+            <div
+              className={`mb-2 block text-left ${labelColor[isAddForm.toString()]}`}
+            >
+              <Label
+                theme={LabelTheme}
+                color={labelColor[isAddForm.toString()]}
+                htmlFor="stime"
+                value={`Start time`}
+              />
             </div>
             <TextInput
               id="stime"
@@ -340,8 +391,15 @@ const TaskForm: React.FC<TaskFormProps> = ({
             />
           </div>
           <div className="col-2 w-1/2 pl-2">
-            <div className="mb-2 block text-left">
-              <Label htmlFor="etime" value={`End time`} />
+            <div
+              className={`mb-2 block text-left ${labelColor[isAddForm.toString()]}`}
+            >
+              <Label
+                theme={LabelTheme}
+                color={labelColor[isAddForm.toString()]}
+                htmlFor="etime"
+                value={`End time`}
+              />
             </div>
             <TextInput
               id="etime"
@@ -355,8 +413,15 @@ const TaskForm: React.FC<TaskFormProps> = ({
           </div>
         </div>
         <div className={`${addFormVariations[isAddForm.toString()]} order-6`}>
-          <div className="mb-2 block text-left">
-            <Label htmlFor="tags" value="Tags" />
+          <div
+            className={`mb-2 block text-left ${labelColor[isAddForm.toString()]}`}
+          >
+            <Label
+              theme={LabelTheme}
+              color={labelColor[isAddForm.toString()]}
+              htmlFor="tags"
+              value="Tags"
+            />
           </div>
           <div
             className={`${addFormVariations[isAddForm.toString()]} text-left`}
@@ -442,7 +507,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
         {handleUpdateTask ? (
           <>
             <Button
-              className="mr-2"
+              className="mr-2 text-white"
               theme={ButtonTheme}
               color=""
               onClick={() => {
@@ -453,7 +518,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
             </Button>
             <Button
               theme={ButtonTheme}
-              color="secondary"
+              color="alternativeSecondary"
               className="px-3"
               onClick={async () => {
                 const formData = {
