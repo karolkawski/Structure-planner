@@ -25,6 +25,7 @@ import {
   calculateLineHeight,
   getProcessedDates,
 } from '../../utils/StructureUtils';
+import { ButtonTheme } from '../../Themes/ButtonTheme';
 
 const Structure: FC = () => {
   const dispatch = useDispatch();
@@ -112,7 +113,7 @@ const Structure: FC = () => {
 
   if (loading) {
     return (
-      <LayoutWrapper>
+      <LayoutWrapper paddingTop={true}>
         <Header title="Structure Daily" />
         <div className="">Loading...</div>
       </LayoutWrapper>
@@ -121,12 +122,16 @@ const Structure: FC = () => {
 
   if (!data || data.length === 0) {
     return (
-      <LayoutWrapper>
+      <LayoutWrapper paddingTop={true}>
         <Header title="Structure Daily" />
-        <div className="">
+        <div className="py-5">
           <div className="flex justify-center flex-col items-center h-40 ">
             No tasks available.{' '}
-            <Button className="px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+            <Button
+              theme={ButtonTheme}
+              color="secondary"
+              className="px-3 text-sm font-medium text-center"
+            >
               {' '}
               <Link to="/tasks">Add tasks</Link>
             </Button>
@@ -137,13 +142,13 @@ const Structure: FC = () => {
   }
 
   return (
-    <MotionWrapper>
-      <LayoutWrapper>
+    <MotionWrapper primary={false}>
+      <LayoutWrapper paddingTop={true}>
         <Header title="Structure Daily">
           <Progress progress={progress} />
         </Header>
-        <div className="">
-          <div className="Calendar my-5 relative mx-auto min-w-[22rem] w-4/5">
+        <div className="container mx-auto">
+          <div className="Calendar my-5 relative mx-auto min-w-[22rem]">
             <HourLineWrapper timePosition={timePosition}>
               <HourLine actualHour={actualHour} />
             </HourLineWrapper>

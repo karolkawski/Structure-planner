@@ -4,11 +4,14 @@ body {
   padding: 0;
   height: 100%;
 }
+html, body, #App, #App>div {
+  height: 100%
+}
 
 body {
   margin: 0;
   padding: 0;
-  width: 100vw;
-  height: 100vh;
-  overflow-y: scroll;
+  overflow: hidden;
+  overflow-y: auto;
+  background: black;
 }

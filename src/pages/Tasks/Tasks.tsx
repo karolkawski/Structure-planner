@@ -10,6 +10,7 @@ import MotionWrapper from '../../Animate/MotionWrapper';
 import { Button } from 'flowbite-react';
 import LayoutWrapper from '../../Layout/LayoutWrapper';
 import Header from '../../components/UI/Header/Header';
+import { ButtonTheme } from '../../Themes/ButtonTheme';
 
 const Tasks = ({}) => {
   const dispatch = useDispatch();
@@ -24,7 +25,7 @@ const Tasks = ({}) => {
 
   if (loading) {
     return (
-      <LayoutWrapper>
+      <LayoutWrapper paddingTop={true}>
         <Header title="Tasks" />
         <div className="container m-auto py-10 ">Loading...</div>
       </LayoutWrapper>
@@ -77,20 +78,20 @@ const Tasks = ({}) => {
   };
 
   return (
-    <MotionWrapper>
-      <LayoutWrapper>
+    <MotionWrapper primary={false}>
+      <LayoutWrapper paddingTop={true}>
         <AddModal
           openModal={openModal}
           setOpenModal={setOpenModal}
           handleAddTask={handleAddTask}
         />
         <Header title="Tasks" />
-        <div className="container m-auto py-10 ">
-          <div className="relative overflow-x-auto sm:rounded-lg">
+        <div className="container m-auto py-5">
+          <div className="relative overflow-x-auto">
             <table className="w-full table-auto text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 overflow-x-scroll">
-              <caption className="text-lg font-semibold text-left rtl:text-right text-gray-900 bg-white dark:text-white dark:bg-gray-800">
+              <caption className="text-xl font-semibold text-left rtl:text-right text-gray-900 bg-white dark:text-white dark:bg-gray-800">
                 Description
-                <p className="mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">
+                <p className="mt-1 text-base font-normal text-gray-500 dark:text-gray-400">
                   The Daily Planner table allows users to manage their daily
                   activities. Entries include key details such as task name,
                   description, start and end times, and priority. Users can add,
@@ -102,7 +103,9 @@ const Tasks = ({}) => {
                   <Button
                     onClick={() => setOpenModal(true)}
                     type="button"
-                    className="px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    theme={ButtonTheme}
+                    color="secondary"
+                    className="px-3"
                   >
                     Add task
                   </Button>

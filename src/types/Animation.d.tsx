@@ -8,6 +8,7 @@ export type HourLineWrapperProps = {
 
 export type MotionWrapperProps = {
   children: ReactNode;
+  primary: boolean;
 };
 
 export type TaskWrapperProps = {
