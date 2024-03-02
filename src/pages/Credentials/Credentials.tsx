@@ -12,7 +12,7 @@ const Credentials = ({}) => {
     <MotionWrapper>
       <LayoutWrapper paddingTop={true}>
         <Header title="Credentials" />
-        <div className="container m-auto h-[calc(100%-44px)] max-h-[900px] border rounded-lg">
+        <div className="container m-auto h-[calc(100%-68px)] max-h-[900px] xl:border rounded-lg">
           <div className="flex flex-col justify-between h-full">
             <div className="border bg-white text-black border-black-50 w-80 mx-auto flex flex-col items-center justify-center p-10 mt-5 rounded-lg">
               <div className="h-20">

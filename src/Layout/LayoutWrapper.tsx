@@ -9,7 +9,7 @@ const LayoutWrapper: React.FC<LayoutWrapperProps> = ({
   return (
     <AnimatePresence>
       <div
-        className={`text-center h-[calc(100vh-69px)] ${paddingTop && 'pt-5'} xs:px-5 `}
+        className={`text-center h-[calc(100vh-73px)] ${paddingTop && 'pt-5'} xs:px-5 `}
       >
         {children}
       </div>

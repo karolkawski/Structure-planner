@@ -147,7 +147,7 @@ const Structure: FC = () => {
         <Header title="Structure Daily">
           <Progress progress={progress} />
         </Header>
-        <div className="container mx-auto">
+        <div className="container mx-auto pb-10">
           <div className="Calendar my-5 relative mx-auto min-w-[22rem]">
             <HourLineWrapper timePosition={timePosition}>
               <HourLine actualHour={actualHour} />
