@@ -10,9 +10,9 @@ import Header from '../../components/UI/Header/Header';
 const Credentials = ({}) => {
   return (
     <MotionWrapper>
-      <LayoutWrapper paddingTop={true}>
+      <LayoutWrapper>
         <Header title="Credentials" />
-        <div className="container m-auto h-[calc(100%-68px)] max-h-[900px] xl:border rounded-lg">
+        <div className="container m-auto h-[calc(100%-50px)] max-h-[900px] 2xl:border rounded-lg pt-5">
           <div className="flex flex-col justify-between h-full">
             <div className="border bg-white text-black border-black-50 w-80 mx-auto flex flex-col items-center justify-center p-10 mt-5 rounded-lg">
               <div className="h-20">

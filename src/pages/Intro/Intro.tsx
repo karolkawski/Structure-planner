@@ -5,8 +5,8 @@ import { FaListCheck, FaClock, FaClockRotateLeft } from 'react-icons/fa6';
 const Intro = ({}) => {
   return (
     <MotionWrapper>
-      <LayoutWrapper paddingTop={false}>
-        <div className="container m-auto text-white lg:grid grid-cols-2 pt-5 max-h-[900px] lg:border-b pb-10">
+      <LayoutWrapper>
+        <div className="container m-auto text-white lg:grid grid-cols-2 max-h-[900px] pb-5 md:border-b 2xl:pb-10">
           <div className="flex justify-center flex-col">
             <h2 className="text-left font-bold text-2xl my-10">
               Structure Planner - Boost Your Productivity with Ease
@@ -45,7 +45,7 @@ const Intro = ({}) => {
             <img
               src={background}
               alt="App visualisation"
-              className="object-cover md:w-full md:w-max-[600px]"
+              className="object-cover md:w-full w-max-[600px]"
             />
           </div>
         </div>

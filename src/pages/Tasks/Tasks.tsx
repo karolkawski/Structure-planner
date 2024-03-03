@@ -25,7 +25,7 @@ const Tasks = ({}) => {
 
   if (loading) {
     return (
-      <LayoutWrapper paddingTop={true}>
+      <LayoutWrapper>
         <Header title="Tasks" />
         <div className="container m-auto py-10 ">Loading...</div>
       </LayoutWrapper>
@@ -79,7 +79,7 @@ const Tasks = ({}) => {
 
   return (
     <MotionWrapper>
-      <LayoutWrapper paddingTop={true}>
+      <LayoutWrapper>
         <AddModal
           openModal={openModal}
           setOpenModal={setOpenModal}

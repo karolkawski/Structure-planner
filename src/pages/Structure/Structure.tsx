@@ -113,7 +113,7 @@ const Structure: FC = () => {
 
   if (loading) {
     return (
-      <LayoutWrapper paddingTop={true}>
+      <LayoutWrapper>
         <Header title="Structure Daily" />
         <div className="">Loading...</div>
       </LayoutWrapper>
@@ -122,7 +122,7 @@ const Structure: FC = () => {
 
   if (!data || data.length === 0) {
     return (
-      <LayoutWrapper paddingTop={true}>
+      <LayoutWrapper>
         <Header title="Structure Daily" />
         <div className="py-5">
           <div className="flex justify-center flex-col items-center h-40 ">
@@ -143,7 +143,7 @@ const Structure: FC = () => {
 
   return (
     <MotionWrapper>
-      <LayoutWrapper paddingTop={true}>
+      <LayoutWrapper>
         <Header title="Structure Daily">
           <Progress progress={progress} />
         </Header>

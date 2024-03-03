@@ -19,7 +19,7 @@ const EditTask = () => {
 
   if (loading) {
     return (
-      <LayoutWrapper paddingTop={true}>
+      <LayoutWrapper>
         <Header title={`Task ${taskId}`} />
         <div className="container m-auto py-10 ">Loading...</div>
       </LayoutWrapper>
@@ -28,7 +28,7 @@ const EditTask = () => {
 
   if (!reduxData || reduxData.length === 0) {
     return (
-      <LayoutWrapper paddingTop={true}>
+      <LayoutWrapper>
         <Header title={`Task ${taskId}`} />
         <div className="container m-auto py-10 ">No records available.</div>
       </LayoutWrapper>
@@ -49,7 +49,7 @@ const EditTask = () => {
 
   return (
     <MotionWrapper>
-      <LayoutWrapper paddingTop={true}>
+      <LayoutWrapper>
         <Header title={`Task ${taskId}`} />
         <div className="container m-auto py-5 ">
           <TaskForm
