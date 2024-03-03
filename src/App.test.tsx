@@ -5,9 +5,12 @@ import store from './store/store';
 import App from './App';
 
 test('Should render root app in document', () => {
-  render(
+  const { getByText } = render(
     <Provider store={store}>
       <App />
     </Provider>
   );
+
+  const welcomeText = getByText('Daily Planner');
+  expect(welcomeText).toBeInTheDocument();
 });
