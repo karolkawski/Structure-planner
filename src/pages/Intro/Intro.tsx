@@ -45,7 +45,7 @@ const Intro = ({}) => {
             <img
               src={background && background.length > 0 ? background : ''}
               alt="App visualisation"
-              className="object-cover md:w-full w-max-[600px]"
+              className="object-cover max-w-[600px]"
             />
           </div>
         </div>
