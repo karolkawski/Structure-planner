@@ -15,7 +15,9 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "downlevelIteration": true
+    "downlevelIteration": true,
+    "types": ["jest", "@testing-library/jest-dom"]
+
   },
   "include": [
     "src/**/*"

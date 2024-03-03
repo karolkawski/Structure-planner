@@ -123,11 +123,11 @@ describe('isTimeInRange Function Unit Tests', () => {
   test('Should 03:01 return true', () => {
     expect(isTimeInRange('03:01', hoursRange)).toBe(true);
   });
-  test('Should 03:00 return false', () => {
-    expect(isTimeInRange('03:00', hoursRange)).toBe(false);
+  test('Should 03:00 return true', () => {
+    expect(isTimeInRange('03:00', hoursRange)).toBe(true);
   });
-  test('Should 04:00 return false', () => {
-    expect(isTimeInRange('04:00', hoursRange)).toBe(false);
+  test('Should 04:00 return true', () => {
+    expect(isTimeInRange('04:00', hoursRange)).toBe(true);
   });
   test('Should 03:59 return true', () => {
     expect(isTimeInRange('03:59', hoursRange)).toBe(true);

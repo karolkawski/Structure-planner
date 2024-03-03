@@ -12,7 +12,7 @@ export const AutoFalseIsDoneFlags = () => {
     if (!lastRun || new Date(lastRun).getDate() !== now.getDate()) {
       const midnight = new Date(now);
       midnight.setHours(24, 0, 0, 0);
-      const timeToMidnight = midnight - now;
+      const timeToMidnight = midnight.getTime() - now.getTime();
 
       const timeoutId = setTimeout(() => {
         dispatch(setAllUndone());
