@@ -16,7 +16,7 @@ Here're some of the project's best features:
 
 *   Effortlessly manage daily tasks with customizable details: name description color icon priority start and end times tags and categories.
 *   Visualize tasks on a dynamic timeline for a clear overview of your schedule allowing intuitive filtering and sorting based on dates.
-*   Click off completed tasks and let them reset at midnight—keeping your daily agenda organized and ready for new challenges.
+*   Click off completed tasks and let them reset at once per daily agenda organized and ready for new challenges.
 
   
   
