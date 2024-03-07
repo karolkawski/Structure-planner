@@ -13,11 +13,11 @@ import { data as assetsData } from './assets/data';
 import { State } from './store/State.d';
 import { AutoFalseIsDoneFlags } from './Automation/AutoFalseIsDoneFlags';
 import './App.css';
+import { getStateFromLocalStorage } from './utils/LocalStorage';
 //
 const App = () => {
   const dispatch = useDispatch();
   const data = useSelector((state: { data: State }) => state.data.data);
-  const isDemo = useSelector((state: { data: State }) => state.data.isDemo);
   const loading = useSelector((state: { data: State }) => state.data.loading);
   const dailyWatcher = AutoFalseIsDoneFlags();
   if (loading) {
@@ -25,7 +25,9 @@ const App = () => {
   }
 
   useEffect(() => {
-    if (!isDemo) {
+    const savedData = getStateFromLocalStorage('plannerState');
+    console.log('🚀 ~ useEffect ~ savedData:', savedData);
+    if (savedData && savedData.data) {
       dispatch(fetchDataRequest());
       dispatch(fetchStorageData());
       return;
@@ -42,7 +44,7 @@ const App = () => {
     fetchData();
   }, [dispatch]);
 
-  if (isDemo && (!data || data.length === 0)) {
+  if (!data || data.length === 0) {
     return <div id="App">Loading ...</div>;
   }
 

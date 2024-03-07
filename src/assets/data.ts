@@ -3,8 +3,8 @@ import { TaskType } from '../types/Task.d';
 export const data: TaskType[] = [
   {
     id: '7b1b9db0-b360-4443-9b20-db47752e544d',
-    name: 'Trening',
-    description: 'Poranny godzinny trening cardio',
+    name: 'Exercise',
+    description: 'Morning one-hour cardio workout',
     startTime: 1706245200, //Friday, 26 January 2024 05:00:00
     endTime: 1706248800, //Friday, 26 January 2024 06:00:00
     category: 'selfcare',
@@ -16,8 +16,8 @@ export const data: TaskType[] = [
   },
   {
     id: '6e226a4e-29bd-44a7-b0e5-3231ed6fe85f',
-    name: 'Dokumentacja',
-    description: 'Czytanie dokumentacji',
+    name: 'Documentation',
+    description: 'Reading documentation',
     startTime: 1706248801, //Friday, 26 January 2024 06:00:01
     endTime: 1706252400, //Friday, 26 January 2024 07:00:00
     category: 'education',
@@ -29,8 +29,8 @@ export const data: TaskType[] = [
   },
   {
     id: '8b51a4de-d7fe-40d2-a196-4ed46f930a59',
-    name: 'Kodowanie',
-    description: 'Czas na własne projekty',
+    name: 'Coding',
+    description: 'Time for personal projects',
     startTime: 1706252401, //Friday, 26 January 2024 07:00:01
     endTime: 1706259600, //Friday, 26 January 2024 9:00:00
     category: 'education',
@@ -43,7 +43,7 @@ export const data: TaskType[] = [
   {
     id: '7f8b9ee7-c5ba-40bb-b391-2fe4006e4158',
     name: 'Emails',
-    description: 'Sprawdzenie emaili',
+    description: 'Checking emails',
     startTime: 1706259601, //Friday, 26 January 2024 09:00:01
     endTime: 1706261400, //Friday, 26 January 2024 9:30:00
     category: 'work',
