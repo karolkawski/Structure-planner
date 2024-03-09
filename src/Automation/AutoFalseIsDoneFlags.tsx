@@ -3,7 +3,7 @@ import { setAllUndone } from '../store/actions/dataActions';
 import { useDispatch } from 'react-redux';
 import { getStateFromLocalStorage } from '../utils/LocalStorage';
 
-export const AutoFalseIsDoneFlags = () => {
+export const AutoFalseIsDoneFlags = ({ updateAlertCollection }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -15,6 +15,7 @@ export const AutoFalseIsDoneFlags = () => {
       if (savedData && (!lastRun || lastRun !== currentDateString)) {
         dispatch(setAllUndone());
         localStorage.setItem('lastRun', currentDateString);
+        updateAlertCollection();
       }
     };
 
