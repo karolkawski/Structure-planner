@@ -33,7 +33,7 @@ const Intro = ({}) => {
                   </div>
                 </div>
                 <div className="border border-black-50 h-36 w-36 p-1 rounded flex flex-col">
-                  <p className="text-sm">Midnight Reset for Completed Tasks</p>
+                  <p className="text-sm">Daily Reset for Completed Tasks</p>
                   <div className="flex justify-center items-center h-full">
                     <FaClockRotateLeft size={'2em'} />
                   </div>
