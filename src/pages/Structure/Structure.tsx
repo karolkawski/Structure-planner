@@ -26,6 +26,7 @@ import {
   getProcessedDates,
 } from '../../utils/StructureUtils';
 import { ButtonTheme } from '../../Themes/ButtonTheme';
+import { Loading } from '../../components/UI/Loading/Loading';
 
 const Structure: FC = () => {
   const dispatch = useDispatch();
@@ -115,7 +116,7 @@ const Structure: FC = () => {
     return (
       <LayoutWrapper>
         <Header title="Structure Daily" />
-        <div className="">Loading...</div>
+        <Loading />
       </LayoutWrapper>
     );
   }

@@ -14,6 +14,7 @@ import { State } from './store/State.d';
 import { AutoFalseIsDoneFlags } from './Automation/AutoFalseIsDoneFlags';
 import './App.css';
 import { getStateFromLocalStorage } from './utils/LocalStorage';
+import { Loading } from './components/UI/Loading/Loading';
 //
 const App = () => {
   const dispatch = useDispatch();
@@ -21,12 +22,15 @@ const App = () => {
   const loading = useSelector((state: { data: State }) => state.data.loading);
   const dailyWatcher = AutoFalseIsDoneFlags();
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div id="App">
+        <Loading />
+      </div>
+    );
   }
 
   useEffect(() => {
     const savedData = getStateFromLocalStorage('plannerState');
-    console.log('🚀 ~ useEffect ~ savedData:', savedData);
     if (savedData && savedData.data) {
       dispatch(fetchDataRequest());
       dispatch(fetchStorageData());
@@ -45,7 +49,11 @@ const App = () => {
   }, [dispatch]);
 
   if (!data || data.length === 0) {
-    return <div id="App">Loading ...</div>;
+    return (
+      <div id="App">
+        <Loading />
+      </div>
+    );
   }
 
   return (
