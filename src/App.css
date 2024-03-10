@@ -4,7 +4,7 @@ body {
   padding: 0;
   height: 100%;
 }
-html, body, #App, #App>div {
+html, body, #App{
   height: 100%
 }
 
