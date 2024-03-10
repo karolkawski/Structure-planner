@@ -15,8 +15,7 @@ export const InfoAlert = ({ alerts }: { alerts: string[] }) => {
 
   return (
     <div className="fixed right-0 bottom-0">
-      {alerts &&
-        alerts.length &&
+      {alerts && alerts.length ? (
         alerts.map((alert, index) => (
           <div
             key={index}
@@ -65,7 +64,10 @@ export const InfoAlert = ({ alerts }: { alerts: string[] }) => {
               </svg>
             </button>
           </div>
-        ))}
+        ))
+      ) : (
+        <></>
+      )}
     </div>
   );
 };
