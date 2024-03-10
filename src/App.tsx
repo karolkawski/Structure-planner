@@ -11,23 +11,25 @@ import {
 } from './store/actions/dataActions';
 import { data as assetsData } from './assets/data';
 import { State } from './store/State.d';
-import { AutoFalseIsDoneFlags } from './Automation/AutoFalseIsDoneFlags';
 import './App.css';
 import { getStateFromLocalStorage } from './utils/LocalStorage';
-import { InfoToast } from './components/UI/InfoToast/InfoToast';
+import { InfoAlert } from './components/UI/InfoAlert/InfoAlert';
+import { AutoFalseIsDoneFlags } from './Automation/AutoFalseIsDoneFlags';
 //
 const App = () => {
   const dispatch = useDispatch();
   const data = useSelector((state: { data: State }) => state.data.data);
   const loading = useSelector((state: { data: State }) => state.data.loading);
-  const [alertCollecion, setAlertCollecion] = useState([]);
+  const [alerts, setAlerts] = useState<string[]>([]);
+  const [reset, setReset] = useState<boolean>(false);
 
   const handleAlert = (alert: string) => {
-    setAlertCollecion([...alertCollecion, alert]);
+    setAlerts([...alerts, alert]);
 
     setTimeout(() => {
-      const shiftedCollection = alertCollecion.shift();
-      setAlertCollecion(shiftedCollection);
+      const shiftedCollection: string[] =
+        alerts.length > 1 ? alerts.shift() : [];
+      setAlerts(shiftedCollection);
     }, 10 * 1000);
   };
   if (loading) {
@@ -40,6 +42,7 @@ const App = () => {
       dispatch(fetchDataRequest());
       dispatch(fetchStorageData());
       handleAlert('localStorageFetch');
+      setReset(true);
 
       return;
     }
@@ -48,13 +51,16 @@ const App = () => {
         dispatch(fetchDataRequest());
         dispatch(fetchDataSuccess(assetsData));
         handleAlert('loadDemoData');
-      } catch (error: { message: string }) {
+        setReset(true);
+      } catch (error: any) {
         dispatch(fetchDataError(error.message));
       }
     };
 
     fetchData();
-  }, [dispatch]);
+
+    return () => {};
+  }, []);
 
   if (!data || data.length === 0) {
     return <div id="App">Loading ...</div>;
@@ -65,11 +71,9 @@ const App = () => {
       <div id="App">
         <Navigation />
         <Routing />
-        <InfoToast alerts={alertCollecion} />
+        <InfoAlert alerts={alerts} />
       </div>
-      <AutoFalseIsDoneFlags
-        updateAlertCollection={() => handleAlert('resetIsDone')}
-      />
+      <AutoFalseIsDoneFlags reset={reset} handleAlert={handleAlert} />
     </Router>
   );
 };

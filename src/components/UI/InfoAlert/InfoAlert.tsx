@@ -1,5 +1,11 @@
-export const InfoToast = ({ alerts }) => {
-  const alertOptions = {
+export const InfoAlert = ({ alerts }: { alerts: string[] }) => {
+  type alertKeys =
+    | 'localStorageSave'
+    | 'localStorageFetch'
+    | 'loadDemoData'
+    | 'resetIsDone';
+
+  const alertOptions: Record<alertKeys, { description: string }> = {
     localStorageSave: {
       description: 'Saved in localstorage',
     },
@@ -38,8 +44,8 @@ export const InfoToast = ({ alerts }) => {
               <span className="sr-only">Check icon</span>
             </div>
             <div className="ms-3 text-sm font-normal">
-              {alertOptions[alert]
-                ? alertOptions[alert].description
+              {alertOptions[alert as alertKeys]
+                ? alertOptions[alert as alertKeys].description
                 : 'unknown'}
             </div>
             <button
