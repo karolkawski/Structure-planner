@@ -1,5 +1,7 @@
 <h1 align="center" id="title">Structure planner</h1>
 
+![screenshot (2)](https://github.com/karolkawski/Structure-planner/assets/9118196/43baa43e-1abb-4edf-92ee-b002e40d3148)
+
 <p id="description">Efficiently organize your day with this daily planner app. Add tasks with details like name description timeframes category tags color and priority. The user-friendly interface ensures a seamless experience for managing and tracking tasks in a structured timeline. Boost your productivity effortlessly.</p>
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/7c4b3bad-11d9-4ec4-b857-da2a4e654d34/deploy-status)](https://app.netlify.com/sites/daily-planner-katzkycode/deploys)
@@ -7,6 +9,7 @@
 <h2>🚀 Demo</h2>
 
 [https://daily-planner-katzkycode.netlify.app/](https://daily-planner-katzkycode.netlify.app/)
+
 
   
   

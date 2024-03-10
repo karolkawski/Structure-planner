@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Navigation from './components/UI/Navigation/Navigation';
 import Routing from './Routing/Routing';
@@ -11,41 +11,69 @@ import {
 } from './store/actions/dataActions';
 import { data as assetsData } from './assets/data';
 import { State } from './store/State.d';
-import { AutoFalseIsDoneFlags } from './Automation/AutoFalseIsDoneFlags';
 import './App.css';
 import { getStateFromLocalStorage } from './utils/LocalStorage';
-//
+import { InfoAlert } from './components/UI/InfoAlert/InfoAlert';
+import { AutoFalseIsDoneFlags } from './Automation/AutoFalseIsDoneFlags';
+import { Loading } from './components/UI/Loading/Loading';
+
 const App = () => {
   const dispatch = useDispatch();
   const data = useSelector((state: { data: State }) => state.data.data);
   const loading = useSelector((state: { data: State }) => state.data.loading);
-  const dailyWatcher = AutoFalseIsDoneFlags();
-  // if (loading) {
-  //   return <div>Loading...</div>;
-  // }
+  const [alerts, setAlerts] = useState<string[]>([]);
+  const [reset, setReset] = useState<boolean>(false);
+
+  const handleAlert = (alert: string) => {
+    setAlerts([...alerts, alert]);
+
+    setTimeout(() => {
+      const shiftedCollection: string[] =
+        alerts.length > 1 ? alerts.shift() : [];
+      setAlerts(shiftedCollection);
+    }, 10 * 1000);
+  };
+
+  if (loading) {
+    return (
+      <div id="App">
+        <Loading />
+      </div>
+    );
+  }
 
   useEffect(() => {
     const savedData = getStateFromLocalStorage('plannerState');
-    console.log('🚀 ~ useEffect ~ savedData:', savedData);
     if (savedData && savedData.data) {
       dispatch(fetchDataRequest());
       dispatch(fetchStorageData());
+      handleAlert('localStorageFetch');
+      setReset(true);
+
       return;
     }
     const fetchData = async () => {
       try {
         dispatch(fetchDataRequest());
         dispatch(fetchDataSuccess(assetsData));
-      } catch (error: { message: string }) {
+        handleAlert('loadDemoData');
+        setReset(true);
+      } catch (error: any) {
         dispatch(fetchDataError(error.message));
       }
     };
 
     fetchData();
-  }, [dispatch]);
+
+    return () => {};
+  }, []);
 
   if (!data || data.length === 0) {
-    return <div id="App">Loading ...</div>;
+    return (
+      <div id="App">
+        <Loading />
+      </div>
+    );
   }
 
   return (
@@ -53,7 +81,9 @@ const App = () => {
       <div id="App">
         <Navigation />
         <Routing />
+        <InfoAlert alerts={alerts} />
       </div>
+      <AutoFalseIsDoneFlags reset={reset} handleAlert={handleAlert} />
     </Router>
   );
 };

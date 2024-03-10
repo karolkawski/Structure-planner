@@ -11,6 +11,7 @@ import { Button } from 'flowbite-react';
 import LayoutWrapper from '../../Layout/LayoutWrapper';
 import Header from '../../components/UI/Header/Header';
 import { ButtonTheme } from '../../Themes/ButtonTheme';
+import { Loading } from '../../components/UI/Loading/Loading';
 
 const Tasks = ({}) => {
   const dispatch = useDispatch();
@@ -27,7 +28,7 @@ const Tasks = ({}) => {
     return (
       <LayoutWrapper>
         <Header title="Tasks" />
-        <div className="container m-auto py-10 ">Loading...</div>
+        <Loading />
       </LayoutWrapper>
     );
   }
