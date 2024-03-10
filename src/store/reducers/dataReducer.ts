@@ -1,5 +1,4 @@
 import { TaskType } from '../../types/Task.d';
-import { formatDate } from '../../utils/Date';
 import { sortByHours } from '../../utils/Sort';
 import { Action } from '../Action.d';
 import { State } from '../State.d';
@@ -7,40 +6,13 @@ import {
   getStateFromLocalStorage,
   saveStateToLocalStorage,
 } from '../../utils/LocalStorage';
+import { calculateBlockedHours } from './utils/calculateBlockedHours';
 
 const initialState: State = {
   data: [],
   blockedHours: [],
   loading: false,
   error: null,
-};
-
-const calculateBlockedHours = (sortedData: TaskType[]) => {
-  const mergedBlocks = [];
-  let currentBlock: null | string[] = null;
-
-  sortedData.forEach((item, index) => {
-    const startTime = formatDate(item.startTime);
-    const endTime = formatDate(item.endTime);
-
-    if (index === 0) {
-      currentBlock = [startTime, endTime];
-    } else {
-      const prevEndTime = formatDate(sortedData[index - 1].endTime);
-
-      if (startTime === prevEndTime) {
-        currentBlock[1] = endTime;
-      } else {
-        mergedBlocks.push([...currentBlock]);
-        currentBlock = [startTime, endTime];
-      }
-    }
-  });
-
-  if (currentBlock) {
-    mergedBlocks.push([...currentBlock]);
-  }
-  return mergedBlocks;
 };
 
 const dataReducer = (state = initialState, action: Action) => {
