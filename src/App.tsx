@@ -15,7 +15,8 @@ import './App.css';
 import { getStateFromLocalStorage } from './utils/LocalStorage';
 import { InfoAlert } from './components/UI/InfoAlert/InfoAlert';
 import { AutoFalseIsDoneFlags } from './Automation/AutoFalseIsDoneFlags';
-//
+import { Loading } from './components/UI/Loading/Loading';
+
 const App = () => {
   const dispatch = useDispatch();
   const data = useSelector((state: { data: State }) => state.data.data);
@@ -32,8 +33,13 @@ const App = () => {
       setAlerts(shiftedCollection);
     }, 10 * 1000);
   };
+
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div id="App">
+        <Loading />
+      </div>
+    );
   }
 
   useEffect(() => {
@@ -63,7 +69,11 @@ const App = () => {
   }, []);
 
   if (!data || data.length === 0) {
-    return <div id="App">Loading ...</div>;
+    return (
+      <div id="App">
+        <Loading />
+      </div>
+    );
   }
 
   return (
