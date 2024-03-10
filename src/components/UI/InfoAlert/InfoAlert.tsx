@@ -1,14 +1,7 @@
 export const InfoAlert = ({ alerts }: { alerts: string[] }) => {
-  type alertKeys =
-    | 'localStorageSave'
-    | 'localStorageFetch'
-    | 'loadDemoData'
-    | 'resetIsDone';
+  type alertKeys = 'localStorageFetch' | 'loadDemoData' | 'resetIsDone';
 
   const alertOptions: Record<alertKeys, { description: string }> = {
-    localStorageSave: {
-      description: 'Saved in localstorage',
-    },
     localStorageFetch: {
       description: 'Geted data from localstorage',
     },

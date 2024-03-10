@@ -70,10 +70,12 @@ const dataReducer = (state = initialState, action: Action) => {
       return { ...state, loading: false, error: action.payload };
 
     case 'SET_ALL_UNDONE':
-      const newUndoneTasks = getStateFromLocalStorage('plannerState').data.map((item: TaskType) => {
-        item.isDone = false;
-        return item;
-      });
+      const newUndoneTasks = getStateFromLocalStorage('plannerState').data.map(
+        (item: TaskType) => {
+          item.isDone = false;
+          return item;
+        }
+      );
       const newState = {
         ...state,
         data: newUndoneTasks,

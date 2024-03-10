@@ -37,7 +37,12 @@ describe('AutoFalseIsDoneFlags', () => {
 
     render(
       <Provider store={testStore}>
-        <AutoFalseIsDoneFlags />
+        <AutoFalseIsDoneFlags
+          reset={true}
+          handleAlert={(alert: string): void => {
+            console.log(`Received alert: ${alert}`);
+          }}
+        />
       </Provider>
     );
 
