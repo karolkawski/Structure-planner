@@ -43,6 +43,8 @@ const Intro = ({}) => {
           </div>
           <div className="flex justify-end items-end md:justify-center pt-10 lg:pt-0">
             <img
+              width={'auto'}
+              height={'auto'}
               src={background && background.length > 0 ? background : ''}
               alt="App visualisation"
               className="object-cover max-w-[380px] xl:max-w-[600px]"
