@@ -1,6 +1,8 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
   entry: path.resolve(__dirname, '..', './src/index.tsx'),
@@ -47,6 +49,10 @@ module.exports = {
   devServer: {
     historyApiFallback: true,
   },
+  optimization: {
+    minimize: true,
+    minimizer: [new TerserPlugin()],
+  },
   plugins: [
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, '..', './src/index.html'),
@@ -60,5 +66,6 @@ module.exports = {
         },
       ],
     }),
+    new MiniCssExtractPlugin(),
   ],
 };
