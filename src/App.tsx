@@ -34,14 +34,6 @@ const App = () => {
     }, 10 * 1000);
   };
 
-  if (loading) {
-    return (
-      <div id="App">
-        <Loading />
-      </div>
-    );
-  }
-
   useEffect(() => {
     const savedData = getStateFromLocalStorage('plannerState');
     if (savedData && savedData.data) {
@@ -68,7 +60,15 @@ const App = () => {
     return () => {};
   }, []);
 
-  if (!data || data.length === 0) {
+  if (loading) {
+    return (
+      <div id="App">
+        <Loading />
+      </div>
+    );
+  }
+
+  if (!data) {
     return (
       <div id="App">
         <Loading />
