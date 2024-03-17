@@ -14,4 +14,5 @@ export type TaskFormProps = {
   handleAddTask?: (task: TaskType) => void;
   handleUpdateTask?: (task: TaskType) => void;
   handleRemoveTask?: (selectedId: string) => void;
+  setOpenModal?: (isOpened: boolean) => void;
 };
