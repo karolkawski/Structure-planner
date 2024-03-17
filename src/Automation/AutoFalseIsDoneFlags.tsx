@@ -19,7 +19,9 @@ export const AutoFalseIsDoneFlags = ({
     const savedData = getStateFromLocalStorage('plannerState');
     if (reset && savedData && (!lastRun || lastRun !== currentDateString)) {
       dispatch(setAllUndone());
-      handleAlert(`resetIsDone`);
+      if (savedData.data && savedData.data.length > 0) {
+        handleAlert(`resetIsDone`);
+      }
       localStorage.setItem('lastRun', currentDateString);
     }
   }, [reset]);
